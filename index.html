@@ -184,30 +184,22 @@ body::before {
 
 /* orbs replaced by canvas */
 
-/* Grid lines */
-.hero-grid {
-  position: absolute; inset: 0; pointer-events: none;
-  background-image:
-    linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px);
-  background-size: 70px 70px;
-  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
-}
+/* grid replaced by canvas */
 
-/* Decorative lines */
-.hero-line {
-  position: absolute; pointer-events: none;
+/* All sections layer above world canvas */
+.navbar, .marquee-strip, .about, .ecosystem, .spotlight,
+.roadmap, .team, .contact, footer {
+  position: relative;
+  z-index: 1;
 }
-.hero-line-1 {
-  top: 0; right: 320px;
-  width: 1px; height: 100%;
-  background: linear-gradient(180deg, transparent 0%, rgba(224,53,53,0.15) 40%, transparent 100%);
-}
-.hero-line-2 {
-  top: 200px; left: 0; right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.04) 30%, rgba(255,255,255,0.04) 70%, transparent 100%);
-}
+.about       { background: rgba(13,15,24,0.82); backdrop-filter: blur(2px); }
+.ecosystem   { background: rgba(8,9,15,0.78);  backdrop-filter: blur(2px); }
+.marquee-strip { background: rgba(13,15,24,0.9); position:relative; z-index:1; }
+.spotlight   { background: rgba(13,15,24,0.80); backdrop-filter: blur(2px); }
+.roadmap     { background: rgba(8,9,15,0.78);  backdrop-filter: blur(2px); }
+.team        { background: rgba(13,15,24,0.82); backdrop-filter: blur(2px); }
+.contact     { background: rgba(8,9,15,0.80);  backdrop-filter: blur(2px); }
+footer       { background: rgba(13,15,24,0.92); }
 
 .hero-inner {
   position: relative; z-index: 1;
@@ -908,6 +900,9 @@ footer { background: var(--bg2); border-top:1px solid var(--border); padding:64p
 </head>
 <body>
 
+<!-- Full-page scroll-driven background -->
+<canvas id="worldCanvas" style="position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;"></canvas>
+
 <!-- ══════════ NAVBAR ══════════ -->
 <nav class="navbar" id="navbar">
   <div class="container">
@@ -935,10 +930,7 @@ footer { background: var(--bg2); border-top:1px solid var(--border); padding:64p
 
 <!-- ══════════ HERO ══════════ -->
 <section class="hero" id="home">
-  <canvas id="galaxyCanvas" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:0.85;"></canvas>
-  <div class="hero-grid"></div>
-  <div class="hero-line hero-line-1"></div>
-  <div class="hero-line hero-line-2"></div>
+  <canvas id="ecoCanvas" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;"></canvas>
 
   <div class="container">
     <div class="hero-inner">
@@ -1540,176 +1532,414 @@ footer { background: var(--bg2); border-top:1px solid var(--border); padding:64p
 </footer>
 
 <script>
-// ── Galaxy / Ecosystem Canvas Animation ──
-const canvas = document.getElementById('galaxyCanvas');
-const ctx = canvas.getContext('2d');
+// ══════════════════════════════════════════════
+//  SCROLL-DRIVEN WORLD MORPH — umbverto v6
+//  World 0: Ecosystem Network  (Hero)
+//  World 1: DNA / Data Helix   (About)
+//  World 2: Circuit Board      (Ecosystem)
+//  World 3: Particle Nebula    (Spotlight/Roadmap)
+//  World 4: Calm Grid Wave     (Team/Contact)
+// ══════════════════════════════════════════════
+(function () {
+  const cv = document.getElementById('worldCanvas');
+  if (!cv) return;
+  const ctx = cv.getContext('2d');
+  let W, H, frame = 0, scrollY = 0, mx = W/2, my = H/2;
+  let worldProgress = 0; // 0..4 float
 
-function resize() {
-  const hero = canvas.parentElement;
-  canvas.width = hero.offsetWidth;
-  canvas.height = hero.offsetHeight;
-}
-resize();
-window.addEventListener('resize', () => { resize(); initParticles(); });
-
-// Color palette
-const COLORS = [
-  'rgba(224,53,53,',
-  'rgba(232,130,74,',
-  'rgba(26,136,248,',
-  'rgba(0,200,150,',
-  'rgba(255,255,255,'
-];
-
-// ── Nodes (ecosystem hubs) ──
-let nodes = [];
-let stars = [];
-let rings = [];
-
-function initParticles() {
-  const W = canvas.width, H = canvas.height;
-
-  // Background stars
-  stars = Array.from({length: 180}, () => ({
-    x: Math.random() * W,
-    y: Math.random() * H,
-    r: Math.random() * 1.2 + 0.2,
-    alpha: Math.random() * 0.5 + 0.1,
-    twinkleSpeed: Math.random() * 0.02 + 0.005,
-    twinklePhase: Math.random() * Math.PI * 2
-  }));
-
-  // Main ecosystem nodes
-  const cx = W * 0.62, cy = H * 0.5;
-  const nodeData = [
-    { label: 'BizPrint', color: 'rgba(224,53,53,', r: 22, orbitR: 0, orbitSpeed: 0, angle: 0, size: 5 },
-    { label: 'BizMkt',   color: 'rgba(26,136,248,',  r: 14, orbitR: 110, orbitSpeed: 0.004, angle: 0, size: 3.5 },
-    { label: 'BizRent',  color: 'rgba(0,200,150,',   r: 12, orbitR: 160, orbitSpeed: 0.003, angle: 1.2, size: 3 },
-    { label: 'BizPress', color: 'rgba(162,155,254,',  r: 12, orbitR: 200, orbitSpeed: 0.0025, angle: 2.8, size: 3 },
-    { label: 'BizEvent', color: 'rgba(232,130,74,',  r: 11, orbitR: 240, orbitSpeed: 0.002, angle: 4.5, size: 2.8 },
-  ];
-
-  nodes = nodeData.map(n => ({ ...n, cx, cy, pulsePhase: Math.random() * Math.PI * 2 }));
-
-  // Orbital rings config
-  rings = [110, 160, 200, 240].map((r, i) => ({
-    r, cx, cy,
-    alpha: 0.06 - i * 0.01,
-  }));
-
-  // Floating micro-particles
-  nodes._particles = Array.from({length: 60}, () => ({
-    x: cx + (Math.random() - 0.5) * 520,
-    y: cy + (Math.random() - 0.5) * 520,
-    vx: (Math.random() - 0.5) * 0.3,
-    vy: (Math.random() - 0.5) * 0.3,
-    r: Math.random() * 1.5 + 0.3,
-    color: COLORS[Math.floor(Math.random() * COLORS.length)],
-    alpha: Math.random() * 0.25 + 0.05,
-  }));
-}
-
-initParticles();
-
-let frame = 0;
-function draw() {
-  const W = canvas.width, H = canvas.height;
-  ctx.clearRect(0, 0, W, H);
-  frame++;
-
-  // Draw stars (twinkle)
-  stars.forEach(s => {
-    const a = s.alpha + Math.sin(frame * s.twinkleSpeed + s.twinklePhase) * 0.15;
-    ctx.beginPath();
-    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(255,255,255,${Math.max(0,a)})`;
-    ctx.fill();
-  });
-
-  // Draw orbital rings
-  rings.forEach(ring => {
-    ctx.beginPath();
-    ctx.arc(ring.cx, ring.cy, ring.r, 0, Math.PI * 2);
-    ctx.strokeStyle = `rgba(255,255,255,${ring.alpha})`;
-    ctx.lineWidth = 1;
-    ctx.setLineDash([4, 8]);
-    ctx.stroke();
-    ctx.setLineDash([]);
-  });
-
-  // Update & draw nodes
-  nodes.forEach((n, i) => {
-    if (n.orbitR > 0) {
-      n.angle += n.orbitSpeed;
-    }
-    const x = n.orbitR > 0 ? n.cx + Math.cos(n.angle) * n.orbitR : n.cx;
-    const y = n.orbitR > 0 ? n.cy + Math.sin(n.angle) * n.orbitR : n.cy;
-    n._x = x; n._y = y;
-
-    // Pulse
-    const pulse = Math.sin(frame * 0.04 + n.pulsePhase) * 3;
-
-    // Glow
-    const grd = ctx.createRadialGradient(x, y, 0, x, y, n.r * 3 + pulse);
-    grd.addColorStop(0, n.color + '0.35)');
-    grd.addColorStop(1, n.color + '0)');
-    ctx.beginPath();
-    ctx.arc(x, y, n.r * 3 + pulse, 0, Math.PI * 2);
-    ctx.fillStyle = grd;
-    ctx.fill();
-
-    // Core dot
-    ctx.beginPath();
-    ctx.arc(x, y, n.r + (i === 0 ? pulse * 0.4 : pulse * 0.3), 0, Math.PI * 2);
-    ctx.fillStyle = n.color + '0.9)';
-    ctx.fill();
-
-    // Inner bright spot
-    ctx.beginPath();
-    ctx.arc(x - n.r * 0.3, y - n.r * 0.3, n.r * 0.35, 0, Math.PI * 2);
-    ctx.fillStyle = 'rgba(255,255,255,0.5)';
-    ctx.fill();
-
-    // Connection line to center
-    if (i > 0) {
-      const grad = ctx.createLinearGradient(n.cx, n.cy, x, y);
-      grad.addColorStop(0, n.color + '0.15)');
-      grad.addColorStop(1, n.color + '0.03)');
-      ctx.beginPath();
-      ctx.moveTo(n.cx, n.cy);
-      ctx.lineTo(x, y);
-      ctx.strokeStyle = grad;
-      ctx.lineWidth = 1;
-      ctx.stroke();
-    }
-  });
-
-  // Floating micro-particles
-  (nodes._particles || []).forEach(p => {
-    p.x += p.vx; p.y += p.vy;
-    const W2 = canvas.width, H2 = canvas.height;
-    if (p.x < 0) p.x = W2; if (p.x > W2) p.x = 0;
-    if (p.y < 0) p.y = H2; if (p.y > H2) p.y = 0;
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-    ctx.fillStyle = p.color + p.alpha + ')';
-    ctx.fill();
-  });
-
-  // Central glow (BizPrint hub)
-  const hub = nodes[0];
-  if (hub) {
-    const g2 = ctx.createRadialGradient(hub.cx, hub.cy, 0, hub.cx, hub.cy, 80);
-    g2.addColorStop(0, 'rgba(224,53,53,0.08)');
-    g2.addColorStop(1, 'rgba(224,53,53,0)');
-    ctx.beginPath();
-    ctx.arc(hub.cx, hub.cy, 80, 0, Math.PI * 2);
-    ctx.fillStyle = g2;
-    ctx.fill();
+  function resize() {
+    W = cv.width  = window.innerWidth;
+    H = cv.height = window.innerHeight;
+    mx = W / 2; my = H / 2;
   }
+  resize();
+  window.addEventListener('resize', resize);
+  window.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
 
-  requestAnimationFrame(draw);
-}
+  // ── Scroll → world index ──
+  const SECTIONS = ['home','about','ecosystem','roadmap','contact'];
+  function getScrollWorld() {
+    const total = document.body.scrollHeight - window.innerHeight;
+    if (total <= 0) return 0;
+    const raw = window.scrollY / total * (SECTIONS.length - 1);
+    return Math.max(0, Math.min(SECTIONS.length - 1, raw));
+  }
+  let targetWorld = 0, currentWorld = 0;
+  window.addEventListener('scroll', () => { targetWorld = getScrollWorld(); }, {passive:true});
+
+  // ── Palette ──
+  const P = {
+    red:    [224,53,53],  amber:  [232,130,74],
+    blue:   [26,136,248], teal:   [0,200,150],
+    purple: [162,155,254],white:  [255,255,255],
+    pink:   [232,100,180],cyan:   [0,220,255],
+  };
+  function rgb(c,a=1){ return `rgba(${c[0]},${c[1]},${c[2]},${a})`; }
+  function lerp(a,b,t){ return a+(b-a)*t; }
+  function easeInOut(t){ return t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2; }
+  function lerpC(c1,c2,t){ return [lerp(c1[0],c2[0],t),lerp(c1[1],c2[1],t),lerp(c1[2],c2[2],t)]; }
+
+  // ═════════════════════════
+  //  WORLD 0 — Ecosystem Network
+  // ═════════════════════════
+  const ECO = (() => {
+    const NODE_DEF = [
+      {id:'core',  color:P.red,    r:20, ring:0,   speed:0,      phase:0},
+      {id:'mkt',   color:P.blue,   r:13, ring:130, speed:0.0038, phase:0.5},
+      {id:'rent',  color:P.teal,   r:12, ring:185, speed:0.0028, phase:2.1},
+      {id:'press', color:P.purple, r:12, ring:230, speed:0.0022, phase:3.8},
+      {id:'event', color:P.amber,  r:11, ring:270, speed:0.0018, phase:5.2},
+      {id:'s1', color:P.white, r:3, ring:310, speed:0.006,  phase:1.0},
+      {id:'s2', color:P.white, r:2, ring:335, speed:0.005,  phase:2.5},
+      {id:'s3', color:P.blue,  r:2, ring:295, speed:0.0045, phase:4.2},
+    ];
+    const LABELS = ['BizPrint','Marketing','Rent','Press','Event','','',''];
+    let nodes=[], motes=[], hex=[];
+
+    function init() {
+      const cx=W*0.65, cy=H*0.5;
+      nodes = NODE_DEF.map((d,i)=>({...d,cx,cy,angle:d.phase,x:cx,y:cy,label:LABELS[i]}));
+      motes = Array.from({length:80},()=>({
+        x:Math.random()*W, y:Math.random()*H,
+        vx:(Math.random()-.5)*.35, vy:(Math.random()-.5)*.35,
+        r:Math.random()*1.3+.2,
+        c:Object.values(P)[Math.floor(Math.random()*8)],
+        a:Math.random()*.15+.03, ph:Math.random()*Math.PI*2
+      }));
+      // Hex grid
+      hex=[];
+      const s=40, rows=Math.ceil(H/(s*1.5))+2, cols=Math.ceil(W/(s*1.73))+2;
+      for(let r=0;r<rows;r++) for(let c=0;c<cols;c++){
+        const x=c*s*1.732+(r%2)*s*0.866-s, y=r*s*1.5-s;
+        const d=Math.hypot(x-W*.65,y-H*.5)/(W*.5);
+        hex.push({x,y,s,a:Math.max(0,0.05-d*0.04),ph:Math.random()*Math.PI*2});
+      }
+    }
+    init();
+    window.addEventListener('resize',init);
+
+    let flows=[];
+    function spawnFlow(){
+      if(flows.length>35) return;
+      const main=nodes.slice(0,5);
+      const a=main[Math.floor(Math.random()*5)], b=main[Math.floor(Math.random()*5)];
+      if(a!==b) flows.push({from:a,to:b,t:0,speed:.007+Math.random()*.005,c:a.color});
+    }
+
+    function hexPath(x,y,s){
+      ctx.beginPath();
+      for(let i=0;i<6;i++){const a=Math.PI/180*(60*i-30); i===0?ctx.moveTo(x+s*Math.cos(a),y+s*Math.sin(a)):ctx.lineTo(x+s*Math.cos(a),y+s*Math.sin(a));}
+      ctx.closePath();
+    }
+    function glow(x,y,r,c,a){
+      const g=ctx.createRadialGradient(x,y,0,x,y,r);
+      g.addColorStop(0,rgb(c,a)); g.addColorStop(1,rgb(c,0));
+      ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill();
+    }
+
+    return function draw(alpha) {
+      if(alpha<0.01) return;
+      ctx.globalAlpha = alpha;
+      // Hex
+      hex.forEach(h=>{
+        const a=h.a+Math.sin(frame*.015+h.ph)*.015;
+        hexPath(h.x,h.y,h.s-2);
+        ctx.strokeStyle=`rgba(255,255,255,${a})`; ctx.lineWidth=.7; ctx.stroke();
+        if(h.a>.03){ctx.fillStyle=`rgba(224,53,53,${a*.12})`; ctx.fill();}
+      });
+      // Rings
+      const core=nodes[0];
+      [340,280,220,160,100].forEach(r=>{
+        ctx.beginPath(); ctx.arc(core.x,core.y,r,0,Math.PI*2);
+        ctx.strokeStyle=`rgba(255,255,255,0.025)`; ctx.lineWidth=1;
+        ctx.setLineDash([3,12]); ctx.stroke(); ctx.setLineDash([]);
+      });
+      // Update nodes
+      nodes.forEach(n=>{
+        if(n.ring>0){
+          n.angle+=n.speed;
+          n.x=n.cx+Math.cos(n.angle)*n.ring+(mx-W/2)*.008*(n.ring/300);
+          n.y=n.cy+Math.sin(n.angle)*n.ring+(my-H/2)*.008*(n.ring/300);
+        } else {
+          n.x=n.cx+(mx-W/2)*.006;
+          n.y=n.cy+(my-H/2)*.006+Math.sin(frame*.025)*2;
+        }
+      });
+      // Edges
+      [[0,1],[0,2],[0,3],[0,4],[1,2],[3,4],[1,4]].forEach(([ai,bi])=>{
+        const a=nodes[ai],b=nodes[bi], dist=Math.hypot(a.x-b.x,a.y-b.y);
+        const ea=Math.max(0,.12-dist/1800);
+        if(ea<.005) return;
+        const g=ctx.createLinearGradient(a.x,a.y,b.x,b.y);
+        g.addColorStop(0,rgb(a.color,ea*1.5)); g.addColorStop(1,rgb(b.color,ea*1.5));
+        ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y);
+        ctx.strokeStyle=g; ctx.lineWidth=1; ctx.stroke();
+      });
+      // Flows
+      if(frame%30===0) spawnFlow();
+      flows=flows.filter(f=>f.t<1);
+      flows.forEach(f=>{
+        f.t=Math.min(1,f.t+f.speed);
+        const fx=f.from.x+(f.to.x-f.from.x)*f.t, fy=f.from.y+(f.to.y-f.from.y)*f.t;
+        glow(fx,fy,f.r*4||8,f.c,.1);
+        ctx.beginPath(); ctx.arc(fx,fy,2,0,Math.PI*2);
+        ctx.fillStyle=rgb(f.c,.8*(1-Math.abs(f.t-.5)*1.5)); ctx.fill();
+      });
+      // Motes
+      motes.forEach(m=>{
+        m.x+=m.vx+Math.sin(frame*.012+m.ph)*.12; m.y+=m.vy+Math.cos(frame*.01+m.ph)*.12;
+        if(m.x<0)m.x=W; if(m.x>W)m.x=0; if(m.y<0)m.y=H; if(m.y>H)m.y=0;
+        ctx.beginPath(); ctx.arc(m.x,m.y,m.r,0,Math.PI*2);
+        ctx.fillStyle=rgb(m.c,m.a+Math.sin(frame*.02+m.ph)*.04); ctx.fill();
+      });
+      // Nodes
+      nodes.forEach((n,i)=>{
+        if(!n.label){
+          glow(n.x,n.y,12,n.color,.1);
+          ctx.beginPath(); ctx.arc(n.x,n.y,n.r,0,Math.PI*2);
+          ctx.fillStyle=rgb(n.color,.5); ctx.fill(); return;
+        }
+        const pulse=Math.sin(frame*.04+n.phase)*(i===0?4:2.5);
+        glow(n.x,n.y,n.r*7+pulse*2,n.color,.06);
+        glow(n.x,n.y,n.r*4+pulse,n.color,.15);
+        glow(n.x,n.y,n.r*2,n.color,.3);
+        ctx.beginPath(); ctx.arc(n.x,n.y,n.r+pulse*.5+4,0,Math.PI*2);
+        ctx.strokeStyle=rgb(n.color,.2); ctx.lineWidth=1; ctx.stroke();
+        const cg=ctx.createRadialGradient(n.x-n.r*.3,n.y-n.r*.3,0,n.x,n.y,n.r+pulse*.3);
+        cg.addColorStop(0,rgb(P.white,.95)); cg.addColorStop(.4,rgb(n.color,.95)); cg.addColorStop(1,rgb(n.color,.7));
+        ctx.beginPath(); ctx.arc(n.x,n.y,n.r+pulse*.3,0,Math.PI*2); ctx.fillStyle=cg; ctx.fill();
+        if(i<5){
+          ctx.save(); ctx.font=`600 ${i===0?11:9}px Inter,sans-serif`;
+          ctx.textAlign='center'; ctx.fillStyle=rgb(n.color,.65);
+          ctx.fillText(n.label,n.x,n.y+n.r+15); ctx.restore();
+        }
+      });
+      ctx.globalAlpha=1;
+    };
+  })();
+
+  // ═════════════════════════
+  //  WORLD 1 — DNA / Data Helix
+  // ═════════════════════════
+  const HELIX = (() => {
+    const strands = 2, COLS=[P.red,P.blue,P.teal,P.amber,P.purple];
+    return function draw(alpha) {
+      if(alpha<0.01) return;
+      ctx.globalAlpha=alpha;
+      const cx=W*.5, t=frame*.018;
+      const nodes=[];
+      for(let i=0;i<60;i++){
+        const y=H*(i/59), phase=i*0.22+t;
+        const x1=cx+Math.sin(phase)*180, x2=cx+Math.sin(phase+Math.PI)*180;
+        nodes.push({x1,x2,y,c:COLS[i%COLS.length],bright:Math.abs(Math.sin(phase))});
+      }
+      // Rungs
+      nodes.forEach((n,i)=>{
+        if(i%3===0){
+          ctx.beginPath(); ctx.moveTo(n.x1,n.y); ctx.lineTo(n.x2,n.y);
+          const g=ctx.createLinearGradient(n.x1,n.y,n.x2,n.y);
+          g.addColorStop(0,rgb(n.c,.0)); g.addColorStop(.5,rgb(n.c,.18*n.bright+.04)); g.addColorStop(1,rgb(n.c,.0));
+          ctx.strokeStyle=g; ctx.lineWidth=1.5; ctx.stroke();
+          // Rung dots
+          [n.x1,n.x2].forEach(x=>{
+            ctx.beginPath(); ctx.arc(x,n.y,2.5,0,Math.PI*2);
+            ctx.fillStyle=rgb(n.c,.6*n.bright+.15); ctx.fill();
+          });
+        }
+      });
+      // Strand curves
+      for(let s=0;s<2;s++){
+        ctx.beginPath();
+        nodes.forEach((n,i)=>{
+          const x=s===0?n.x1:n.x2;
+          i===0?ctx.moveTo(x,n.y):ctx.lineTo(x,n.y);
+        });
+        const col=s===0?P.red:P.blue;
+        ctx.strokeStyle=rgb(col,.22); ctx.lineWidth=2;
+        ctx.stroke();
+      }
+      // Floating data bits
+      for(let i=0;i<30;i++){
+        const y=(H*((i/30+t*.04)%1)), x=cx+(Math.sin(i*1.3+t*.5)*250)+(Math.random()-.5)*40;
+        ctx.beginPath(); ctx.arc(x,y,1.2,0,Math.PI*2);
+        ctx.fillStyle=rgb(COLS[i%5],.15); ctx.fill();
+      }
+      ctx.globalAlpha=1;
+    };
+  })();
+
+  // ═════════════════════════
+  //  WORLD 2 — Circuit Board
+  // ═════════════════════════
+  const CIRCUIT = (() => {
+    let lines=[], pulses=[], dots=[];
+    function init(){
+      lines=[]; pulses=[]; dots=[];
+      const grid=60;
+      for(let x=0;x<W;x+=grid){
+        for(let y=0;y<H;y+=grid){
+          if(Math.random()>.45){
+            const dir=Math.random()>.5?'h':'v';
+            const len=(Math.floor(Math.random()*3)+1)*grid;
+            lines.push({x,y,dir,len,c:Math.random()>.7?P.teal:Math.random()>.5?P.blue:P.red, a:.06+Math.random()*.08});
+          }
+          if(Math.random()>.7) dots.push({x,y,r:Math.random()*3+1.5,c:[P.teal,P.blue,P.red,P.amber][Math.floor(Math.random()*4)],ph:Math.random()*Math.PI*2});
+        }
+      }
+    }
+    init(); window.addEventListener('resize',init);
+    return function draw(alpha){
+      if(alpha<.01) return;
+      ctx.globalAlpha=alpha;
+      // Lines
+      lines.forEach(l=>{
+        ctx.beginPath(); ctx.moveTo(l.x,l.y);
+        ctx.lineTo(l.x+(l.dir==='h'?l.len:0), l.y+(l.dir==='v'?l.len:0));
+        ctx.strokeStyle=rgb(l.c,l.a); ctx.lineWidth=1; ctx.stroke();
+      });
+      // Dots (solder joints)
+      dots.forEach(d=>{
+        const pulse=Math.sin(frame*.04+d.ph)*.4+.6;
+        ctx.beginPath(); ctx.arc(d.x,d.y,d.r,0,Math.PI*2);
+        ctx.fillStyle=rgb(d.c,.25*pulse); ctx.fill();
+        ctx.beginPath(); ctx.arc(d.x,d.y,d.r*.4,0,Math.PI*2);
+        ctx.fillStyle=rgb(d.c,.7*pulse); ctx.fill();
+      });
+      // Traveling pulses
+      if(frame%15===0 && lines.length){
+        const l=lines[Math.floor(Math.random()*lines.length)];
+        pulses.push({line:l, t:0, speed:.025+Math.random()*.02});
+      }
+      pulses=pulses.filter(p=>p.t<1);
+      pulses.forEach(p=>{
+        p.t+=p.speed;
+        const l=p.line, t=p.t;
+        const x=l.x+(l.dir==='h'?l.len*t:0), y=l.y+(l.dir==='v'?l.len*t:0);
+        const g=ctx.createRadialGradient(x,y,0,x,y,8);
+        g.addColorStop(0,rgb(l.c,.8)); g.addColorStop(1,rgb(l.c,0));
+        ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,8,0,Math.PI*2); ctx.fill();
+      });
+      ctx.globalAlpha=1;
+    };
+  })();
+
+  // ═════════════════════════
+  //  WORLD 3 — Particle Nebula
+  // ═════════════════════════
+  const NEBULA = (() => {
+    let pts=[];
+    function init(){
+      pts=Array.from({length:200},()=>({
+        x:Math.random()*W, y:Math.random()*H,
+        ox:Math.random()*W, oy:Math.random()*H,
+        vx:(Math.random()-.5)*.5, vy:(Math.random()-.5)*.5,
+        r:Math.random()*2+.3,
+        c:Object.values(P)[Math.floor(Math.random()*8)],
+        a:Math.random()*.2+.05, ph:Math.random()*Math.PI*2, spd:Math.random()*.008+.004
+      }));
+    }
+    init(); window.addEventListener('resize',init);
+    return function draw(alpha){
+      if(alpha<.01) return;
+      ctx.globalAlpha=alpha;
+      // Background nebula clouds
+      [[W*.3,H*.4,200,P.red,.05],[W*.7,H*.6,250,P.purple,.04],[W*.5,H*.3,180,P.blue,.04]].forEach(([x,y,r,c,a])=>{
+        const g=ctx.createRadialGradient(x,y,0,x,y,r+Math.sin(frame*.012)*20);
+        g.addColorStop(0,rgb(c,a)); g.addColorStop(1,rgb(c,0));
+        ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,r+Math.sin(frame*.012)*20,0,Math.PI*2); ctx.fill();
+      });
+      pts.forEach(p=>{
+        // Swirl motion
+        const angle=Math.atan2(p.y-H*.5, p.x-W*.5)+p.spd;
+        const dist=Math.hypot(p.x-W*.5, p.y-H*.5);
+        p.x=W*.5+Math.cos(angle)*dist+p.vx*.1;
+        p.y=H*.5+Math.sin(angle)*dist+p.vy*.1;
+        p.x=(p.x+W)%W; p.y=(p.y+H)%H;
+        const pulse=Math.sin(frame*.03+p.ph)*.06+p.a;
+        ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+        ctx.fillStyle=rgb(p.c,Math.max(0,pulse)); ctx.fill();
+      });
+      ctx.globalAlpha=1;
+    };
+  })();
+
+  // ═════════════════════════
+  //  WORLD 4 — Grid Wave
+  // ═════════════════════════
+  const GRIDWAVE = (() => {
+    return function draw(alpha){
+      if(alpha<.01) return;
+      ctx.globalAlpha=alpha;
+      const spacing=55, t=frame*.02;
+      const cols=Math.ceil(W/spacing)+1, rows=Math.ceil(H/spacing)+1;
+      for(let c=0;c<cols;c++){
+        for(let r=0;r<rows;r++){
+          const x=c*spacing, y=r*spacing;
+          const wave=Math.sin(c*.3+t)*Math.cos(r*.3+t*.7);
+          const dist=Math.hypot(x-mx,y-my)/300;
+          const ripple=Math.max(0,1-dist)*Math.sin(dist*8-t*3)*.04;
+          const a=.04+wave*.025+ripple;
+          if(a<.005) continue;
+          ctx.beginPath(); ctx.arc(x,y,1.2,0,Math.PI*2);
+          const c1=lerpC(P.blue,P.teal,(wave+1)/2);
+          ctx.fillStyle=rgb(c1,Math.max(0,a)); ctx.fill();
+        }
+      }
+      // Flowing horizontal lines
+      for(let r=0;r<rows;r++){
+        const y=r*spacing;
+        ctx.beginPath();
+        for(let c=0;c<=cols;c++){
+          const x=c*spacing;
+          const wy=Math.sin(c*.25+t+r*.4)*6;
+          c===0?ctx.moveTo(x,y+wy):ctx.lineTo(x,y+wy);
+        }
+        ctx.strokeStyle=`rgba(26,136,248,${.03+Math.sin(r*.4+t)*.015})`; ctx.lineWidth=.8; ctx.stroke();
+      }
+      ctx.globalAlpha=1;
+    };
+  })();
+
+  // ══ MASTER RENDER LOOP ══
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    frame++;
+
+    // Smooth world transition
+    currentWorld += (targetWorld - currentWorld) * 0.04;
+    const w = currentWorld;
+
+    // Compute blend weights for each world (0..4)
+    function weight(i){
+      const d = Math.abs(w - i);
+      return Math.max(0, 1 - d);
+    }
+
+    // Background base — deep dark with subtle hue shift
+    const hueShift = w / 4;
+    const bgR = Math.round(lerp(8, 10, hueShift));
+    const bgG = Math.round(lerp(9, 8,  hueShift));
+    const bgB = Math.round(lerp(15,20, hueShift));
+    ctx.fillStyle = `rgb(${bgR},${bgG},${bgB})`;
+    ctx.fillRect(0,0,W,H);
+
+    // Draw each world blended
+    const w0=easeInOut(weight(0));
+    const w1=easeInOut(weight(1));
+    const w2=easeInOut(weight(2));
+    const w3=easeInOut(weight(3));
+    const w4=easeInOut(weight(4));
+
+    GRIDWAVE(w4 * .7 + .08);  // always subtle underneath
+    if(w0 > 0.01) ECO(w0);
+    if(w1 > 0.01) HELIX(w1 * .9);
+    if(w2 > 0.01) CIRCUIT(w2 * .9);
+    if(w3 > 0.01) NEBULA(w3 * .9);
+
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
 draw();
 
 // Navbar scroll
