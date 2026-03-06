@@ -171,32 +171,18 @@ body::before {
   padding-top: 72px;
 }
 
-/* Animated gradient orbs */
-.hero-orb {
-  position: absolute; border-radius: 50%; pointer-events: none;
-  filter: blur(80px);
+/* Social chips */
+.social-chip {
+  display:inline-flex; align-items:center; gap:5px;
+  font-family:'Fira Code',monospace; font-size:0.58rem;
+  color:var(--text3); text-decoration:none;
+  background:var(--bg2); border:1px solid var(--border);
+  padding:5px 10px; border-radius:6px; letter-spacing:0.5px;
+  transition:all 0.2s;
 }
-.orb1 {
-  width: 700px; height: 700px;
-  top: -200px; right: -150px;
-  background: radial-gradient(circle, rgba(224,53,53,0.12) 0%, transparent 70%);
-  animation: orbFloat1 8s ease-in-out infinite;
-}
-.orb2 {
-  width: 500px; height: 500px;
-  bottom: -100px; left: 10%;
-  background: radial-gradient(circle, rgba(26,136,248,0.07) 0%, transparent 70%);
-  animation: orbFloat2 10s ease-in-out infinite;
-}
-.orb3 {
-  width: 300px; height: 300px;
-  top: 30%; left: 45%;
-  background: radial-gradient(circle, rgba(232,130,74,0.06) 0%, transparent 70%);
-  animation: orbFloat3 12s ease-in-out infinite;
-}
-@keyframes orbFloat1 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-30px,40px)} }
-@keyframes orbFloat2 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(20px,-30px)} }
-@keyframes orbFloat3 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-15px,20px)} }
+.social-chip:hover { color:var(--text); border-color:var(--border2); background:var(--card); transform:translateY(-1px); }
+
+/* orbs replaced by canvas */
 
 /* Grid lines */
 .hero-grid {
@@ -949,9 +935,7 @@ footer { background: var(--bg2); border-top:1px solid var(--border); padding:64p
 
 <!-- ══════════ HERO ══════════ -->
 <section class="hero" id="home">
-  <div class="hero-orb orb1"></div>
-  <div class="hero-orb orb2"></div>
-  <div class="hero-orb orb3"></div>
+  <canvas id="galaxyCanvas" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:0.85;"></canvas>
   <div class="hero-grid"></div>
   <div class="hero-line hero-line-1"></div>
   <div class="hero-line hero-line-2"></div>
@@ -1098,8 +1082,8 @@ footer { background: var(--bg2); border-top:1px solid var(--border); padding:64p
           <div class="value-row">
             <div class="vr-num">01</div>
             <div>
-              <div class="vr-title">Өөрөө санхүүжих зарчим</div>
-              <div class="vr-desc">BizPrint-ийн орлогоос дараагийн платформуудыг хөгжүүлнэ. Гадаад санхүүжилтгүйгээр тогтвортой өсөх стратеги.</div>
+              <div class="vr-title">Хэвлэлийн цогц шийдэл нэг дороос</div>
+              <div class="vr-desc">Дизайн, хэвлэл, хүргэлтийг нэг платформд нэгтгэн, Монголын бизнес эрхлэгчдэд хялбар, хурдан, найдвартай үйлчилгээг хүргэнэ.</div>
             </div>
           </div>
           <div class="value-row">
@@ -1450,11 +1434,36 @@ footer { background: var(--bg2); border-top:1px solid var(--border); padding:64p
           </div>
         </div>
         <div class="contact-info-item">
-          <div class="cii-ico">📍</div>
+          <div class="cii-ico">📱</div>
           <div>
-            <div class="cii-lbl">Байршил</div>
-            <div class="cii-val">Улаанбаатар, Монгол</div>
-            <div class="cii-sub">Алслагдсан ажлын байр боломжтой</div>
+            <div class="cii-lbl">Нийгмийн сүлжээ</div>
+            <div class="cii-val">@bizprintpro</div>
+            <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;">
+              <a href="https://www.facebook.com/bizprintpro" target="_blank" class="social-chip">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                Facebook
+              </a>
+              <a href="https://www.instagram.com/bizprintpro25/" target="_blank" class="social-chip">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+                Instagram
+              </a>
+              <a href="https://x.com/BizprintproB" target="_blank" class="social-chip">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                X
+              </a>
+              <a href="https://www.youtube.com/@BizPrintPro" target="_blank" class="social-chip">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58zM9.75 15.02V8.98L15.5 12z"/></svg>
+                YouTube
+              </a>
+              <a href="https://www.tiktok.com/@bizprint_co" target="_blank" class="social-chip">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.73a4.85 4.85 0 0 1-1.01-.04z"/></svg>
+                TikTok
+              </a>
+              <a href="https://www.linkedin.com/company/110787077/" target="_blank" class="social-chip">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+                LinkedIn
+              </a>
+            </div>
           </div>
         </div>
         <div class="partner-box">
@@ -1512,13 +1521,14 @@ footer { background: var(--bg2); border-top:1px solid var(--border); padding:64p
         </ul>
       </div>
       <div>
-        <div class="footer-col-title">Холбоо барих</div>
+        <div class="footer-col-title">Нийгмийн сүлжээ</div>
         <ul class="footer-links">
-          <li><a href="https://umbverto.biz">umbverto.biz</a></li>
-          <li><a href="https://bizprint.mn">bizprint.mn</a></li>
-          <li><a href="https://www.bizco.mn">bizco.mn</a></li>
-          <li><a href="mailto:bizprint@umbverto.biz">bizprint@umbverto.biz</a></li>
-          <li><a href="tel:+97672000444">+976 7200-0444</a></li>
+          <li><a href="https://www.facebook.com/bizprintpro" target="_blank">Facebook</a></li>
+          <li><a href="https://www.instagram.com/bizprintpro25/" target="_blank">Instagram</a></li>
+          <li><a href="https://x.com/BizprintproB" target="_blank">X (Twitter)</a></li>
+          <li><a href="https://www.youtube.com/@BizPrintPro" target="_blank">YouTube</a></li>
+          <li><a href="https://www.tiktok.com/@bizprint_co" target="_blank">TikTok</a></li>
+          <li><a href="https://www.linkedin.com/company/110787077/" target="_blank">LinkedIn</a></li>
         </ul>
       </div>
     </div>
@@ -1530,6 +1540,178 @@ footer { background: var(--bg2); border-top:1px solid var(--border); padding:64p
 </footer>
 
 <script>
+// ── Galaxy / Ecosystem Canvas Animation ──
+const canvas = document.getElementById('galaxyCanvas');
+const ctx = canvas.getContext('2d');
+
+function resize() {
+  const hero = canvas.parentElement;
+  canvas.width = hero.offsetWidth;
+  canvas.height = hero.offsetHeight;
+}
+resize();
+window.addEventListener('resize', () => { resize(); initParticles(); });
+
+// Color palette
+const COLORS = [
+  'rgba(224,53,53,',
+  'rgba(232,130,74,',
+  'rgba(26,136,248,',
+  'rgba(0,200,150,',
+  'rgba(255,255,255,'
+];
+
+// ── Nodes (ecosystem hubs) ──
+let nodes = [];
+let stars = [];
+let rings = [];
+
+function initParticles() {
+  const W = canvas.width, H = canvas.height;
+
+  // Background stars
+  stars = Array.from({length: 180}, () => ({
+    x: Math.random() * W,
+    y: Math.random() * H,
+    r: Math.random() * 1.2 + 0.2,
+    alpha: Math.random() * 0.5 + 0.1,
+    twinkleSpeed: Math.random() * 0.02 + 0.005,
+    twinklePhase: Math.random() * Math.PI * 2
+  }));
+
+  // Main ecosystem nodes
+  const cx = W * 0.62, cy = H * 0.5;
+  const nodeData = [
+    { label: 'BizPrint', color: 'rgba(224,53,53,', r: 22, orbitR: 0, orbitSpeed: 0, angle: 0, size: 5 },
+    { label: 'BizMkt',   color: 'rgba(26,136,248,',  r: 14, orbitR: 110, orbitSpeed: 0.004, angle: 0, size: 3.5 },
+    { label: 'BizRent',  color: 'rgba(0,200,150,',   r: 12, orbitR: 160, orbitSpeed: 0.003, angle: 1.2, size: 3 },
+    { label: 'BizPress', color: 'rgba(162,155,254,',  r: 12, orbitR: 200, orbitSpeed: 0.0025, angle: 2.8, size: 3 },
+    { label: 'BizEvent', color: 'rgba(232,130,74,',  r: 11, orbitR: 240, orbitSpeed: 0.002, angle: 4.5, size: 2.8 },
+  ];
+
+  nodes = nodeData.map(n => ({ ...n, cx, cy, pulsePhase: Math.random() * Math.PI * 2 }));
+
+  // Orbital rings config
+  rings = [110, 160, 200, 240].map((r, i) => ({
+    r, cx, cy,
+    alpha: 0.06 - i * 0.01,
+  }));
+
+  // Floating micro-particles
+  nodes._particles = Array.from({length: 60}, () => ({
+    x: cx + (Math.random() - 0.5) * 520,
+    y: cy + (Math.random() - 0.5) * 520,
+    vx: (Math.random() - 0.5) * 0.3,
+    vy: (Math.random() - 0.5) * 0.3,
+    r: Math.random() * 1.5 + 0.3,
+    color: COLORS[Math.floor(Math.random() * COLORS.length)],
+    alpha: Math.random() * 0.25 + 0.05,
+  }));
+}
+
+initParticles();
+
+let frame = 0;
+function draw() {
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+  frame++;
+
+  // Draw stars (twinkle)
+  stars.forEach(s => {
+    const a = s.alpha + Math.sin(frame * s.twinkleSpeed + s.twinklePhase) * 0.15;
+    ctx.beginPath();
+    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(255,255,255,${Math.max(0,a)})`;
+    ctx.fill();
+  });
+
+  // Draw orbital rings
+  rings.forEach(ring => {
+    ctx.beginPath();
+    ctx.arc(ring.cx, ring.cy, ring.r, 0, Math.PI * 2);
+    ctx.strokeStyle = `rgba(255,255,255,${ring.alpha})`;
+    ctx.lineWidth = 1;
+    ctx.setLineDash([4, 8]);
+    ctx.stroke();
+    ctx.setLineDash([]);
+  });
+
+  // Update & draw nodes
+  nodes.forEach((n, i) => {
+    if (n.orbitR > 0) {
+      n.angle += n.orbitSpeed;
+    }
+    const x = n.orbitR > 0 ? n.cx + Math.cos(n.angle) * n.orbitR : n.cx;
+    const y = n.orbitR > 0 ? n.cy + Math.sin(n.angle) * n.orbitR : n.cy;
+    n._x = x; n._y = y;
+
+    // Pulse
+    const pulse = Math.sin(frame * 0.04 + n.pulsePhase) * 3;
+
+    // Glow
+    const grd = ctx.createRadialGradient(x, y, 0, x, y, n.r * 3 + pulse);
+    grd.addColorStop(0, n.color + '0.35)');
+    grd.addColorStop(1, n.color + '0)');
+    ctx.beginPath();
+    ctx.arc(x, y, n.r * 3 + pulse, 0, Math.PI * 2);
+    ctx.fillStyle = grd;
+    ctx.fill();
+
+    // Core dot
+    ctx.beginPath();
+    ctx.arc(x, y, n.r + (i === 0 ? pulse * 0.4 : pulse * 0.3), 0, Math.PI * 2);
+    ctx.fillStyle = n.color + '0.9)';
+    ctx.fill();
+
+    // Inner bright spot
+    ctx.beginPath();
+    ctx.arc(x - n.r * 0.3, y - n.r * 0.3, n.r * 0.35, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(255,255,255,0.5)';
+    ctx.fill();
+
+    // Connection line to center
+    if (i > 0) {
+      const grad = ctx.createLinearGradient(n.cx, n.cy, x, y);
+      grad.addColorStop(0, n.color + '0.15)');
+      grad.addColorStop(1, n.color + '0.03)');
+      ctx.beginPath();
+      ctx.moveTo(n.cx, n.cy);
+      ctx.lineTo(x, y);
+      ctx.strokeStyle = grad;
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    }
+  });
+
+  // Floating micro-particles
+  (nodes._particles || []).forEach(p => {
+    p.x += p.vx; p.y += p.vy;
+    const W2 = canvas.width, H2 = canvas.height;
+    if (p.x < 0) p.x = W2; if (p.x > W2) p.x = 0;
+    if (p.y < 0) p.y = H2; if (p.y > H2) p.y = 0;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fillStyle = p.color + p.alpha + ')';
+    ctx.fill();
+  });
+
+  // Central glow (BizPrint hub)
+  const hub = nodes[0];
+  if (hub) {
+    const g2 = ctx.createRadialGradient(hub.cx, hub.cy, 0, hub.cx, hub.cy, 80);
+    g2.addColorStop(0, 'rgba(224,53,53,0.08)');
+    g2.addColorStop(1, 'rgba(224,53,53,0)');
+    ctx.beginPath();
+    ctx.arc(hub.cx, hub.cy, 80, 0, Math.PI * 2);
+    ctx.fillStyle = g2;
+    ctx.fill();
+  }
+
+  requestAnimationFrame(draw);
+}
+draw();
+
 // Navbar scroll
 window.addEventListener('scroll', () => {
   document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
