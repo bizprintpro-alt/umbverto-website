@@ -3,6 +3,48 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- ═══ SEO ═══ -->
+<title>Юү Эм Би Верто ХХК | Монголын Biz Экосистем — BizPrint, bizco.mn</title>
+<meta name="description" content="Юү Эм Би Верто ХХК — Монголын бизнес эрхлэгчдэд зориулсан онлайн үйлчилгээний экосистем. BizPrint хэвлэлийн платформ, BizMarketing, BizRent, BizPress, BizEvent. bizco.mn дээр нэгдсэн.">
+<meta name="keywords" content="BizPrint, bizco, Монголын хэвлэл, онлайн захиалга, хэвлэх үйлчилгээ, UMB Verto, Юү Эм Би Верто, бизнес экосистем, Монгол">
+<meta name="author" content="Юү Эм Би Верто ХХК">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://umbverto.biz/">
+
+<!-- ═══ Open Graph ═══ -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://umbverto.biz/">
+<meta property="og:title" content="Юү Эм Би Верто ХХК | Монголын Biz Экосистем">
+<meta property="og:description" content="BizPrint-ээс эхлэн маркетинг, рент, медиа, ивент хүртэл — нэг экосистемд. Монголын бизнес эрхлэгчдэд зориулсан ухаалаг платформ.">
+<meta property="og:image" content="https://umbverto.biz/og-image.png">
+<meta property="og:locale" content="mn_MN">
+<meta property="og:site_name" content="Юү Эм Би Верто ХХК">
+
+<!-- ═══ Twitter Card ═══ -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@BizprintproB">
+<meta name="twitter:title" content="Юү Эм Би Верто ХХК | Монголын Biz Экосистем">
+<meta name="twitter:description" content="BizPrint хэвлэлийн онлайн платформ. Монголын бизнес эрхлэгчдэд зориулсан экосистем.">
+<meta name="twitter:image" content="https://umbverto.biz/og-image.png">
+
+<!-- ═══ JSON-LD ═══ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Юү Эм Би Верто ХХК",
+  "alternateName": "UMB Verto LLC",
+  "url": "https://umbverto.biz",
+  "description": "Монголын бизнес эрхлэгчдэд зориулсан онлайн үйлчилгээний экосистем",
+  "address": { "@type": "PostalAddress", "addressLocality": "Улаанбаатар", "addressCountry": "MN" },
+  "contactPoint": { "@type": "ContactPoint", "telephone": "+976-7200-0444", "email": "bizprint@umbverto.biz", "contactType": "customer service" },
+  "sameAs": ["https://www.facebook.com/bizprintpro","https://www.instagram.com/bizprintpro25/","https://x.com/BizprintproB","https://www.youtube.com/@BizPrintPro","https://www.linkedin.com/company/110787077/"]
+}
+</script>
+
+<!-- EmailJS SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <title>Юү Эм Би Верто ХХК — Biz Ecosystem</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -1497,36 +1539,48 @@ floatEl && floatEl.addEventListener('mouseleave', () => { if(bubble) bubble.styl
         <div class="contact-form">
           <div class="cf-title">Мессеж илгээх</div>
           <div class="cf-sub">Бид 1–2 ажлын өдрийн дотор хариулна.</div>
-          <div class="form-row">
-            <div class="form-group">
-              <label class="form-label">Нэр</label>
-              <input class="form-input" type="text" placeholder="Таны нэр">
+          <form id="contactForm" onsubmit="sendEmail(event)">
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Нэр *</label>
+                <input class="form-input" type="text" id="cf_name" placeholder="Таны нэр" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Утас / Email *</label>
+                <input class="form-input" type="text" id="cf_contact" placeholder="+976 хх-хх-хх-хх" required>
+              </div>
             </div>
             <div class="form-group">
-              <label class="form-label">Утас / Email</label>
-              <input class="form-input" type="text" placeholder="+976 хх-хх-хх-хх">
+              <label class="form-label">Компани / Байгууллага</label>
+              <input class="form-input" type="text" id="cf_company" placeholder="Таны компанийн нэр">
             </div>
+            <div class="form-group">
+              <label class="form-label">Зорилго</label>
+              <select class="form-input" id="cf_purpose">
+                <option>BizPrint — Захиалагч болох</option>
+                <option>BizPrint — Үйлдвэр болох (гэрээ)</option>
+                <option>BizPrint — Борлуулагч болох</option>
+                <option>BizPrint — Дизайнер болох</option>
+                <option>Хөрөнгө оруулалт / Түншлэл</option>
+                <option>Бусад</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Мессеж</label>
+              <textarea class="form-input" id="cf_message" placeholder="Дэлгэрэнгүй мэдээлэл..."></textarea>
+            </div>
+            <button type="submit" class="btn-submit" id="cf_btn">Илгээх →</button>
+          </form>
+
+          <!-- Success / Error states -->
+          <div id="cf_success" style="display:none;margin-top:16px;padding:16px 20px;background:rgba(0,200,150,0.1);border:1px solid rgba(0,200,150,0.3);border-radius:12px;">
+            <div style="color:#00c896;font-weight:700;margin-bottom:4px;">✅ Амжилттай илгээгдлээ!</div>
+            <div style="font-size:0.82rem;color:rgba(238,236,234,0.6);">Бид тантай 1–2 ажлын өдрийн дотор холбогдоно.</div>
           </div>
-          <div class="form-group">
-            <label class="form-label">Компани / Байгууллага</label>
-            <input class="form-input" type="text" placeholder="Таны компанийн нэр">
+          <div id="cf_error" style="display:none;margin-top:16px;padding:16px 20px;background:rgba(224,53,53,0.1);border:1px solid rgba(224,53,53,0.3);border-radius:12px;">
+            <div style="color:#e03535;font-weight:700;margin-bottom:4px;">⚠️ Алдаа гарлаа</div>
+            <div style="font-size:0.82rem;color:rgba(238,236,234,0.6);">Та шууд <a href="mailto:bizprint@umbverto.biz" style="color:#e03535;">bizprint@umbverto.biz</a> руу имэйл илгээнэ үү.</div>
           </div>
-          <div class="form-group">
-            <label class="form-label">Зорилго</label>
-            <select class="form-input">
-              <option>BizPrint — Захиалагч болох</option>
-              <option>BizPrint — Үйлдвэр болох (гэрээ)</option>
-              <option>BizPrint — Борлуулагч болох</option>
-              <option>BizPrint — Дизайнер болох</option>
-              <option>Хөрөнгө оруулалт / Түншлэл</option>
-              <option>Бусад</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Мессеж</label>
-            <textarea class="form-input" placeholder="Дэлгэрэнгүй мэдээлэл..."></textarea>
-          </div>
-          <button class="btn-submit">Илгээх →</button>
         </div>
       </div>
       <div class="contact-side reveal d3">
@@ -1945,6 +1999,75 @@ floatEl && floatEl.addEventListener('mouseleave', () => { if(bubble) bubble.styl
 
   draw();
 })();
+
+// ═══════════════════════════════
+//  EMAILJS — Contact Form
+//  Setup: https://emailjs.com
+//  1. Бүртгүүлэх → Service нэмэх (Gmail)
+//  2. Template үүсгэх
+//  3. Доорх 3 утгыг солих
+// ═══════════════════════════════
+const EJS_PUBLIC_KEY   = 'YOUR_PUBLIC_KEY';   // EmailJS → Account → Public Key
+const EJS_SERVICE_ID   = 'YOUR_SERVICE_ID';   // EmailJS → Email Services → Service ID
+const EJS_TEMPLATE_ID  = 'YOUR_TEMPLATE_ID';  // EmailJS → Email Templates → Template ID
+
+if (typeof emailjs !== 'undefined') {
+  emailjs.init({ publicKey: EJS_PUBLIC_KEY });
+}
+
+function sendEmail(e) {
+  e.preventDefault();
+  const btn = document.getElementById('cf_btn');
+  const success = document.getElementById('cf_success');
+  const error   = document.getElementById('cf_error');
+  success.style.display = 'none';
+  error.style.display   = 'none';
+
+  const name    = document.getElementById('cf_name').value.trim();
+  const contact = document.getElementById('cf_contact').value.trim();
+  const company = document.getElementById('cf_company').value.trim();
+  const purpose = document.getElementById('cf_purpose').value;
+  const message = document.getElementById('cf_message').value.trim();
+
+  if (!name || !contact) return;
+
+  btn.textContent = 'Илгээж байна...';
+  btn.disabled = true;
+
+  const templateParams = {
+    from_name:    name,
+    from_contact: contact,
+    from_company: company || '—',
+    purpose:      purpose,
+    message:      message || '—',
+    to_email:     'bizprint@umbverto.biz',
+  };
+
+  if (EJS_PUBLIC_KEY === 'YOUR_PUBLIC_KEY') {
+    // Demo mode — EmailJS тохируулаагүй үед
+    setTimeout(() => {
+      btn.textContent = 'Илгээх →';
+      btn.disabled = false;
+      error.style.display = 'block';
+      error.querySelector('div:last-child').innerHTML =
+        '⚙️ EmailJS тохируулах шаардлагатай. Доорх зааврыг уншина уу эсвэл <a href="mailto:bizprint@umbverto.biz" style="color:#e03535;">bizprint@umbverto.biz</a> руу имэйл илгээнэ үү.';
+    }, 800);
+    return;
+  }
+
+  emailjs.send(EJS_SERVICE_ID, EJS_TEMPLATE_ID, templateParams)
+    .then(() => {
+      success.style.display = 'block';
+      document.getElementById('contactForm').reset();
+      btn.textContent = 'Илгээх →';
+      btn.disabled = false;
+    })
+    .catch(() => {
+      error.style.display = 'block';
+      btn.textContent = 'Илгээх →';
+      btn.disabled = false;
+    });
+}
 
 // Navbar scroll
 window.addEventListener('scroll', () => {
