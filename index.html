@@ -10,11 +10,11 @@
    DESIGN TOKENS
 ───────────────────────────── */
 :root {
-  --bg:       #08090f;
-  --bg2:      #0d0f18;
-  --bg3:      #111420;
-  --card:     #141729;
-  --card2:    #1a1e32;
+  --bg:       rgba(8,9,15,0.0);
+  --bg2:      rgba(13,15,24,0.35);
+  --bg3:      rgba(17,20,32,0.45);
+  --card:     rgba(20,23,41,0.55);
+  --card2:    rgba(26,30,50,0.60);
   --surface:  #f5f4f0;
   --paper:    #fdfcf8;
   --white:    #ffffff;
@@ -51,7 +51,7 @@
 html { scroll-behavior:smooth; font-size:16px; }
 
 body {
-  background: var(--bg);
+  background: transparent;
   color: var(--text);
   font-family: 'Inter', sans-serif;
   line-height: 1.6;
@@ -184,6 +184,94 @@ body::before {
 
 /* orbs replaced by canvas */
 
+/* ── Floating Messenger Button ── */
+.messenger-float {
+  position: fixed; bottom: 28px; right: 28px; z-index: 500;
+  display: flex; flex-direction: column; align-items: flex-end; gap: 10px;
+}
+.messenger-bubble {
+  background: rgba(8,9,15,0.92);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 16px; padding: 12px 16px;
+  font-size: 0.78rem; color: rgba(238,236,234,0.75);
+  max-width: 220px; text-align: right; line-height: 1.5;
+  backdrop-filter: blur(12px);
+  animation: bubbleIn 0.4s cubic-bezier(0.34,1.56,0.64,1) both;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+}
+.messenger-bubble strong { color: #fff; display: block; margin-bottom: 3px; font-size: 0.82rem; }
+.messenger-bubble::after {
+  content: ''; position: absolute; bottom: -6px; right: 22px;
+  width: 12px; height: 12px;
+  background: rgba(8,9,15,0.92);
+  border-right: 1px solid rgba(255,255,255,0.1);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  transform: rotate(45deg);
+}
+.messenger-bubble { position: relative; }
+@keyframes bubbleIn { from{opacity:0;transform:translateY(10px) scale(0.95)} to{opacity:1;transform:translateY(0) scale(1)} }
+
+.messenger-btn {
+  width: 62px; height: 62px; border-radius: 50%;
+  background: linear-gradient(135deg, #0084ff 0%, #0099ff 50%, #a855f7 100%);
+  display: flex; align-items: center; justify-content: center;
+  text-decoration: none; cursor: pointer; border: none;
+  box-shadow: 0 4px 20px rgba(0,132,255,0.45), 0 0 0 0 rgba(0,132,255,0.3);
+  animation: messengerPulse 2.5s ease-in-out infinite;
+  transition: transform 0.25s, box-shadow 0.25s;
+  position: relative;
+}
+.messenger-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 28px rgba(0,132,255,0.6), 0 0 0 8px rgba(0,132,255,0.12);
+}
+@keyframes messengerPulse {
+  0%,100%{ box-shadow: 0 4px 20px rgba(0,132,255,0.45), 0 0 0 0 rgba(0,132,255,0.3); }
+  50%{     box-shadow: 0 4px 20px rgba(0,132,255,0.45), 0 0 0 10px rgba(0,132,255,0); }
+}
+.messenger-btn svg { width: 32px; height: 32px; }
+.messenger-notif {
+  position: absolute; top: -3px; right: -3px;
+  width: 18px; height: 18px; border-radius: 50%;
+  background: var(--red); border: 2px solid var(--bg);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.55rem; font-weight: 700; color: #fff;
+}
+
+/* ── Hero Messenger CTA ── */
+.hero-messenger-cta {
+  display: inline-flex; align-items: center; gap: 12px;
+  background: rgba(0,132,255,0.12);
+  border: 1px solid rgba(0,132,255,0.3);
+  border-radius: var(--r2); padding: 14px 20px;
+  text-decoration: none; margin-top: 20px;
+  transition: all 0.25s; width: fit-content;
+}
+.hero-messenger-cta:hover {
+  background: rgba(0,132,255,0.2);
+  border-color: rgba(0,132,255,0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,132,255,0.2);
+}
+.hmc-icon {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: linear-gradient(135deg, #0084ff, #a855f7);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.hmc-icon svg { width: 22px; height: 22px; }
+.hmc-text {}
+.hmc-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.88rem; font-weight: 700; color: #fff;
+  display: block; margin-bottom: 2px;
+}
+.hmc-sub {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.62rem; color: rgba(255,255,255,0.45);
+  letter-spacing: 0.5px;
+}
+
 /* grid replaced by canvas */
 
 /* All sections layer above world canvas */
@@ -192,14 +280,14 @@ body::before {
   position: relative;
   z-index: 1;
 }
-.about       { background: rgba(13,15,24,0.82); backdrop-filter: blur(2px); }
-.ecosystem   { background: rgba(8,9,15,0.78);  backdrop-filter: blur(2px); }
-.marquee-strip { background: rgba(13,15,24,0.9); position:relative; z-index:1; }
-.spotlight   { background: rgba(13,15,24,0.80); backdrop-filter: blur(2px); }
-.roadmap     { background: rgba(8,9,15,0.78);  backdrop-filter: blur(2px); }
-.team        { background: rgba(13,15,24,0.82); backdrop-filter: blur(2px); }
-.contact     { background: rgba(8,9,15,0.80);  backdrop-filter: blur(2px); }
-footer       { background: rgba(13,15,24,0.92); }
+.about       { background: rgba(8,9,15,0.45) !important; backdrop-filter: blur(0px); }
+.ecosystem   { background: rgba(8,9,15,0.40) !important; backdrop-filter: blur(0px); }
+.marquee-strip { background: rgba(8,9,15,0.55) !important; position:relative; z-index:1; }
+.spotlight   { background: rgba(8,9,15,0.42) !important; backdrop-filter: blur(0px); }
+.roadmap     { background: rgba(8,9,15,0.40) !important; backdrop-filter: blur(0px); }
+.team        { background: rgba(8,9,15,0.45) !important; backdrop-filter: blur(0px); }
+.contact     { background: rgba(8,9,15,0.42) !important; backdrop-filter: blur(0px); }
+footer       { background: rgba(6,7,14,0.75) !important; }
 
 .hero-inner {
   position: relative; z-index: 1;
@@ -900,7 +988,35 @@ footer { background: var(--bg2); border-top:1px solid var(--border); padding:64p
 </head>
 <body>
 
-<!-- Full-page scroll-driven background -->
+<!-- ══════════ FLOATING MESSENGER ══════════ -->
+<div class="messenger-float" id="messengerFloat">
+  <div class="messenger-bubble" id="messengerBubble">
+    <strong>💬 Захиалгаа чатаар өг!</strong>
+    Мессенжерээр захиалга өгөх нь хамгийн хурдан арга. Бид шууд хариулна.
+  </div>
+  <a href="https://m.me/260665651249363" target="_blank" class="messenger-btn" title="Messenger-ээр захиалах">
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 2C6.477 2 2 6.145 2 11.259c0 2.913 1.408 5.516 3.623 7.237V22l3.309-1.818c.885.244 1.82.377 2.789.377 5.523 0 10-4.145 10-9.259S17.523 2 12 2z" fill="white"/>
+      <path d="M13.5 14.5L10.5 11l-5.5 3.5 6-6.5 3 3.5 5.5-3.5-6 6.5z" fill="url(#msng_grad)"/>
+      <defs>
+        <linearGradient id="msng_grad" x1="5" y1="8" x2="19" y2="18" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#0084ff"/>
+          <stop offset="100%" stop-color="#a855f7"/>
+        </linearGradient>
+      </defs>
+    </svg>
+    <div class="messenger-notif">1</div>
+  </a>
+</div>
+
+<script>
+// Auto-hide bubble after 6s, re-show on hover
+const bubble = document.getElementById('messengerBubble');
+const floatEl = document.getElementById('messengerFloat');
+setTimeout(() => { if(bubble) bubble.style.display = 'none'; }, 6000);
+floatEl && floatEl.addEventListener('mouseenter', () => { if(bubble) bubble.style.display = 'block'; });
+floatEl && floatEl.addEventListener('mouseleave', () => { if(bubble) bubble.style.display = 'none'; });
+</script>
 <canvas id="worldCanvas" style="position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;"></canvas>
 
 <!-- ══════════ NAVBAR ══════════ -->
@@ -951,6 +1067,19 @@ footer { background: var(--bg2); border-top:1px solid var(--border); padding:64p
           <a href="https://www.bizco.mn/" class="btn-primary">🖨️ BizPrint үзэх →</a>
           <a href="https://www.bizco.mn" class="btn-outline">bizco.mn →</a>
         </div>
+
+        <a href="https://m.me/260665651249363" target="_blank" class="hero-messenger-cta">
+          <div class="hmc-icon">
+            <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2C6.477 2 2 6.145 2 11.259c0 2.913 1.408 5.516 3.623 7.237V22l3.309-1.818c.885.244 1.82.377 2.789.377 5.523 0 10-4.145 10-9.259S17.523 2 12 2z"/>
+            </svg>
+          </div>
+          <div class="hmc-text">
+            <span class="hmc-title">💬 Messenger-ээр захиалга өгөх</span>
+            <span class="hmc-sub">Хамгийн хурдан арга · Шууд хариулт авна</span>
+          </div>
+        </a>
+
         <div class="hero-stats">
           <div class="hstat">
             <div class="hstat-val">5<span>+</span></div>
