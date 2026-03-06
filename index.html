@@ -1557,12 +1557,34 @@ footer { background: var(--bg2); border-top:1px solid var(--border); padding:64p
   window.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
 
   // ── Scroll → world index ──
-  const SECTIONS = ['home','about','ecosystem','roadmap','contact'];
+  const SECTION_IDS = ['home','about','ecosystem','roadmap','contact'];
   function getScrollWorld() {
-    const total = document.body.scrollHeight - window.innerHeight;
-    if (total <= 0) return 0;
-    const raw = window.scrollY / total * (SECTIONS.length - 1);
-    return Math.max(0, Math.min(SECTIONS.length - 1, raw));
+    const scrollMid = window.scrollY + window.innerHeight * 0.5;
+    let best = 0;
+    SECTION_IDS.forEach((id, i) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const top = el.offsetTop;
+      const bot = top + el.offsetHeight;
+      if (scrollMid >= top && scrollMid < bot) best = i;
+      // smooth blend: how far into next section
+    });
+    // Compute fractional progress between sections
+    for (let i = 0; i < SECTION_IDS.length - 1; i++) {
+      const a = document.getElementById(SECTION_IDS[i]);
+      const b = document.getElementById(SECTION_IDS[i+1]);
+      if (!a || !b) continue;
+      const aBot = a.offsetTop + a.offsetHeight;
+      const bTop = b.offsetTop;
+      const blendZone = Math.min(a.offsetHeight, b.offsetHeight) * 0.4;
+      const blendStart = aBot - blendZone;
+      const blendEnd   = bTop + blendZone;
+      if (scrollMid >= blendStart && scrollMid <= blendEnd) {
+        const t = (scrollMid - blendStart) / (blendEnd - blendStart);
+        return i + Math.max(0, Math.min(1, t));
+      }
+    }
+    return best;
   }
   let targetWorld = 0, currentWorld = 0;
   window.addEventListener('scroll', () => { targetWorld = getScrollWorld(); }, {passive:true});
@@ -1905,8 +1927,8 @@ footer { background: var(--bg2); border-top:1px solid var(--border); padding:64p
     ctx.clearRect(0,0,W,H);
     frame++;
 
-    // Smooth world transition
-    currentWorld += (targetWorld - currentWorld) * 0.04;
+    // Smooth world transition — faster response
+    currentWorld += (targetWorld - currentWorld) * 0.06;
     const w = currentWorld;
 
     // Compute blend weights for each world (0..4)
@@ -1930,11 +1952,11 @@ footer { background: var(--bg2); border-top:1px solid var(--border); padding:64p
     const w3=easeInOut(weight(3));
     const w4=easeInOut(weight(4));
 
-    GRIDWAVE(w4 * .7 + .08);  // always subtle underneath
-    if(w0 > 0.01) ECO(w0);
-    if(w1 > 0.01) HELIX(w1 * .9);
-    if(w2 > 0.01) CIRCUIT(w2 * .9);
-    if(w3 > 0.01) NEBULA(w3 * .9);
+    GRIDWAVE(Math.max(0.06, w4 * .6));
+    if(w0 > 0.01) ECO(Math.min(1, w0 * 1.1));
+    if(w1 > 0.01) HELIX(Math.min(1, w1 * 1.1));
+    if(w2 > 0.01) CIRCUIT(Math.min(1, w2 * 1.1));
+    if(w3 > 0.01) NEBULA(Math.min(1, w3 * 1.1));
 
     requestAnimationFrame(draw);
   }
