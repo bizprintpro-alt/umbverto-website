@@ -1,0 +1,1464 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UMB Verto ХХК — Biz Ecosystem</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════
+   TOKENS
+═══════════════════════════════ */
+:root {
+  --ink:       #0d0f1a;
+  --ink2:      #141624;
+  --ink3:      #1a1d30;
+  --surface:   #f7f6f2;
+  --paper:     #fdfcf9;
+  --white:     #ffffff;
+  --border:    #e4e1d8;
+  --border2:   #ccc9be;
+  --text:      #1a1c2a;
+  --text2:     #4a4d62;
+  --text3:     #8a8da0;
+  --muted:     #b8bace;
+
+  /* Brand colors */
+  --red:       #d63031;
+  --red2:      #ff6b6b;
+  --amber:     #e17055;
+  --green:     #00b894;
+  --blue:      #0984e3;
+  --purple:    #6c5ce7;
+  --teal:      #00cec9;
+  --pink:      #e84393;
+
+  --r:  6px;
+  --r2: 12px;
+  --r3: 20px;
+  --shadow:  0 2px 16px rgba(13,15,26,0.08);
+  --shadow2: 0 8px 40px rgba(13,15,26,0.12);
+  --shadow3: 0 20px 60px rgba(13,15,26,0.16);
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--paper);
+  color: var(--text);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ═══════════════════════════════
+   UTILITIES
+═══════════════════════════════ */
+.mono { font-family: 'JetBrains Mono', monospace; }
+.container { max-width: 1100px; margin: 0 auto; padding: 0 28px; }
+.section { padding: 96px 0; }
+.section-sm { padding: 64px 0; }
+
+.eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.62rem; letter-spacing: 4px;
+  text-transform: uppercase; color: var(--text3);
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 16px;
+}
+.eyebrow::before { content:''; width:24px; height:1px; background:var(--red); }
+
+.section-title {
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  font-weight: 800; letter-spacing: -0.5px;
+  line-height: 1.2; color: var(--text);
+}
+.section-title .accent { color: var(--red); }
+
+.section-desc {
+  font-size: 0.95rem; color: var(--text2);
+  line-height: 1.8; margin-top: 16px;
+  max-width: 560px;
+}
+
+/* ═══════════════════════════════
+   NAVBAR
+═══════════════════════════════ */
+.navbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(253,252,249,0.88);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  transition: all 0.3s;
+}
+.navbar.scrolled {
+  background: rgba(253,252,249,0.96);
+  box-shadow: var(--shadow);
+}
+.nav-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 68px;
+}
+.nav-logo {
+  display: flex; align-items: center; gap: 12px;
+  text-decoration: none;
+}
+.nav-logo-icon {
+  width: 36px; height: 36px; border-radius: 8px;
+  background: var(--ink);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem; font-weight: 900; color: var(--white);
+  letter-spacing: -1px; font-family: 'Plus Jakarta Sans', sans-serif;
+  flex-shrink: 0;
+}
+.nav-logo-text { line-height: 1; }
+.nav-logo-name {
+  font-size: 0.95rem; font-weight: 800; color: var(--text);
+  letter-spacing: -0.3px;
+}
+.nav-logo-sub {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.54rem; color: var(--text3); letter-spacing: 2px;
+  text-transform: uppercase; margin-top: 1px;
+}
+
+.nav-links {
+  display: flex; align-items: center; gap: 6px;
+  list-style: none;
+}
+.nav-links a {
+  font-size: 0.85rem; font-weight: 500; color: var(--text2);
+  text-decoration: none; padding: 7px 14px; border-radius: var(--r);
+  transition: all 0.2s;
+}
+.nav-links a:hover { color: var(--text); background: var(--surface); }
+
+.nav-cta {
+  background: var(--ink) !important; color: var(--white) !important;
+  font-weight: 600 !important;
+}
+.nav-cta:hover { background: var(--red) !important; transform: translateY(-1px); box-shadow: 0 4px 16px rgba(214,48,49,0.3) !important; }
+
+.nav-mobile-btn {
+  display: none; background: none; border: none; cursor: pointer;
+  flex-direction: column; gap: 5px; padding: 4px;
+}
+.nav-mobile-btn span {
+  display: block; width: 22px; height: 2px;
+  background: var(--text); border-radius: 2px; transition: all 0.3s;
+}
+
+/* ═══════════════════════════════
+   HERO
+═══════════════════════════════ */
+.hero {
+  min-height: 100vh;
+  display: flex; align-items: center;
+  background: var(--ink);
+  position: relative; overflow: hidden;
+  padding-top: 68px;
+}
+
+/* Geometric background pattern */
+.hero-pattern {
+  position: absolute; inset: 0; pointer-events: none;
+  overflow: hidden;
+}
+.hero-pattern::before {
+  content: '';
+  position: absolute; top: -200px; right: -200px;
+  width: 700px; height: 700px; border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.04);
+}
+.hero-pattern::after {
+  content: '';
+  position: absolute; top: -100px; right: -100px;
+  width: 500px; height: 500px; border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.06);
+}
+.hero-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+.hero-glow {
+  position: absolute; top: -100px; right: -100px;
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(214,48,49,0.12) 0%, transparent 65%);
+  pointer-events: none;
+}
+.hero-glow2 {
+  position: absolute; bottom: -100px; left: 20%;
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(9,132,227,0.08) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.hero-inner {
+  position: relative; z-index: 1;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 60px; align-items: center;
+  padding: 80px 0;
+}
+
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.62rem; letter-spacing: 3px;
+  text-transform: uppercase; color: rgba(255,255,255,0.4);
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+  padding: 6px 14px; border-radius: 100px; margin-bottom: 28px;
+  width: fit-content;
+}
+.hero-eyebrow-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--red);
+  animation: pulse-dot 2s infinite;
+}
+@keyframes pulse-dot {
+  0%,100%{opacity:1;transform:scale(1)}
+  50%{opacity:0.5;transform:scale(0.7)}
+}
+
+.hero-title {
+  font-size: clamp(2.2rem, 4.5vw, 3.8rem);
+  font-weight: 800; line-height: 1.1;
+  letter-spacing: -1px; color: var(--white);
+  margin-bottom: 24px;
+}
+.hero-title .line2 {
+  background: linear-gradient(135deg, var(--red) 0%, #ff9f43 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+
+.hero-desc {
+  font-size: 1rem; color: rgba(255,255,255,0.55);
+  line-height: 1.8; margin-bottom: 36px; max-width: 480px;
+}
+
+.hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--red); color: var(--white);
+  font-size: 0.9rem; font-weight: 700;
+  padding: 14px 28px; border-radius: var(--r2);
+  text-decoration: none; border: none; cursor: pointer;
+  transition: all 0.25s;
+  box-shadow: 0 4px 24px rgba(214,48,49,0.35);
+}
+.btn-primary:hover { background: #c0392b; transform: translateY(-2px); box-shadow: 0 8px 32px rgba(214,48,49,0.45); }
+.btn-ghost {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: transparent; color: rgba(255,255,255,0.7);
+  font-size: 0.9rem; font-weight: 600;
+  padding: 14px 28px; border-radius: var(--r2);
+  text-decoration: none; border: 1px solid rgba(255,255,255,0.15);
+  transition: all 0.25s;
+}
+.btn-ghost:hover { background: rgba(255,255,255,0.07); color: var(--white); border-color: rgba(255,255,255,0.3); }
+
+.hero-right {
+  display: flex; flex-direction: column; gap: 12px;
+}
+
+/* BIZ ECOSYSTEM CARDS IN HERO */
+.biz-card-mini {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: var(--r2); padding: 18px 20px;
+  display: flex; align-items: center; gap: 14px;
+  transition: all 0.25s; text-decoration: none;
+  position: relative; overflow: hidden;
+}
+.biz-card-mini::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+}
+.biz-card-mini:hover {
+  background: rgba(255,255,255,0.08);
+  border-color: rgba(255,255,255,0.16);
+  transform: translateX(4px);
+}
+.bc-print::before  { background: var(--red); }
+.bc-market::before { background: var(--blue); }
+.bc-rent::before   { background: var(--green); }
+.bc-press::before  { background: var(--purple); }
+.bc-event::before  { background: var(--amber); }
+
+.biz-card-mini .bci-icon {
+  width: 38px; height: 38px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem; flex-shrink: 0;
+}
+.bc-print .bci-icon  { background: rgba(214,48,49,0.2); }
+.bc-market .bci-icon { background: rgba(9,132,227,0.2); }
+.bc-rent .bci-icon   { background: rgba(0,184,148,0.2); }
+.bc-press .bci-icon  { background: rgba(108,92,231,0.2); }
+.bc-event .bci-icon  { background: rgba(225,112,85,0.2); }
+
+.bci-text { flex: 1; }
+.bci-name {
+  font-size: 0.88rem; font-weight: 700; color: var(--white);
+  display: flex; align-items: center; gap: 8px;
+}
+.bci-status {
+  font-family: 'JetBrains Mono', monospace; font-size: 0.52rem;
+  padding: 2px 7px; border-radius: 100px; letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.status-live { background: rgba(0,184,148,0.2); color: var(--green); border: 1px solid rgba(0,184,148,0.3); }
+.status-soon { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.35); border: 1px solid rgba(255,255,255,0.1); }
+.bci-desc { font-size: 0.75rem; color: rgba(255,255,255,0.38); margin-top: 2px; }
+.bci-arrow { color: rgba(255,255,255,0.2); font-size: 0.8rem; transition: all 0.2s; }
+.biz-card-mini:hover .bci-arrow { color: rgba(255,255,255,0.6); transform: translateX(3px); }
+
+/* Hero stats bar */
+.hero-stats {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  gap: 0; border-top: 1px solid rgba(255,255,255,0.08);
+  padding-top: 40px; margin-top: 12px;
+}
+.hstat { text-align: center; padding: 0 20px; }
+.hstat + .hstat { border-left: 1px solid rgba(255,255,255,0.08); }
+.hstat-val { font-size: 2rem; font-weight: 800; color: var(--white); line-height: 1; }
+.hstat-label { font-family:'JetBrains Mono',monospace; font-size:0.58rem; color:rgba(255,255,255,0.35); letter-spacing:2px; text-transform:uppercase; margin-top:5px; }
+
+/* ═══════════════════════════════
+   ABOUT
+═══════════════════════════════ */
+.about { background: var(--white); }
+.about-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 80px; align-items: center;
+}
+.about-left {}
+.about-right {}
+
+.about-mission {
+  background: var(--ink);
+  border-radius: var(--r2); padding: 32px;
+  position: relative; overflow: hidden; margin-top: 32px;
+}
+.about-mission::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--red), var(--amber));
+}
+.am-label {
+  font-family: 'JetBrains Mono', monospace; font-size: 0.58rem;
+  color: rgba(255,255,255,0.3); letter-spacing: 3px; text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.am-text {
+  font-size: 1.05rem; font-weight: 600; color: var(--white);
+  line-height: 1.7; font-style: italic;
+}
+.am-text span { color: var(--red); font-style: normal; }
+
+.about-values { display: flex; flex-direction: column; gap: 16px; }
+.value-item {
+  display: flex; gap: 16px; align-items: flex-start;
+}
+.vi-num {
+  width: 32px; height: 32px; border-radius: 8px;
+  background: var(--surface); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'JetBrains Mono', monospace; font-size: 0.65rem;
+  font-weight: 600; color: var(--text3); flex-shrink: 0;
+}
+.vi-body {}
+.vi-title { font-size: 0.9rem; font-weight: 700; margin-bottom: 3px; }
+.vi-desc { font-size: 0.82rem; color: var(--text2); line-height: 1.6; }
+
+.company-info {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 32px;
+}
+.ci-item {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--r); padding: 16px;
+}
+.ci-label { font-family:'JetBrains Mono',monospace; font-size:0.58rem; color:var(--text3); text-transform:uppercase; letter-spacing:2px; margin-bottom:5px; }
+.ci-val { font-size: 0.88rem; font-weight: 700; }
+
+/* ═══════════════════════════════
+   ECOSYSTEM — BIZ BRANDS
+═══════════════════════════════ */
+.ecosystem { background: var(--surface); }
+
+.brands-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 16px; margin-top: 48px;
+}
+/* BizPrint is featured/larger */
+.brand-card { 
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: var(--r2); padding: 28px;
+  transition: all 0.3s; position: relative; overflow: hidden;
+  text-decoration: none; color: inherit; display: flex; flex-direction: column;
+}
+.brand-card:hover {
+  transform: translateY(-4px); border-color: var(--border2);
+  box-shadow: var(--shadow3);
+}
+.brand-card-featured {
+  grid-column: span 2;
+  background: var(--ink);
+  border-color: transparent;
+}
+.brand-card-featured:hover { border-color: rgba(255,255,255,0.1); }
+.brand-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  transform: scaleX(0); transform-origin: left; transition: transform 0.3s;
+}
+.brand-card:hover::before { transform: scaleX(1); }
+.bc-r::before   { background: linear-gradient(90deg, var(--red), #ff9f43); }
+.bc-b::before   { background: linear-gradient(90deg, var(--blue), var(--teal)); }
+.bc-g::before   { background: linear-gradient(90deg, var(--green), #55efc4); }
+.bc-p::before   { background: linear-gradient(90deg, var(--purple), var(--pink)); }
+.bc-a::before   { background: linear-gradient(90deg, var(--amber), #fdcb6e); }
+
+.brand-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 20px; }
+.brand-icon {
+  width: 52px; height: 52px; border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.5rem;
+}
+.bi-red    { background: rgba(214,48,49,0.1);  }
+.bi-blue   { background: rgba(9,132,227,0.1);  }
+.bi-green  { background: rgba(0,184,148,0.1);  }
+.bi-purple { background: rgba(108,92,231,0.1); }
+.bi-amber  { background: rgba(225,112,85,0.1); }
+
+.bi-red-d    { background: rgba(214,48,49,0.2);  }
+
+.brand-badge {
+  font-family: 'JetBrains Mono', monospace; font-size: 0.55rem;
+  padding: 4px 10px; border-radius: 100px; letter-spacing: 1.5px;
+  text-transform: uppercase; font-weight: 500;
+}
+.badge-live    { background: rgba(0,184,148,0.12); color: var(--green); border: 1px solid rgba(0,184,148,0.3); }
+.badge-soon    { background: var(--surface); color: var(--text3); border: 1px solid var(--border); }
+.badge-live-d  { background: rgba(0,184,148,0.2); color: #00d4a8; border: 1px solid rgba(0,184,148,0.4); }
+
+.brand-name {
+  font-size: 1.3rem; font-weight: 800; margin-bottom: 6px;
+  letter-spacing: -0.3px;
+}
+.brand-card-featured .brand-name { color: var(--white); font-size: 1.6rem; }
+.brand-name .biz  { color: var(--text3); font-weight: 400; }
+.brand-name .biz-d{ color: rgba(255,255,255,0.4); font-weight: 400; }
+.brand-name .part { color: var(--red); }
+.brand-name .part-b { color: #74b9ff; }
+.brand-name .part-g { color: var(--green); }
+.brand-name .part-p { color: #a29bfe; }
+.brand-name .part-a { color: #fdcb6e; }
+
+.brand-tagline {
+  font-size: 0.82rem; color: var(--text2); margin-bottom: 14px; line-height: 1.5;
+}
+.brand-card-featured .brand-tagline { color: rgba(255,255,255,0.5); font-size: 0.9rem; }
+
+.brand-features { list-style: none; display: flex; flex-direction: column; gap: 6px; flex: 1; }
+.brand-features li {
+  font-size: 0.78rem; color: var(--text2); display: flex; align-items: flex-start; gap: 8px; line-height: 1.5;
+}
+.brand-card-featured .brand-features li { color: rgba(255,255,255,0.45); }
+.brand-features li::before {
+  content: ''; width: 5px; height: 5px; border-radius: 50%;
+  background: var(--border2); margin-top: 6px; flex-shrink: 0;
+}
+.brand-card-featured .brand-features li::before { background: rgba(214,48,49,0.6); }
+
+.brand-footer {
+  margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.brand-card-featured .brand-footer { border-color: rgba(255,255,255,0.08); }
+.brand-link {
+  font-size: 0.78rem; font-weight: 600; color: var(--text3);
+  display: flex; align-items: center; gap: 5px; transition: all 0.2s;
+}
+.brand-card:hover .brand-link { color: var(--text); }
+.brand-card-featured .brand-link { color: rgba(255,255,255,0.4); }
+.brand-card-featured:hover .brand-link { color: var(--red2); }
+
+/* BizPrint CTA in featured card */
+.bizprint-cta {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--red); color: var(--white);
+  font-size: 0.85rem; font-weight: 700;
+  padding: 10px 20px; border-radius: var(--r);
+  text-decoration: none; transition: all 0.25s;
+  margin-top: 20px; width: fit-content;
+}
+.bizprint-cta:hover { background: #c0392b; transform: translateX(3px); }
+
+/* ═══════════════════════════════
+   ROADMAP
+═══════════════════════════════ */
+.roadmap { background: var(--white); }
+.roadmap-grid {
+  display: grid; grid-template-columns: repeat(5, 1fr);
+  gap: 0; margin-top: 48px; position: relative;
+}
+.roadmap-grid::before {
+  content: ''; position: absolute;
+  top: 28px; left: 5%; right: 5%; height: 2px;
+  background: linear-gradient(90deg, var(--red), var(--blue), var(--green), var(--purple), var(--amber));
+  opacity: 0.2; z-index: 0;
+}
+.rm-step {
+  display: flex; flex-direction: column; align-items: center;
+  text-align: center; padding: 0 10px; position: relative; z-index: 1;
+}
+.rm-dot {
+  width: 56px; height: 56px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem; margin-bottom: 16px;
+  border: 2px solid;
+  background: var(--white);
+  transition: all 0.3s;
+}
+.rm-step:hover .rm-dot { transform: scale(1.1); }
+.rm1 .rm-dot { border-color: var(--red);    color: var(--red);    box-shadow: 0 0 0 6px rgba(214,48,49,0.08); }
+.rm2 .rm-dot { border-color: var(--blue);   color: var(--blue);   box-shadow: 0 0 0 6px rgba(9,132,227,0.08); }
+.rm3 .rm-dot { border-color: var(--green);  color: var(--green);  box-shadow: 0 0 0 6px rgba(0,184,148,0.08); }
+.rm4 .rm-dot { border-color: var(--purple); color: var(--purple); box-shadow: 0 0 0 6px rgba(108,92,231,0.08); }
+.rm5 .rm-dot { border-color: var(--amber);  color: var(--amber);  box-shadow: 0 0 0 6px rgba(225,112,85,0.08); }
+
+.rm1 .rm-dot { background: rgba(214,48,49,0.08); }
+
+.rm-label {
+  font-family: 'JetBrains Mono', monospace; font-size: 0.58rem;
+  text-transform: uppercase; letter-spacing: 2px; margin-bottom: 6px;
+}
+.rm1 .rm-label { color: var(--red); }
+.rm2 .rm-label { color: var(--blue); }
+.rm3 .rm-label { color: var(--green); }
+.rm4 .rm-label { color: var(--purple); }
+.rm5 .rm-label { color: var(--amber); }
+
+.rm-name { font-size: 0.88rem; font-weight: 700; margin-bottom: 6px; }
+.rm-desc { font-size: 0.72rem; color: var(--text2); line-height: 1.5; }
+.rm-time {
+  font-family: 'JetBrains Mono', monospace; font-size: 0.6rem;
+  color: var(--text3); margin-top: 10px;
+  background: var(--surface); padding: 3px 10px; border-radius: 100px;
+  border: 1px solid var(--border);
+}
+
+/* ═══════════════════════════════
+   TEAM
+═══════════════════════════════ */
+.team { background: var(--surface); }
+.team-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 20px; margin-top: 48px;
+}
+.team-card {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: var(--r2); padding: 28px;
+  text-align: center; transition: all 0.3s;
+  position: relative; overflow: hidden;
+}
+.team-card:hover { transform: translateY(-3px); box-shadow: var(--shadow2); }
+.team-card::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--red), var(--amber));
+  transform: scaleX(0); transform-origin: left; transition: transform 0.3s;
+}
+.team-card:hover::after { transform: scaleX(1); }
+
+.team-avatar {
+  width: 72px; height: 72px; border-radius: 50%;
+  background: var(--ink); margin: 0 auto 16px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.6rem; color: var(--white);
+  position: relative;
+}
+.team-avatar-ring {
+  position: absolute; inset: -4px; border-radius: 50%;
+  border: 2px solid transparent;
+  background: linear-gradient(var(--white), var(--white)) padding-box,
+              linear-gradient(135deg, var(--red), var(--amber)) border-box;
+}
+.team-name { font-size: 1rem; font-weight: 800; margin-bottom: 4px; }
+.team-role {
+  font-family: 'JetBrains Mono', monospace; font-size: 0.62rem;
+  color: var(--text3); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 14px;
+}
+.team-desc { font-size: 0.8rem; color: var(--text2); line-height: 1.65; }
+.team-add {
+  border: 2px dashed var(--border2);
+  background: transparent;
+}
+.team-add:hover { border-color: var(--red); box-shadow: none; }
+.team-add:hover::after { display: none; }
+.team-add .team-avatar { background: var(--surface); border: none; }
+.team-add-text { font-size: 0.85rem; color: var(--text3); }
+.team-add-sub { font-size: 0.75rem; color: var(--muted); margin-top: 4px; }
+
+/* ═══════════════════════════════
+   BIZPRINT SPOTLIGHT
+═══════════════════════════════ */
+.spotlight {
+  background: var(--ink);
+  position: relative; overflow: hidden;
+}
+.spotlight::before {
+  content: '';
+  position: absolute; top: -150px; left: 50%; transform: translateX(-50%);
+  width: 800px; height: 400px;
+  background: radial-gradient(ellipse, rgba(214,48,49,0.1) 0%, transparent 65%);
+  pointer-events: none;
+}
+.spotlight-inner {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 80px; align-items: center;
+  position: relative; z-index: 1;
+}
+.sp-eyebrow {
+  font-family: 'JetBrains Mono', monospace; font-size: 0.62rem;
+  letter-spacing: 3px; text-transform: uppercase;
+  color: var(--red); display: flex; align-items: center; gap: 8px; margin-bottom: 16px;
+}
+.sp-eyebrow::before { content:''; width:20px; height:1px; background:var(--red); }
+.sp-title {
+  font-size: clamp(1.8rem, 3vw, 2.8rem); font-weight: 800;
+  line-height: 1.15; color: var(--white); letter-spacing: -0.5px; margin-bottom: 20px;
+}
+.sp-desc { font-size: 0.92rem; color: rgba(255,255,255,0.5); line-height: 1.8; margin-bottom: 28px; }
+.sp-features { display: flex; flex-direction: column; gap: 10px; margin-bottom: 32px; }
+.sp-feat {
+  display: flex; gap: 12px; align-items: flex-start;
+}
+.sp-feat-icon {
+  width: 28px; height: 28px; border-radius: 7px;
+  background: rgba(214,48,49,0.15); border: 1px solid rgba(214,48,49,0.3);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.8rem; flex-shrink: 0; margin-top: 1px;
+}
+.sp-feat-text { font-size: 0.85rem; color: rgba(255,255,255,0.6); line-height: 1.6; }
+.sp-feat-text strong { color: rgba(255,255,255,0.85); font-weight: 600; }
+
+.sp-right { display: flex; flex-direction: column; gap: 12px; }
+.sp-stat-card {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: var(--r2); padding: 20px 24px;
+  transition: all 0.25s;
+}
+.sp-stat-card:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.14); }
+.sp-sc-top { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+.sp-sc-icon { font-size: 1.1rem; }
+.sp-sc-label { font-family:'JetBrains Mono',monospace; font-size:0.62rem; color:rgba(255,255,255,0.3); text-transform:uppercase; letter-spacing:2px; }
+.sp-sc-val { font-size: 1.5rem; font-weight: 800; color: var(--white); }
+.sp-sc-desc { font-size: 0.75rem; color: rgba(255,255,255,0.3); margin-top: 3px; font-family:'JetBrains Mono',monospace; }
+
+/* ═══════════════════════════════
+   CONTACT
+═══════════════════════════════ */
+.contact { background: var(--white); }
+.contact-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 60px; align-items: start;
+}
+.contact-form {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--r2); padding: 36px;
+}
+.cf-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 6px; }
+.cf-sub { font-size: 0.82rem; color: var(--text2); margin-bottom: 24px; }
+.form-group { margin-bottom: 16px; }
+.form-label {
+  font-family: 'JetBrains Mono', monospace; font-size: 0.6rem;
+  color: var(--text3); text-transform: uppercase; letter-spacing: 2px;
+  display: block; margin-bottom: 6px;
+}
+.form-input {
+  width: 100%; padding: 11px 14px; border-radius: var(--r);
+  border: 1px solid var(--border); background: var(--white);
+  font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.88rem;
+  color: var(--text); outline: none; transition: border-color 0.2s;
+}
+.form-input:focus { border-color: var(--red); }
+.form-select { appearance: none; cursor: pointer; }
+.form-textarea { min-height: 100px; resize: vertical; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+.btn-submit {
+  width: 100%; padding: 14px; border-radius: var(--r);
+  background: var(--ink); color: var(--white); border: none;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.9rem; font-weight: 700; cursor: pointer;
+  transition: all 0.25s; margin-top: 6px;
+}
+.btn-submit:hover { background: var(--red); transform: translateY(-1px); }
+
+.contact-info { display: flex; flex-direction: column; gap: 24px; }
+.contact-info-item {
+  display: flex; gap: 16px; align-items: flex-start;
+}
+.cii-icon {
+  width: 44px; height: 44px; border-radius: 12px;
+  background: var(--surface); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem; flex-shrink: 0;
+}
+.cii-body {}
+.cii-label { font-family:'JetBrains Mono',monospace; font-size:0.58rem; color:var(--text3); text-transform:uppercase; letter-spacing:2px; margin-bottom:4px; }
+.cii-val { font-size: 0.9rem; font-weight: 600; color: var(--text); }
+.cii-sub { font-size: 0.78rem; color: var(--text3); margin-top: 2px; }
+
+.social-links { display: flex; gap: 10px; margin-top: 8px; }
+.social-btn {
+  width: 40px; height: 40px; border-radius: 10px;
+  background: var(--surface); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem; text-decoration: none; transition: all 0.2s;
+}
+.social-btn:hover { background: var(--ink); border-color: var(--ink); transform: translateY(-2px); }
+
+.partner-note {
+  background: linear-gradient(135deg, var(--ink) 0%, #1a1d30 100%);
+  border-radius: var(--r2); padding: 24px;
+  border: 1px solid rgba(255,255,255,0.06); margin-top: 8px;
+}
+.pn-title { font-size: 0.9rem; font-weight: 700; color: var(--white); margin-bottom: 8px; }
+.pn-desc { font-size: 0.78rem; color: rgba(255,255,255,0.45); line-height: 1.65; margin-bottom: 14px; }
+.partner-types { display: flex; flex-wrap: wrap; gap: 7px; }
+.pt-chip {
+  font-family: 'JetBrains Mono', monospace; font-size: 0.58rem;
+  padding: 4px 10px; border-radius: 4px; border: 1px solid;
+  text-transform: uppercase; letter-spacing: 1px;
+}
+.pt1 { color: var(--red2);   border-color: rgba(214,48,49,0.35);  background: rgba(214,48,49,0.1); }
+.pt2 { color: var(--green);  border-color: rgba(0,184,148,0.35);  background: rgba(0,184,148,0.1); }
+.pt3 { color: #74b9ff;       border-color: rgba(9,132,227,0.35);  background: rgba(9,132,227,0.1); }
+.pt4 { color: #a29bfe;       border-color: rgba(108,92,231,0.35); background: rgba(108,92,231,0.1); }
+
+/* ═══════════════════════════════
+   FOOTER
+═══════════════════════════════ */
+footer {
+  background: var(--ink);
+  padding: 56px 0 32px;
+}
+.footer-top {
+  display: grid; grid-template-columns: 1.8fr 1fr 1fr 1fr;
+  gap: 40px; padding-bottom: 40px; border-bottom: 1px solid rgba(255,255,255,0.07);
+  margin-bottom: 32px;
+}
+.footer-brand-name {
+  font-size: 1.1rem; font-weight: 800; color: var(--white);
+  margin-bottom: 4px;
+}
+.footer-brand-sub {
+  font-family: 'JetBrains Mono', monospace; font-size: 0.58rem;
+  color: rgba(255,255,255,0.25); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 14px;
+}
+.footer-brand-desc { font-size: 0.8rem; color: rgba(255,255,255,0.35); line-height: 1.7; max-width: 260px; }
+.footer-col-title {
+  font-family: 'JetBrains Mono', monospace; font-size: 0.6rem;
+  color: rgba(255,255,255,0.3); text-transform: uppercase; letter-spacing: 3px;
+  margin-bottom: 14px;
+}
+.footer-links { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.footer-links a {
+  font-size: 0.82rem; color: rgba(255,255,255,0.45);
+  text-decoration: none; transition: color 0.2s;
+  display: flex; align-items: center; gap: 6px;
+}
+.footer-links a:hover { color: rgba(255,255,255,0.8); }
+.fl-live { color: var(--green) !important; }
+.fl-live::before { content:'●'; font-size:0.5rem; }
+
+.footer-bottom {
+  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
+}
+.footer-copy { font-family:'JetBrains Mono',monospace; font-size:0.6rem; color:rgba(255,255,255,0.2); }
+.footer-copy span { color: rgba(255,255,255,0.35); }
+.footer-reg { font-family:'JetBrains Mono',monospace; font-size:0.58rem; color:rgba(255,255,255,0.18); text-align:right; line-height:1.7; }
+
+/* ═══════════════════════════════
+   ANIMATIONS
+═══════════════════════════════ */
+@keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+.animate { opacity: 0; }
+.animate.in-view { animation: fadeUp 0.65s ease forwards; }
+.d1{animation-delay:0.05s} .d2{animation-delay:0.12s} .d3{animation-delay:0.19s}
+.d4{animation-delay:0.26s} .d5{animation-delay:0.33s} .d6{animation-delay:0.4s}
+
+/* ═══════════════════════════════
+   RESPONSIVE
+═══════════════════════════════ */
+@media (max-width: 900px) {
+  .hero-inner         { grid-template-columns: 1fr; gap: 48px; }
+  .hero-right         { order: -1; }
+  .about-grid         { grid-template-columns: 1fr; gap: 40px; }
+  .brands-grid        { grid-template-columns: 1fr 1fr; }
+  .brand-card-featured{ grid-column: span 2; }
+  .roadmap-grid       { grid-template-columns: 1fr 1fr; gap: 24px; }
+  .roadmap-grid::before { display: none; }
+  .team-grid          { grid-template-columns: 1fr 1fr; }
+  .spotlight-inner    { grid-template-columns: 1fr; gap: 40px; }
+  .contact-grid       { grid-template-columns: 1fr; gap: 40px; }
+  .footer-top         { grid-template-columns: 1fr 1fr; gap: 28px; }
+  .nav-links          { display: none; }
+  .nav-mobile-btn     { display: flex; }
+}
+@media (max-width: 600px) {
+  .brands-grid        { grid-template-columns: 1fr; }
+  .brand-card-featured{ grid-column: span 1; }
+  .roadmap-grid       { grid-template-columns: 1fr; }
+  .team-grid          { grid-template-columns: 1fr; }
+  .hero-stats         { grid-template-columns: 1fr; }
+  .hstat + .hstat     { border-left: none; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 20px; }
+  .company-info       { grid-template-columns: 1fr; }
+  .form-row           { grid-template-columns: 1fr; }
+  .footer-top         { grid-template-columns: 1fr; }
+  .footer-bottom      { flex-direction: column; align-items: flex-start; }
+  .footer-reg         { text-align: left; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════ NAVBAR ══════════ -->
+<nav class="navbar" id="navbar">
+  <div class="container">
+    <div class="nav-inner">
+      <a href="#" class="nav-logo">
+        <div class="nav-logo-icon">UV</div>
+        <div class="nav-logo-text">
+          <div class="nav-logo-name">UMB Verto</div>
+          <div class="nav-logo-sub">umbverto.biz</div>
+        </div>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#about">Бидний тухай</a></li>
+        <li><a href="#ecosystem">Экосистем</a></li>
+        <li><a href="#roadmap">Зорилт</a></li>
+        <li><a href="#team">Баг</a></li>
+        <li><a href="#contact" class="nav-cta">Холбоо барих</a></li>
+      </ul>
+      <button class="nav-mobile-btn" onclick="toggleMobileNav()">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- ══════════ HERO ══════════ -->
+<section class="hero" id="home">
+  <div class="hero-pattern"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+  <div class="container">
+    <div class="hero-inner">
+      <div class="hero-left">
+        <div class="hero-eyebrow">
+          <span class="hero-eyebrow-dot"></span>
+          Монголын Бизнесийн Экосистем
+        </div>
+        <h1 class="hero-title">
+          Бизнесийг<br>
+          <span class="line2">Хялбарчлах</span><br>
+          Платформ
+        </h1>
+        <p class="hero-desc">
+          UMB Verto ХХК нь Монголын бизнес эрхлэгчдэд зориулсан онлайн үйлчилгээний экосистем байгуулж байна. BizPrint-ээс эхлэн маркетинг, рент, медиа, ивент хүртэл нэг платформд нэгтгэнэ.
+        </p>
+        <div class="hero-actions">
+          <a href="https://bizprint.mn" class="btn-primary">
+            🖨️ BizPrint үзэх →
+          </a>
+          <a href="#ecosystem" class="btn-ghost">
+            Экосистем →
+          </a>
+        </div>
+        <div class="hero-stats" style="margin-top:48px;">
+          <div class="hstat">
+            <div class="hstat-val">5+</div>
+            <div class="hstat-label">Biz Брэнд</div>
+          </div>
+          <div class="hstat">
+            <div class="hstat-val">1</div>
+            <div class="hstat-label">Идэвхтэй платформ</div>
+          </div>
+          <div class="hstat">
+            <div class="hstat-val">∞</div>
+            <div class="hstat-label">Өсөлтийн боломж</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-right">
+        <a href="https://bizprint.mn" class="biz-card-mini bc-print">
+          <div class="bci-icon">🖨️</div>
+          <div class="bci-text">
+            <div class="bci-name">BizPrint <span class="bci-status status-live">● Идэвхтэй</span></div>
+            <div class="bci-desc">Монголын хэвлэлийн онлайн экосистем</div>
+          </div>
+          <span class="bci-arrow">→</span>
+        </a>
+        <div class="biz-card-mini bc-market">
+          <div class="bci-icon">📣</div>
+          <div class="bci-text">
+            <div class="bci-name">BizMarketing <span class="bci-status status-soon">Тун удахгүй</span></div>
+            <div class="bci-desc">Онлайн маркетингийн үйлчилгээ</div>
+          </div>
+          <span class="bci-arrow">→</span>
+        </div>
+        <div class="biz-card-mini bc-rent">
+          <div class="bci-icon">🏢</div>
+          <div class="bci-text">
+            <div class="bci-name">BizRent <span class="bci-status status-soon">Тун удахгүй</span></div>
+            <div class="bci-desc">Бизнесийн тоног төхөөрөмж түрээс</div>
+          </div>
+          <span class="bci-arrow">→</span>
+        </div>
+        <div class="biz-card-mini bc-press">
+          <div class="bci-icon">📰</div>
+          <div class="bci-text">
+            <div class="bci-name">BizPress <span class="bci-status status-soon">Тун удахгүй</span></div>
+            <div class="bci-desc">Мэдээ, медиа, контент платформ</div>
+          </div>
+          <span class="bci-arrow">→</span>
+        </div>
+        <div class="biz-card-mini bc-event">
+          <div class="bci-icon">🎪</div>
+          <div class="bci-text">
+            <div class="bci-name">BizEvent <span class="bci-status status-soon">Тун удахгүй</span></div>
+            <div class="bci-desc">Арга хэмжээ, ивент зохион байгуулалт</div>
+          </div>
+          <span class="bci-arrow">→</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ ABOUT ══════════ -->
+<section class="about section" id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-left animate d1">
+        <div class="eyebrow">Бидний тухай</div>
+        <h2 class="section-title">UMB Verto <span class="accent">ХХК</span></h2>
+        <p class="section-desc">
+          Монголын бизнес эрхлэгчдийн өдөр тутмын асуудлыг технологиор шийдэх зорилготой компани. Эхний алхам болох BizPrint-ийн амжилтаас санхүүжиж, дараагийн платформуудыг бий болгоно.
+        </p>
+
+        <div class="about-mission">
+          <div class="am-label">Эрхэм Зорилго</div>
+          <div class="am-text">
+            "Монголын <span>бизнес эрхлэгч</span> бүрт ухаалаг, хялбар, хүртээмжтэй онлайн үйлчилгээг — <span>нэг экосистемд</span> нэгтгэн хүргэх."
+          </div>
+        </div>
+      </div>
+
+      <div class="about-right animate d2">
+        <div class="about-values">
+          <div class="value-item">
+            <div class="vi-num">01</div>
+            <div class="vi-body">
+              <div class="vi-title">Өөрөө санхүүжих зарчим</div>
+              <div class="vi-desc">BizPrint-ийн орлогоос дараагийн платформуудыг хөгжүүлнэ. Гадаад санхүүжилтгүйгээр тогтвортой өсөх стратеги.</div>
+            </div>
+          </div>
+          <div class="value-item">
+            <div class="vi-num">02</div>
+            <div class="vi-body">
+              <div class="vi-title">Монголын зах зээлд зориулсан</div>
+              <div class="vi-desc">Бүх платформ Монголын бизнесийн орчин, хэрэглэгчийн зан төлөвт нийцүүлэн боловсруулагдсан.</div>
+            </div>
+          </div>
+          <div class="value-item">
+            <div class="vi-num">03</div>
+            <div class="vi-body">
+              <div class="vi-title">Экосистемийн хандлага</div>
+              <div class="vi-desc">Тусдаа бүтээгдэхүүн биш — бие биеэ дэмжсэн, нэг брэнд дор нэгдсэн "Biz*" экосистем байгуулна.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="company-info">
+          <div class="ci-item">
+            <div class="ci-label">Компанийн нэр</div>
+            <div class="ci-val">ЮЭМБИВерто ХХК</div>
+          </div>
+          <div class="ci-item">
+            <div class="ci-label">Домэйн</div>
+            <div class="ci-val">umbverto.biz</div>
+          </div>
+          <div class="ci-item">
+            <div class="ci-label">Үйл ажиллагааны чиглэл</div>
+            <div class="ci-val">Онлайн үйлчилгээ</div>
+          </div>
+          <div class="ci-item">
+            <div class="ci-label">Эхний платформ</div>
+            <div class="ci-val">BizPrint — Идэвхтэй</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ ECOSYSTEM ══════════ -->
+<section class="ecosystem section" id="ecosystem">
+  <div class="container">
+    <div class="animate d1">
+      <div class="eyebrow">Biz* Экосистем</div>
+      <h2 class="section-title">Таны бизнест хэрэгтэй<br><span class="accent">бүх үйлчилгээ</span> нэг дор</h2>
+      <p class="section-desc">
+        UMB Verto ХХК нь "Biz*" брэндийн дор 5 чиглэлийн онлайн платформ байгуулахаар зорьж байна. Эхний ба гол платформ болох BizPrint одоо ажиллаж байна.
+      </p>
+    </div>
+
+    <div class="brands-grid">
+
+      <!-- BizPrint — Featured -->
+      <a href="https://bizprint.mn" class="brand-card brand-card-featured bc-r animate d2">
+        <div class="brand-top">
+          <div class="brand-icon bi-red-d">🖨️</div>
+          <span class="brand-badge badge-live-d">● Одоо ажиллаж байна</span>
+        </div>
+        <div class="brand-name"><span class="biz-d">Biz</span><span class="part">Print</span></div>
+        <div class="brand-tagline">Монголын хэвлэлийн онлайн экосистем — захиалагч, үйлдвэр, дизайнер, борлуулагчийг нэгтгэсэн ухаалаг платформ</div>
+        <ul class="brand-features">
+          <li>Монголын хаанаас ч онлайн захиалга өгөх боломж</li>
+          <li>Байршилд суурилсан ухаалаг үйлдвэр сонголт</li>
+          <li>Нээлттэй үнэлгээний систем — чанарын баталгаа</li>
+          <li>Яаралтай горим — хамгийн ойр үйлдвэрт чиглүүлнэ</li>
+          <li>Дизайн + хэвлэл + хүргэлт нэг платформд</li>
+        </ul>
+        <a href="https://bizprint.mn" class="bizprint-cta">
+          BizPrint үзэх → bizprint.mn
+        </a>
+      </a>
+
+      <!-- BizMarketing -->
+      <div class="brand-card bc-b animate d3">
+        <div class="brand-top">
+          <div class="brand-icon bi-blue">📣</div>
+          <span class="brand-badge badge-soon">Тун удахгүй</span>
+        </div>
+        <div class="brand-name"><span class="biz">Biz</span><span class="part-b">Marketing</span></div>
+        <div class="brand-tagline">Онлайн маркетингийн бүрэн үйлчилгээний платформ</div>
+        <ul class="brand-features">
+          <li>Нийгмийн сүлжээний контент, зар</li>
+          <li>SEO, Google Ads удирдлага</li>
+          <li>Маркетингийн дүн шинжилгээ</li>
+          <li>Мэргэжлийн агентуудтай холбох</li>
+        </ul>
+        <div class="brand-footer">
+          <span class="brand-link">bizmarketing.mn →</span>
+        </div>
+      </div>
+
+      <!-- BizRent -->
+      <div class="brand-card bc-g animate d4">
+        <div class="brand-top">
+          <div class="brand-icon bi-green">🏢</div>
+          <span class="brand-badge badge-soon">Тун удахгүй</span>
+        </div>
+        <div class="brand-name"><span class="biz">Biz</span><span class="part-g">Rent</span></div>
+        <div class="brand-tagline">Бизнесийн тоног төхөөрөмж, орон зайн түрээсийн платформ</div>
+        <ul class="brand-features">
+          <li>Оффис, уулзалтын өрөө түрээс</li>
+          <li>Техник, тоног төхөөрөмж</li>
+          <li>Онлайн захиалга, хуваарь</li>
+          <li>Баталгаажуулсан эзэмшигчид</li>
+        </ul>
+        <div class="brand-footer">
+          <span class="brand-link">bizrent.mn →</span>
+        </div>
+      </div>
+
+      <!-- BizPress -->
+      <div class="brand-card bc-p animate d5">
+        <div class="brand-top">
+          <div class="brand-icon bi-purple">📰</div>
+          <span class="brand-badge badge-soon">Тун удахгүй</span>
+        </div>
+        <div class="brand-name"><span class="biz">Biz</span><span class="part-p">Press</span></div>
+        <div class="brand-tagline">Бизнесийн мэдээ, медиа контентийн платформ</div>
+        <ul class="brand-features">
+          <li>Монголын бизнесийн мэдээ</li>
+          <li>Пресс-релиз тараах үйлчилгээ</li>
+          <li>Компанийн хэвлэл мэдээллийн менежмент</li>
+          <li>Контент маркетингийн хэрэгсэл</li>
+        </ul>
+        <div class="brand-footer">
+          <span class="brand-link">bizpress.mn →</span>
+        </div>
+      </div>
+
+      <!-- BizEvent -->
+      <div class="brand-card bc-a animate d6">
+        <div class="brand-top">
+          <div class="brand-icon bi-amber">🎪</div>
+          <span class="brand-badge badge-soon">Тун удахгүй</span>
+        </div>
+        <div class="brand-name"><span class="biz">Biz</span><span class="part-a">Event</span></div>
+        <div class="brand-tagline">Бизнесийн арга хэмжээ, ивент зохион байгуулалтын платформ</div>
+        <ul class="brand-features">
+          <li>Хурал, семинар, үзэсгэлэн</li>
+          <li>Venue болон үйлчилгээ захиалах</li>
+          <li>Тасалбар, бүртгэл удирдлага</li>
+          <li>Ивент маркетинг, сурталчилгаа</li>
+        </ul>
+        <div class="brand-footer">
+          <span class="brand-link">bizevent.mn →</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ BIZPRINT SPOTLIGHT ══════════ -->
+<section class="spotlight section">
+  <div class="container">
+    <div class="spotlight-inner">
+      <div>
+        <div class="sp-eyebrow">Одоогийн Гол Платформ</div>
+        <h2 class="sp-title">BizPrint — Хэвлэлийн Ухаалаг Экосистем</h2>
+        <p class="sp-desc">
+          Монголын хэвлэлийн зах зээлийн анхны онлайн экосистем. Захиалагч, гэрээт үйлдвэр, дизайнер, борлуулагч — бүгдийг нэг ухаалаг платформд нэгтгэнэ.
+        </p>
+        <div class="sp-features">
+          <div class="sp-feat">
+            <div class="sp-feat-icon">📍</div>
+            <div class="sp-feat-text"><strong>Байршилд суурилсан</strong> — Монгол даяар хаанаас ч захиалж, ойрхон үйлдвэрт хүргүүлэх</div>
+          </div>
+          <div class="sp-feat">
+            <div class="sp-feat-icon">⭐</div>
+            <div class="sp-feat-text"><strong>Үнэлгээний систем</strong> — Бүх оролцогч нээлттэй үнэлгээтэй, чанарын шахалт байнга ажилна</div>
+          </div>
+          <div class="sp-feat">
+            <div class="sp-feat-icon">🚨</div>
+            <div class="sp-feat-text"><strong>Яаралтай горим</strong> — Хязгаарлалт арилж, хамгийн хурдан үйлдвэрт чиглүүлнэ</div>
+          </div>
+          <div class="sp-feat">
+            <div class="sp-feat-icon">🎨</div>
+            <div class="sp-feat-text"><strong>Нэгдсэн экосистем</strong> — Дизайн, хэвлэл, хүргэлт нэг платформд бүрэн шийдэгдэнэ</div>
+          </div>
+        </div>
+        <a href="https://bizprint.mn" class="btn-primary">bizprint.mn үзэх →</a>
+      </div>
+      <div class="sp-right animate d2">
+        <div class="sp-stat-card">
+          <div class="sp-sc-top">
+            <span class="sp-sc-icon">🌏</span>
+            <span class="sp-sc-label">Хамрах хүрээ</span>
+          </div>
+          <div class="sp-sc-val">Монгол Улс</div>
+          <div class="sp-sc-desc">21 аймаг + Улаанбаатар хот</div>
+        </div>
+        <div class="sp-stat-card">
+          <div class="sp-sc-top">
+            <span class="sp-sc-icon">👥</span>
+            <span class="sp-sc-label">Оролцогчид</span>
+          </div>
+          <div class="sp-sc-val">4 анги</div>
+          <div class="sp-sc-desc">Захиалагч · Үйлдвэр · Дизайнер · Борлуулагч</div>
+        </div>
+        <div class="sp-stat-card">
+          <div class="sp-sc-top">
+            <span class="sp-sc-icon">⚡</span>
+            <span class="sp-sc-label">Захиалгын дараалал</span>
+          </div>
+          <div class="sp-sc-val">6 алхам</div>
+          <div class="sp-sc-desc">Захиалгаас хүргэлт хүртэл автоматжуулсан</div>
+        </div>
+        <div class="sp-stat-card">
+          <div class="sp-sc-top">
+            <span class="sp-sc-icon">📈</span>
+            <span class="sp-sc-label">Зорилт</span>
+          </div>
+          <div class="sp-sc-val">Экосистем</div>
+          <div class="sp-sc-desc">Монголын хэвлэлийн зах зээлийн #1 онлайн платформ</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ ROADMAP ══════════ -->
+<section class="roadmap section" id="roadmap">
+  <div class="container">
+    <div class="animate d1">
+      <div class="eyebrow">Хөгжлийн Зам</div>
+      <h2 class="section-title">Өнөөдрөөс <span class="accent">ирээдүй хүртэл</span></h2>
+      <p class="section-desc">Өөрөө санхүүжих зарчмаар — BizPrint-ийн орлогоос Biz* экосистемийг нэг нэгээр байгуулна.</p>
+    </div>
+    <div class="roadmap-grid">
+      <div class="rm-step rm1 animate d1">
+        <div class="rm-dot">🖨️</div>
+        <div class="rm-label">Шат 1 · Одоо</div>
+        <div class="rm-name">BizPrint</div>
+        <div class="rm-desc">Хэвлэлийн онлайн экосистем байгуулж, зах зээлд байр сууриа эзэлнэ.</div>
+        <div class="rm-time">● Идэвхтэй</div>
+      </div>
+      <div class="rm-step rm2 animate d2">
+        <div class="rm-dot">📣</div>
+        <div class="rm-label">Шат 2</div>
+        <div class="rm-name">BizMarketing</div>
+        <div class="rm-desc">BizPrint-ийн орлогоос санхүүжиж маркетингийн платформ нэмэнэ.</div>
+        <div class="rm-time">Тун удахгүй</div>
+      </div>
+      <div class="rm-step rm3 animate d3">
+        <div class="rm-dot">🏢</div>
+        <div class="rm-label">Шат 3</div>
+        <div class="rm-name">BizRent</div>
+        <div class="rm-desc">Бизнесийн тоног төхөөрөмж, орон зайн түрээсийн платформ.</div>
+        <div class="rm-time">Хожим</div>
+      </div>
+      <div class="rm-step rm4 animate d4">
+        <div class="rm-dot">📰</div>
+        <div class="rm-label">Шат 4</div>
+        <div class="rm-name">BizPress</div>
+        <div class="rm-desc">Монголын бизнесийн мэдээ, медиа контентийн платформ.</div>
+        <div class="rm-time">Хожим</div>
+      </div>
+      <div class="rm-step rm5 animate d5">
+        <div class="rm-dot">🎪</div>
+        <div class="rm-label">Шат 5</div>
+        <div class="rm-name">BizEvent</div>
+        <div class="rm-desc">Арга хэмжээ, ивент зохион байгуулалтын нэгдсэн платформ.</div>
+        <div class="rm-time">Ирээдүй</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ TEAM ══════════ -->
+<section class="team section" id="team">
+  <div class="container">
+    <div class="animate d1">
+      <div class="eyebrow">Манай Баг</div>
+      <h2 class="section-title">Экосистемийг <span class="accent">байгуулагчид</span></h2>
+      <p class="section-desc">UMB Verto ХХК-ийн баг BizPrint болон цаашдын Biz* экосистемийг хамтдаа байгуулж байна.</p>
+    </div>
+    <div class="team-grid">
+      <div class="team-card animate d2">
+        <div class="team-avatar">
+          👤
+          <div class="team-avatar-ring"></div>
+        </div>
+        <div class="team-name">Удирдлагын баг</div>
+        <div class="team-role">Founder & Leadership</div>
+        <div class="team-desc">UMB Verto ХХК-ийн үүсгэн байгуулагч болон стратегийн удирдлагын баг. BizPrint-ийн эхлэлийг хамтдаа бүтээсэн.</div>
+      </div>
+      <div class="team-card animate d3">
+        <div class="team-avatar">
+          💻
+          <div class="team-avatar-ring"></div>
+        </div>
+        <div class="team-name">Технологийн баг</div>
+        <div class="team-role">Tech & Development</div>
+        <div class="team-desc">BizPrint платформын хөгжүүлэлт, систем архитектур, мобайл аппликэйшн болон ухаалаг хуваарилалтын системийг хариуцна.</div>
+      </div>
+      <div class="team-card animate d4">
+        <div class="team-avatar">
+          📈
+          <div class="team-avatar-ring"></div>
+        </div>
+        <div class="team-name">Бизнесийн баг</div>
+        <div class="team-role">Business & Operations</div>
+        <div class="team-desc">Үйлдвэртэй гэрээ байгуулах, захиалагч татах, борлуулалтын сувгийг бий болгох болон ажиллагааг хариуцна.</div>
+      </div>
+      <div class="team-card team-add animate d5">
+        <div class="team-avatar" style="background:var(--surface);border:2px dashed var(--border2);">
+          ＋
+        </div>
+        <div class="team-add-text" style="font-weight:700;">Манай багт нэгдэх үү?</div>
+        <div class="team-add-sub" style="color:var(--text3);font-size:0.78rem;margin-top:6px;">BizPrint болон Biz* экосистемийг хамтдаа байгуулах хүсэлтэй хөгжүүлэгч, дизайнер, маркетер хайж байна.</div>
+        <a href="#contact" style="display:inline-flex;align-items:center;gap:5px;margin-top:14px;font-size:0.8rem;font-weight:700;color:var(--red);text-decoration:none;">Холбоо барих →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ CONTACT ══════════ -->
+<section class="contact section" id="contact">
+  <div class="container">
+    <div class="animate d1">
+      <div class="eyebrow">Холбоо барих</div>
+      <h2 class="section-title">Хамтдаа <span class="accent">байгуулцгаая</span></h2>
+      <p class="section-desc">Үйлдвэртэй гэрээ байгуулах, борлуулагч болох, хөрөнгө оруулах, эсвэл зүгээр танилцах — бид таны хүсэлтийг хүлээн авч байна.</p>
+    </div>
+    <div class="contact-grid" style="margin-top:48px;">
+      <div class="animate d2">
+        <div class="contact-form">
+          <div class="cf-title">Мессеж илгээх</div>
+          <div class="cf-sub">Бид 1–2 ажлын өдрийн дотор хариулна.</div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Нэр</label>
+              <input class="form-input" type="text" placeholder="Таны нэр">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Утас / Email</label>
+              <input class="form-input" type="text" placeholder="+976 хх-хх-хх-хх">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Компани / Байгууллага</label>
+            <input class="form-input" type="text" placeholder="Таны компанийн нэр">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Зорилго</label>
+            <select class="form-input form-select">
+              <option>BizPrint — Захиалагч болох</option>
+              <option>BizPrint — Үйлдвэр болох (гэрээ)</option>
+              <option>BizPrint — Борлуулагч болох</option>
+              <option>BizPrint — Дизайнер болох</option>
+              <option>Хөрөнгө оруулалт / Түншлэл</option>
+              <option>Бусад</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Мессеж</label>
+            <textarea class="form-input form-textarea" placeholder="Дэлгэрэнгүй мэдээлэл..."></textarea>
+          </div>
+          <button class="btn-submit">Илгээх →</button>
+        </div>
+      </div>
+
+      <div class="contact-info animate d3">
+        <div class="contact-info-item">
+          <div class="cii-icon">🌐</div>
+          <div class="cii-body">
+            <div class="cii-label">Вебсайт</div>
+            <div class="cii-val">umbverto.biz</div>
+            <div class="cii-sub">bizprint.mn — Эхний платформ</div>
+          </div>
+        </div>
+        <div class="contact-info-item">
+          <div class="cii-icon">📍</div>
+          <div class="cii-body">
+            <div class="cii-label">Байршил</div>
+            <div class="cii-val">Улаанбаатар, Монгол</div>
+            <div class="cii-sub">Алслагдсан ажлын байр боломжтой</div>
+          </div>
+        </div>
+        <div class="contact-info-item">
+          <div class="cii-icon">📱</div>
+          <div class="cii-body">
+            <div class="cii-label">Нийгмийн сүлжээ</div>
+            <div class="cii-val">@umbverto | @bizprint.mn</div>
+            <div class="social-links">
+              <a href="#" class="social-btn" title="Facebook">f</a>
+              <a href="#" class="social-btn" title="Instagram">ig</a>
+              <a href="#" class="social-btn" title="LinkedIn">in</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="partner-note">
+          <div class="pn-title">🤝 Хамтран ажиллах</div>
+          <div class="pn-desc">BizPrint экосистемд нэгдэж, Монголын хэвлэлийн зах зээлийн өсөлтөд оролцоорой. Бид дараах хамтрагчдыг хайж байна:</div>
+          <div class="partner-types">
+            <span class="pt-chip pt1">🏭 Хэвлэлийн үйлдвэр</span>
+            <span class="pt-chip pt2">🚚 Хүргэлтийн компани</span>
+            <span class="pt-chip pt3">🎨 Дизайн студи</span>
+            <span class="pt-chip pt4">📊 Хөрөнгө оруулагч</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer>
+  <div class="container">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand-name">UMB Verto ХХК</div>
+        <div class="footer-brand-sub">umbverto.biz</div>
+        <div class="footer-brand-desc">
+          Монголын бизнес эрхлэгчдэд зориулсан Biz* экосистемийг байгуулж буй технологийн компани. Эхний платформ BizPrint хэвлэлийн онлайн зах зээлийг хувьсгаж байна.
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Biz Экосистем</div>
+        <ul class="footer-links">
+          <li><a href="https://bizprint.mn" class="fl-live">BizPrint</a></li>
+          <li><a href="#">BizMarketing</a></li>
+          <li><a href="#">BizRent</a></li>
+          <li><a href="#">BizPress</a></li>
+          <li><a href="#">BizEvent</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Компани</div>
+        <ul class="footer-links">
+          <li><a href="#about">Бидний тухай</a></li>
+          <li><a href="#roadmap">Зорилт</a></li>
+          <li><a href="#team">Баг</a></li>
+          <li><a href="#contact">Хамтрах</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Холбоо барих</div>
+        <ul class="footer-links">
+          <li><a href="#">umbverto.biz</a></li>
+          <li><a href="#">bizprint.mn</a></li>
+          <li><a href="#">Facebook</a></li>
+          <li><a href="#">Instagram</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">
+        © 2024–2025 <span>UMB Verto ХХК (ЮЭМБИВерто ХХК)</span>. Бүх эрх хуулиар хамгаалагдсан.
+      </div>
+      <div class="footer-reg">
+        umbverto.biz · bizprint.mn<br>
+        Улаанбаатар, Монгол Улс
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Navbar scroll effect
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40);
+});
+
+// Scroll animations
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('in-view'); });
+}, { threshold: 0.12 });
+document.querySelectorAll('.animate').forEach(el => observer.observe(el));
+
+// Mobile nav
+function toggleMobileNav() {
+  const links = document.querySelector('.nav-links');
+  if(!links) return;
+  const open = links.style.display === 'flex';
+  links.style.cssText = open ? '' : `
+    display:flex; flex-direction:column; position:fixed;
+    top:68px; left:0; right:0; background:rgba(253,252,249,0.97);
+    backdrop-filter:blur(16px); border-bottom:1px solid #e4e1d8;
+    padding:16px 28px 24px; gap:4px; z-index:99;
+  `;
+}
+// Close mobile nav on link click
+document.querySelectorAll('.nav-links a').forEach(a => {
+  a.addEventListener('click', () => {
+    const links = document.querySelector('.nav-links');
+    if(window.innerWidth < 900) links.style.cssText = '';
+  });
+});
+</script>
+</body>
+</html>
