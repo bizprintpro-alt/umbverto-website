@@ -3,823 +3,920 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>UMB Verto ХХК — Biz Ecosystem</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<title>Юү Эм Би Верто ХХК — Biz Ecosystem</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
 <style>
-/* ═══════════════════════════════
-   TOKENS
-═══════════════════════════════ */
+/* ─────────────────────────────
+   DESIGN TOKENS
+───────────────────────────── */
 :root {
-  --ink:       #0d0f1a;
-  --ink2:      #141624;
-  --ink3:      #1a1d30;
-  --surface:   #f7f6f2;
-  --paper:     #fdfcf9;
-  --white:     #ffffff;
-  --border:    #e4e1d8;
-  --border2:   #ccc9be;
-  --text:      #1a1c2a;
-  --text2:     #4a4d62;
-  --text3:     #8a8da0;
-  --muted:     #b8bace;
+  --bg:       #08090f;
+  --bg2:      #0d0f18;
+  --bg3:      #111420;
+  --card:     #141729;
+  --card2:    #1a1e32;
+  --surface:  #f5f4f0;
+  --paper:    #fdfcf8;
+  --white:    #ffffff;
+  --border:   rgba(255,255,255,0.07);
+  --border2:  rgba(255,255,255,0.12);
+  --border-l: #e2dfd5;
 
-  /* Brand colors */
-  --red:       #d63031;
-  --red2:      #ff6b6b;
-  --amber:     #e17055;
-  --green:     #00b894;
-  --blue:      #0984e3;
-  --purple:    #6c5ce7;
-  --teal:      #00cec9;
-  --pink:      #e84393;
+  --text:     #eeecea;
+  --text2:    rgba(238,236,234,0.6);
+  --text3:    rgba(238,236,234,0.32);
+  --text-d:   #1a1c2a;
+  --text-d2:  #4a4d62;
+  --text-d3:  #8a8da0;
 
-  --r:  6px;
-  --r2: 12px;
-  --r3: 20px;
-  --shadow:  0 2px 16px rgba(13,15,26,0.08);
-  --shadow2: 0 8px 40px rgba(13,15,26,0.12);
-  --shadow3: 0 20px 60px rgba(13,15,26,0.16);
+  --red:      #e03535;
+  --red2:     #ff5e5e;
+  --red-glow: rgba(224,53,53,0.18);
+  --amber:    #e8824a;
+  --green:    #00c896;
+  --blue:     #1a88f8;
+  --teal:     #00d4c8;
+
+  --r:   6px;
+  --r2:  12px;
+  --r3:  20px;
+  --r4:  28px;
+
+  --sh1: 0 1px 12px rgba(0,0,0,0.3);
+  --sh2: 0 4px 32px rgba(0,0,0,0.5);
+  --sh3: 0 12px 60px rgba(0,0,0,0.6);
 }
 
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior:smooth; font-size:16px; }
+
 body {
-  background: var(--paper);
+  background: var(--bg);
   color: var(--text);
-  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-family: 'Inter', sans-serif;
   line-height: 1.6;
   overflow-x: hidden;
 }
 
-/* ═══════════════════════════════
-   UTILITIES
-═══════════════════════════════ */
-.mono { font-family: 'JetBrains Mono', monospace; }
-.container { max-width: 1100px; margin: 0 auto; padding: 0 28px; }
-.section { padding: 96px 0; }
-.section-sm { padding: 64px 0; }
-
-.eyebrow {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.62rem; letter-spacing: 4px;
-  text-transform: uppercase; color: var(--text3);
-  display: flex; align-items: center; gap: 10px;
-  margin-bottom: 16px;
+/* ── Grain texture overlay ── */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 999; pointer-events: none;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
 }
-.eyebrow::before { content:''; width:24px; height:1px; background:var(--red); }
+
+/* ─────────────────────────────
+   UTILITIES
+───────────────────────────── */
+.mono { font-family: 'Fira Code', monospace; }
+.container { max-width: 1120px; margin: 0 auto; padding: 0 32px; }
+.section { padding: 108px 0; }
+
+.label {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.6rem; letter-spacing: 3.5px;
+  text-transform: uppercase; color: var(--text3);
+  display: inline-flex; align-items: center; gap: 10px;
+  margin-bottom: 18px;
+}
+.label::before { content:''; width:20px; height:1px; background:var(--red); flex-shrink:0; }
 
 .section-title {
-  font-size: clamp(1.6rem, 3vw, 2.4rem);
-  font-weight: 800; letter-spacing: -0.5px;
-  line-height: 1.2; color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(1.9rem, 3.2vw, 2.8rem);
+  font-weight: 800; line-height: 1.1;
+  letter-spacing: -0.8px; color: var(--text);
 }
 .section-title .accent { color: var(--red); }
 
 .section-desc {
-  font-size: 0.95rem; color: var(--text2);
-  line-height: 1.8; margin-top: 16px;
-  max-width: 560px;
+  font-size: 0.94rem; color: var(--text2);
+  line-height: 1.85; margin-top: 18px;
+  max-width: 540px; font-weight: 400;
 }
 
-/* ═══════════════════════════════
+/* ─────────────────────────────
    NAVBAR
-═══════════════════════════════ */
+───────────────────────────── */
 .navbar {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  background: rgba(253,252,249,0.88);
-  backdrop-filter: blur(16px);
-  border-bottom: 1px solid var(--border);
-  transition: all 0.3s;
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  padding: 0;
+  transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
 }
 .navbar.scrolled {
-  background: rgba(253,252,249,0.96);
-  box-shadow: var(--shadow);
+  background: rgba(8,9,15,0.88);
+  backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 0 40px rgba(0,0,0,0.4);
 }
 .nav-inner {
   display: flex; align-items: center; justify-content: space-between;
-  height: 68px;
+  height: 72px;
 }
 .nav-logo {
-  display: flex; align-items: center; gap: 12px;
+  display: flex; align-items: center; gap: 14px;
   text-decoration: none;
 }
-.nav-logo-icon {
-  width: 36px; height: 36px; border-radius: 8px;
-  background: var(--ink);
+.nav-logo-mark {
+  width: 38px; height: 38px; border-radius: 10px;
+  background: linear-gradient(135deg, var(--red) 0%, #b01e1e 100%);
   display: flex; align-items: center; justify-content: center;
-  font-size: 1rem; font-weight: 900; color: var(--white);
-  letter-spacing: -1px; font-family: 'Plus Jakarta Sans', sans-serif;
-  flex-shrink: 0;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem; font-weight: 800; color: #fff;
+  letter-spacing: -1px; flex-shrink: 0;
+  box-shadow: 0 4px 16px rgba(224,53,53,0.4);
 }
-.nav-logo-text { line-height: 1; }
-.nav-logo-name {
-  font-size: 0.95rem; font-weight: 800; color: var(--text);
-  letter-spacing: -0.3px;
+.nav-logo-text .name {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem; font-weight: 700; color: var(--text);
+  letter-spacing: -0.2px; display: block;
 }
-.nav-logo-sub {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.54rem; color: var(--text3); letter-spacing: 2px;
-  text-transform: uppercase; margin-top: 1px;
+.nav-logo-text .sub {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.52rem; color: var(--text3); letter-spacing: 2px;
+  text-transform: uppercase; display: block; margin-top: 1px;
 }
-
-.nav-links {
-  display: flex; align-items: center; gap: 6px;
-  list-style: none;
-}
+.nav-links { display: flex; align-items: center; gap: 2px; list-style: none; }
 .nav-links a {
-  font-size: 0.85rem; font-weight: 500; color: var(--text2);
-  text-decoration: none; padding: 7px 14px; border-radius: var(--r);
+  font-size: 0.84rem; font-weight: 500; color: var(--text2);
+  text-decoration: none; padding: 8px 15px; border-radius: var(--r2);
   transition: all 0.2s;
 }
-.nav-links a:hover { color: var(--text); background: var(--surface); }
-
+.nav-links a:hover { color: var(--text); background: var(--border); }
 .nav-cta {
-  background: var(--ink) !important; color: var(--white) !important;
-  font-weight: 600 !important;
+  background: var(--red) !important; color: #fff !important;
+  font-weight: 600 !important; padding: 9px 20px !important;
+  box-shadow: 0 4px 20px rgba(224,53,53,0.35) !important;
 }
-.nav-cta:hover { background: var(--red) !important; transform: translateY(-1px); box-shadow: 0 4px 16px rgba(214,48,49,0.3) !important; }
-
+.nav-cta:hover {
+  background: var(--red2) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 28px rgba(224,53,53,0.5) !important;
+}
 .nav-mobile-btn {
   display: none; background: none; border: none; cursor: pointer;
   flex-direction: column; gap: 5px; padding: 4px;
 }
-.nav-mobile-btn span {
-  display: block; width: 22px; height: 2px;
-  background: var(--text); border-radius: 2px; transition: all 0.3s;
-}
+.nav-mobile-btn span { display:block; width:22px; height:1.5px; background:var(--text); border-radius:2px; transition:all 0.3s; }
 
-/* ═══════════════════════════════
+/* ─────────────────────────────
    HERO
-═══════════════════════════════ */
+───────────────────────────── */
 .hero {
   min-height: 100vh;
   display: flex; align-items: center;
-  background: var(--ink);
-  position: relative; overflow: hidden;
-  padding-top: 68px;
+  background: var(--bg); position: relative; overflow: hidden;
+  padding-top: 72px;
 }
 
-/* Geometric background pattern */
-.hero-pattern {
-  position: absolute; inset: 0; pointer-events: none;
-  overflow: hidden;
+/* Animated gradient orbs */
+.hero-orb {
+  position: absolute; border-radius: 50%; pointer-events: none;
+  filter: blur(80px);
 }
-.hero-pattern::before {
-  content: '';
-  position: absolute; top: -200px; right: -200px;
-  width: 700px; height: 700px; border-radius: 50%;
-  border: 1px solid rgba(255,255,255,0.04);
+.orb1 {
+  width: 700px; height: 700px;
+  top: -200px; right: -150px;
+  background: radial-gradient(circle, rgba(224,53,53,0.12) 0%, transparent 70%);
+  animation: orbFloat1 8s ease-in-out infinite;
 }
-.hero-pattern::after {
-  content: '';
-  position: absolute; top: -100px; right: -100px;
-  width: 500px; height: 500px; border-radius: 50%;
-  border: 1px solid rgba(255,255,255,0.06);
+.orb2 {
+  width: 500px; height: 500px;
+  bottom: -100px; left: 10%;
+  background: radial-gradient(circle, rgba(26,136,248,0.07) 0%, transparent 70%);
+  animation: orbFloat2 10s ease-in-out infinite;
 }
+.orb3 {
+  width: 300px; height: 300px;
+  top: 30%; left: 45%;
+  background: radial-gradient(circle, rgba(232,130,74,0.06) 0%, transparent 70%);
+  animation: orbFloat3 12s ease-in-out infinite;
+}
+@keyframes orbFloat1 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-30px,40px)} }
+@keyframes orbFloat2 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(20px,-30px)} }
+@keyframes orbFloat3 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-15px,20px)} }
+
+/* Grid lines */
 .hero-grid {
-  position: absolute; inset: 0;
+  position: absolute; inset: 0; pointer-events: none;
   background-image:
-    linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-  background-size: 60px 60px;
+    linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px);
+  background-size: 70px 70px;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
 }
-.hero-glow {
-  position: absolute; top: -100px; right: -100px;
-  width: 600px; height: 600px;
-  background: radial-gradient(circle, rgba(214,48,49,0.12) 0%, transparent 65%);
-  pointer-events: none;
+
+/* Decorative lines */
+.hero-line {
+  position: absolute; pointer-events: none;
 }
-.hero-glow2 {
-  position: absolute; bottom: -100px; left: 20%;
-  width: 400px; height: 400px;
-  background: radial-gradient(circle, rgba(9,132,227,0.08) 0%, transparent 65%);
-  pointer-events: none;
+.hero-line-1 {
+  top: 0; right: 320px;
+  width: 1px; height: 100%;
+  background: linear-gradient(180deg, transparent 0%, rgba(224,53,53,0.15) 40%, transparent 100%);
+}
+.hero-line-2 {
+  top: 200px; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.04) 30%, rgba(255,255,255,0.04) 70%, transparent 100%);
 }
 
 .hero-inner {
   position: relative; z-index: 1;
-  display: grid; grid-template-columns: 1fr 1fr;
-  gap: 60px; align-items: center;
+  display: grid; grid-template-columns: 1.05fr 0.95fr;
+  gap: 64px; align-items: center;
   padding: 80px 0;
 }
-
 .hero-eyebrow {
   display: inline-flex; align-items: center; gap: 8px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.62rem; letter-spacing: 3px;
-  text-transform: uppercase; color: rgba(255,255,255,0.4);
-  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
-  padding: 6px 14px; border-radius: 100px; margin-bottom: 28px;
-  width: fit-content;
+  font-family: 'Fira Code', monospace;
+  font-size: 0.6rem; letter-spacing: 2.5px; text-transform: uppercase;
+  color: var(--text3);
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  padding: 7px 14px; border-radius: 100px;
+  margin-bottom: 30px;
 }
-.hero-eyebrow-dot {
-  width: 6px; height: 6px; border-radius: 50%;
+.eyebrow-dot {
+  width: 7px; height: 7px; border-radius: 50%;
   background: var(--red);
-  animation: pulse-dot 2s infinite;
+  box-shadow: 0 0 8px var(--red);
+  animation: glow-pulse 2s ease-in-out infinite;
 }
-@keyframes pulse-dot {
-  0%,100%{opacity:1;transform:scale(1)}
-  50%{opacity:0.5;transform:scale(0.7)}
-}
+@keyframes glow-pulse { 0%,100%{box-shadow:0 0 6px var(--red)} 50%{box-shadow:0 0 16px var(--red)} }
 
 .hero-title {
-  font-size: clamp(2.2rem, 4.5vw, 3.8rem);
-  font-weight: 800; line-height: 1.1;
-  letter-spacing: -1px; color: var(--white);
-  margin-bottom: 24px;
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(2.6rem, 5.5vw, 4.4rem);
+  font-weight: 800; line-height: 1.04;
+  letter-spacing: -1.5px; color: var(--text);
+  margin-bottom: 26px;
 }
-.hero-title .line2 {
-  background: linear-gradient(135deg, var(--red) 0%, #ff9f43 100%);
+.hero-title .line-accent {
+  background: linear-gradient(110deg, var(--red) 0%, var(--amber) 100%);
   -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
+.hero-title .line-dim { color: var(--text2); font-weight: 400; }
 
 .hero-desc {
-  font-size: 1rem; color: rgba(255,255,255,0.55);
-  line-height: 1.8; margin-bottom: 36px; max-width: 480px;
+  font-size: 1.0rem; color: var(--text2); line-height: 1.82;
+  margin-bottom: 40px; max-width: 460px; font-weight: 400;
 }
 
 .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
 .btn-primary {
   display: inline-flex; align-items: center; gap: 8px;
-  background: var(--red); color: var(--white);
-  font-size: 0.9rem; font-weight: 700;
-  padding: 14px 28px; border-radius: var(--r2);
+  background: var(--red); color: #fff;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.88rem; font-weight: 700;
+  padding: 14px 26px; border-radius: var(--r2);
   text-decoration: none; border: none; cursor: pointer;
-  transition: all 0.25s;
-  box-shadow: 0 4px 24px rgba(214,48,49,0.35);
-}
-.btn-primary:hover { background: #c0392b; transform: translateY(-2px); box-shadow: 0 8px 32px rgba(214,48,49,0.45); }
-.btn-ghost {
-  display: inline-flex; align-items: center; gap: 8px;
-  background: transparent; color: rgba(255,255,255,0.7);
-  font-size: 0.9rem; font-weight: 600;
-  padding: 14px 28px; border-radius: var(--r2);
-  text-decoration: none; border: 1px solid rgba(255,255,255,0.15);
-  transition: all 0.25s;
-}
-.btn-ghost:hover { background: rgba(255,255,255,0.07); color: var(--white); border-color: rgba(255,255,255,0.3); }
-
-.hero-right {
-  display: flex; flex-direction: column; gap: 12px;
-}
-
-/* BIZ ECOSYSTEM CARDS IN HERO */
-.biz-card-mini {
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: var(--r2); padding: 18px 20px;
-  display: flex; align-items: center; gap: 14px;
-  transition: all 0.25s; text-decoration: none;
+  transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
+  box-shadow: 0 4px 24px rgba(224,53,53,0.4), inset 0 1px 0 rgba(255,255,255,0.15);
   position: relative; overflow: hidden;
 }
-.biz-card-mini::before {
-  content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+.btn-primary::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent);
+  opacity: 0; transition: opacity 0.2s;
 }
-.biz-card-mini:hover {
-  background: rgba(255,255,255,0.08);
-  border-color: rgba(255,255,255,0.16);
-  transform: translateX(4px);
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(224,53,53,0.55); }
+.btn-primary:hover::before { opacity: 1; }
+.btn-outline {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: transparent; color: var(--text2);
+  font-size: 0.88rem; font-weight: 600;
+  padding: 14px 26px; border-radius: var(--r2);
+  text-decoration: none;
+  border: 1px solid var(--border2);
+  transition: all 0.25s;
 }
-.bc-print::before  { background: var(--red); }
-.bc-market::before { background: var(--blue); }
-.bc-rent::before   { background: var(--green); }
-.bc-press::before  { background: var(--purple); }
-.bc-event::before  { background: var(--amber); }
+.btn-outline:hover { color: var(--text); border-color: rgba(255,255,255,0.25); background: var(--border); }
 
-.biz-card-mini .bci-icon {
-  width: 38px; height: 38px; border-radius: 10px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1.1rem; flex-shrink: 0;
-}
-.bc-print .bci-icon  { background: rgba(214,48,49,0.2); }
-.bc-market .bci-icon { background: rgba(9,132,227,0.2); }
-.bc-rent .bci-icon   { background: rgba(0,184,148,0.2); }
-.bc-press .bci-icon  { background: rgba(108,92,231,0.2); }
-.bc-event .bci-icon  { background: rgba(225,112,85,0.2); }
-
-.bci-text { flex: 1; }
-.bci-name {
-  font-size: 0.88rem; font-weight: 700; color: var(--white);
-  display: flex; align-items: center; gap: 8px;
-}
-.bci-status {
-  font-family: 'JetBrains Mono', monospace; font-size: 0.52rem;
-  padding: 2px 7px; border-radius: 100px; letter-spacing: 1px;
-  text-transform: uppercase;
-}
-.status-live { background: rgba(0,184,148,0.2); color: var(--green); border: 1px solid rgba(0,184,148,0.3); }
-.status-soon { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.35); border: 1px solid rgba(255,255,255,0.1); }
-.bci-desc { font-size: 0.75rem; color: rgba(255,255,255,0.38); margin-top: 2px; }
-.bci-arrow { color: rgba(255,255,255,0.2); font-size: 0.8rem; transition: all 0.2s; }
-.biz-card-mini:hover .bci-arrow { color: rgba(255,255,255,0.6); transform: translateX(3px); }
-
-/* Hero stats bar */
+/* ── Hero stats ── */
 .hero-stats {
-  display: grid; grid-template-columns: repeat(3,1fr);
-  gap: 0; border-top: 1px solid rgba(255,255,255,0.08);
-  padding-top: 40px; margin-top: 12px;
+  display: flex; gap: 0;
+  border-top: 1px solid var(--border);
+  padding-top: 44px; margin-top: 44px;
 }
-.hstat { text-align: center; padding: 0 20px; }
-.hstat + .hstat { border-left: 1px solid rgba(255,255,255,0.08); }
-.hstat-val { font-size: 2rem; font-weight: 800; color: var(--white); line-height: 1; }
-.hstat-label { font-family:'JetBrains Mono',monospace; font-size:0.58rem; color:rgba(255,255,255,0.35); letter-spacing:2px; text-transform:uppercase; margin-top:5px; }
+.hstat { padding: 0 32px 0 0; }
+.hstat + .hstat { padding-left: 32px; border-left: 1px solid var(--border); }
+.hstat-val {
+  font-family: 'Inter', sans-serif;
+  font-size: 2.2rem; font-weight: 800; line-height: 1; color: var(--text);
+}
+.hstat-val span { color: var(--red); }
+.hstat-lbl {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.56rem; color: var(--text3);
+  letter-spacing: 2.5px; text-transform: uppercase; margin-top: 6px;
+}
 
-/* ═══════════════════════════════
+/* ── Hero right: biz cards ── */
+.hero-cards { display: flex; flex-direction: column; gap: 10px; }
+
+.bcard {
+  display: flex; align-items: center; gap: 14px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: var(--r2); padding: 16px 18px;
+  text-decoration: none; cursor: pointer;
+  transition: all 0.28s cubic-bezier(0.4,0,0.2,1);
+  position: relative; overflow: hidden;
+}
+.bcard::before {
+  content: ''; position: absolute;
+  left: 0; top: 0; bottom: 0; width: 2px;
+  transition: all 0.2s;
+}
+.bcard::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(110deg, rgba(255,255,255,0.03), transparent);
+  opacity: 0; transition: opacity 0.2s;
+}
+.bcard:hover { background: rgba(255,255,255,0.07); border-color: var(--border2); transform: translateX(5px); }
+.bcard:hover::after { opacity: 1; }
+
+.bcard-print::before  { background: linear-gradient(180deg, var(--red), var(--amber)); }
+.bcard-mktg::before   { background: var(--blue); }
+.bcard-rent::before   { background: var(--green); }
+.bcard-press::before  { background: #a29bfe; }
+.bcard-event::before  { background: var(--amber); }
+
+.bcard-icon {
+  width: 36px; height: 36px; border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem; flex-shrink: 0;
+}
+.bcard-print .bcard-icon  { background: rgba(224,53,53,0.18); }
+.bcard-mktg .bcard-icon   { background: rgba(26,136,248,0.18); }
+.bcard-rent .bcard-icon   { background: rgba(0,200,150,0.18); }
+.bcard-press .bcard-icon  { background: rgba(162,155,254,0.18); }
+.bcard-event .bcard-icon  { background: rgba(232,130,74,0.18); }
+
+.bcard-body { flex: 1; min-width: 0; }
+.bcard-name {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.86rem; font-weight: 700; color: var(--text);
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 2px;
+}
+.badge {
+  font-family: 'Fira Code', monospace; font-size: 0.48rem;
+  padding: 2px 7px; border-radius: 100px;
+  text-transform: uppercase; letter-spacing: 1.5px;
+}
+.badge-live { background: rgba(0,200,150,0.15); color: var(--green); border: 1px solid rgba(0,200,150,0.3); }
+.badge-soon { background: rgba(255,255,255,0.05); color: var(--text3); border: 1px solid var(--border); }
+.bcard-desc { font-size: 0.73rem; color: var(--text3); line-height: 1.4; }
+.bcard-arrow {
+  font-size: 0.75rem; color: var(--text3);
+  transition: all 0.2s; flex-shrink: 0;
+}
+.bcard:hover .bcard-arrow { color: var(--text2); transform: translateX(2px); }
+
+/* ─────────────────────────────
+   MARQUEE STRIP
+───────────────────────────── */
+.marquee-strip {
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 0; overflow: hidden;
+  position: relative;
+}
+.marquee-strip::before, .marquee-strip::after {
+  content: ''; position: absolute; top: 0; bottom: 0; z-index: 2; width: 100px;
+  pointer-events: none;
+}
+.marquee-strip::before { left: 0; background: linear-gradient(90deg, var(--bg2), transparent); }
+.marquee-strip::after  { right: 0; background: linear-gradient(-90deg, var(--bg2), transparent); }
+.marquee-inner {
+  display: flex; gap: 0;
+  animation: marquee-scroll 30s linear infinite;
+  width: max-content;
+}
+@keyframes marquee-scroll { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+.marquee-item {
+  display: flex; align-items: center; gap: 8px;
+  padding: 0 28px; white-space: nowrap;
+  font-family: 'Fira Code', monospace;
+  font-size: 0.62rem; color: var(--text3);
+  letter-spacing: 1.5px; text-transform: uppercase;
+}
+.marquee-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--red); opacity: 0.6; }
+.marquee-item.highlight { color: var(--text2); }
+.marquee-item.highlight .marquee-dot { background: var(--green); opacity: 1; }
+
+/* ─────────────────────────────
    ABOUT
-═══════════════════════════════ */
-.about { background: var(--white); }
+───────────────────────────── */
+.about { background: var(--bg2); }
 .about-grid {
   display: grid; grid-template-columns: 1fr 1fr;
-  gap: 80px; align-items: center;
+  gap: 80px; align-items: start;
 }
-.about-left {}
-.about-right {}
+.mission-card {
+  background: var(--bg3); border: 1px solid var(--border);
+  border-radius: var(--r3); padding: 36px;
+  margin-top: 36px; position: relative; overflow: hidden;
+}
+.mission-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, var(--red), var(--amber), transparent);
+}
+.mission-card::after {
+  content: '"'; position: absolute; bottom: -10px; right: 20px;
+  font-family: 'Inter', sans-serif; font-size: 8rem; color: rgba(224,53,53,0.06);
+  line-height: 1; pointer-events: none;
+}
+.mc-label {
+  font-family: 'Fira Code', monospace; font-size: 0.55rem;
+  color: var(--red); letter-spacing: 3px; text-transform: uppercase;
+  margin-bottom: 14px; opacity: 0.8;
+}
+.mc-text {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.05rem; font-weight: 600; color: var(--text);
+  line-height: 1.75; font-style: italic;
+}
+.mc-text .hi { color: var(--red); font-style: normal; }
 
-.about-mission {
-  background: var(--ink);
-  border-radius: var(--r2); padding: 32px;
-  position: relative; overflow: hidden; margin-top: 32px;
-}
-.about-mission::before {
-  content: '';
-  position: absolute; top: 0; left: 0; right: 0; height: 2px;
-  background: linear-gradient(90deg, var(--red), var(--amber));
-}
-.am-label {
-  font-family: 'JetBrains Mono', monospace; font-size: 0.58rem;
-  color: rgba(255,255,255,0.3); letter-spacing: 3px; text-transform: uppercase;
-  margin-bottom: 12px;
-}
-.am-text {
-  font-size: 1.05rem; font-weight: 600; color: var(--white);
-  line-height: 1.7; font-style: italic;
-}
-.am-text span { color: var(--red); font-style: normal; }
-
-.about-values { display: flex; flex-direction: column; gap: 16px; }
-.value-item {
+.values-list { display: flex; flex-direction: column; gap: 18px; }
+.value-row {
   display: flex; gap: 16px; align-items: flex-start;
+  padding: 20px; border: 1px solid var(--border);
+  border-radius: var(--r2); background: var(--bg3);
+  transition: all 0.25s;
 }
-.vi-num {
-  width: 32px; height: 32px; border-radius: 8px;
-  background: var(--surface); border: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: center;
-  font-family: 'JetBrains Mono', monospace; font-size: 0.65rem;
-  font-weight: 600; color: var(--text3); flex-shrink: 0;
+.value-row:hover { border-color: var(--border2); background: var(--card); transform: translateX(4px); }
+.vr-num {
+  font-family: 'Inter', sans-serif; font-size: 0.7rem; font-weight: 800;
+  color: var(--red); opacity: 0.7; flex-shrink: 0; margin-top: 2px; min-width: 20px;
 }
-.vi-body {}
-.vi-title { font-size: 0.9rem; font-weight: 700; margin-bottom: 3px; }
-.vi-desc { font-size: 0.82rem; color: var(--text2); line-height: 1.6; }
+.vr-title { font-family: 'Inter', sans-serif; font-size: 0.9rem; font-weight: 700; margin-bottom: 5px; }
+.vr-desc { font-size: 0.82rem; color: var(--text2); line-height: 1.65; }
 
-.company-info {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 32px;
-}
-.ci-item {
-  background: var(--surface); border: 1px solid var(--border);
+.meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 32px; }
+.meta-item {
+  background: var(--bg3); border: 1px solid var(--border);
   border-radius: var(--r); padding: 16px;
+  transition: border-color 0.2s;
 }
-.ci-label { font-family:'JetBrains Mono',monospace; font-size:0.58rem; color:var(--text3); text-transform:uppercase; letter-spacing:2px; margin-bottom:5px; }
-.ci-val { font-size: 0.88rem; font-weight: 700; }
+.meta-item:hover { border-color: var(--border2); }
+.meta-lbl { font-family:'Fira Code',monospace; font-size:0.52rem; color:var(--text3); text-transform:uppercase; letter-spacing:2px; margin-bottom:5px; }
+.meta-val { font-family:'Inter',sans-serif; font-size:0.85rem; font-weight:700; color:var(--text); }
 
-/* ═══════════════════════════════
-   ECOSYSTEM — BIZ BRANDS
-═══════════════════════════════ */
-.ecosystem { background: var(--surface); }
+/* ─────────────────────────────
+   ECOSYSTEM
+───────────────────────────── */
+.ecosystem { background: var(--bg); }
 
-.brands-grid {
-  display: grid; grid-template-columns: repeat(3, 1fr);
-  gap: 16px; margin-top: 48px;
+.eco-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 14px; margin-top: 52px;
 }
-/* BizPrint is featured/larger */
-.brand-card { 
-  background: var(--white); border: 1px solid var(--border);
-  border-radius: var(--r2); padding: 28px;
-  transition: all 0.3s; position: relative; overflow: hidden;
-  text-decoration: none; color: inherit; display: flex; flex-direction: column;
+.eco-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--r3); padding: 30px;
+  display: flex; flex-direction: column;
+  transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+  position: relative; overflow: hidden; text-decoration: none; color: inherit;
 }
-.brand-card:hover {
-  transform: translateY(-4px); border-color: var(--border2);
-  box-shadow: var(--shadow3);
+.eco-card:hover { border-color: var(--border2); box-shadow: var(--sh3); transform: translateY(-3px); }
+.eco-card-hero {
+  grid-row: span 2;
+  background: linear-gradient(145deg, #161a2e 0%, #0f1221 100%);
+  border-color: rgba(224,53,53,0.2);
 }
-.brand-card-featured {
-  grid-column: span 2;
-  background: var(--ink);
-  border-color: transparent;
-}
-.brand-card-featured:hover { border-color: rgba(255,255,255,0.1); }
-.brand-card::before {
-  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-  transform: scaleX(0); transform-origin: left; transition: transform 0.3s;
-}
-.brand-card:hover::before { transform: scaleX(1); }
-.bc-r::before   { background: linear-gradient(90deg, var(--red), #ff9f43); }
-.bc-b::before   { background: linear-gradient(90deg, var(--blue), var(--teal)); }
-.bc-g::before   { background: linear-gradient(90deg, var(--green), #55efc4); }
-.bc-p::before   { background: linear-gradient(90deg, var(--purple), var(--pink)); }
-.bc-a::before   { background: linear-gradient(90deg, var(--amber), #fdcb6e); }
+.eco-card-hero:hover { border-color: rgba(224,53,53,0.4); }
 
-.brand-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 20px; }
-.brand-icon {
-  width: 52px; height: 52px; border-radius: 14px;
+/* Animated top border */
+.eco-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  transform: scaleX(0); transform-origin: left; transition: transform 0.4s ease;
+}
+.eco-card:hover::before { transform: scaleX(1); }
+.eco-r::before  { background: linear-gradient(90deg, var(--red), var(--amber)); }
+.eco-b::before  { background: linear-gradient(90deg, var(--blue), var(--teal)); }
+.eco-g::before  { background: linear-gradient(90deg, var(--green), #55efc4); }
+.eco-p::before  { background: linear-gradient(90deg, #a29bfe, #e84393); }
+.eco-a::before  { background: linear-gradient(90deg, var(--amber), #fdcb6e); }
+
+/* Glow on hero card */
+.eco-card-hero::after {
+  content: ''; position: absolute;
+  top: -60px; right: -60px;
+  width: 300px; height: 300px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(224,53,53,0.1) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.eco-icon {
+  width: 50px; height: 50px; border-radius: 13px;
   display: flex; align-items: center; justify-content: center;
-  font-size: 1.5rem;
+  font-size: 1.3rem; margin-bottom: 18px; flex-shrink: 0;
 }
-.bi-red    { background: rgba(214,48,49,0.1);  }
-.bi-blue   { background: rgba(9,132,227,0.1);  }
-.bi-green  { background: rgba(0,184,148,0.1);  }
-.bi-purple { background: rgba(108,92,231,0.1); }
-.bi-amber  { background: rgba(225,112,85,0.1); }
+.icon-r { background: rgba(224,53,53,0.15); box-shadow: 0 0 0 1px rgba(224,53,53,0.25); }
+.icon-b { background: rgba(26,136,248,0.15); box-shadow: 0 0 0 1px rgba(26,136,248,0.2); }
+.icon-g { background: rgba(0,200,150,0.15); box-shadow: 0 0 0 1px rgba(0,200,150,0.2); }
+.icon-p { background: rgba(162,155,254,0.15); box-shadow: 0 0 0 1px rgba(162,155,254,0.2); }
+.icon-a { background: rgba(232,130,74,0.15); box-shadow: 0 0 0 1px rgba(232,130,74,0.2); }
 
-.bi-red-d    { background: rgba(214,48,49,0.2);  }
-
-.brand-badge {
-  font-family: 'JetBrains Mono', monospace; font-size: 0.55rem;
-  padding: 4px 10px; border-radius: 100px; letter-spacing: 1.5px;
-  text-transform: uppercase; font-weight: 500;
-}
-.badge-live    { background: rgba(0,184,148,0.12); color: var(--green); border: 1px solid rgba(0,184,148,0.3); }
-.badge-soon    { background: var(--surface); color: var(--text3); border: 1px solid var(--border); }
-.badge-live-d  { background: rgba(0,184,148,0.2); color: #00d4a8; border: 1px solid rgba(0,184,148,0.4); }
+.eco-card-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 20px; }
 
 .brand-name {
-  font-size: 1.3rem; font-weight: 800; margin-bottom: 6px;
-  letter-spacing: -0.3px;
+  font-family: 'Inter', sans-serif;
+  font-size: 1.25rem; font-weight: 800; letter-spacing: -0.3px;
+  margin-bottom: 7px; color: var(--text);
 }
-.brand-card-featured .brand-name { color: var(--white); font-size: 1.6rem; }
-.brand-name .biz  { color: var(--text3); font-weight: 400; }
-.brand-name .biz-d{ color: rgba(255,255,255,0.4); font-weight: 400; }
-.brand-name .part { color: var(--red); }
-.brand-name .part-b { color: #74b9ff; }
-.brand-name .part-g { color: var(--green); }
-.brand-name .part-p { color: #a29bfe; }
-.brand-name .part-a { color: #fdcb6e; }
+.eco-card-hero .brand-name { font-size: 1.7rem; }
+.brand-name .biz-part { color: var(--text3); font-weight: 400; }
+.brand-name .color-r { color: var(--red2); }
+.brand-name .color-b { color: #74b9ff; }
+.brand-name .color-g { color: var(--green); }
+.brand-name .color-p { color: #a29bfe; }
+.brand-name .color-a { color: #fdcb6e; }
 
-.brand-tagline {
-  font-size: 0.82rem; color: var(--text2); margin-bottom: 14px; line-height: 1.5;
+.brand-tag {
+  font-size: 0.8rem; color: var(--text2); margin-bottom: 16px; line-height: 1.55;
 }
-.brand-card-featured .brand-tagline { color: rgba(255,255,255,0.5); font-size: 0.9rem; }
+.eco-card-hero .brand-tag { font-size: 0.9rem; color: var(--text2); }
 
-.brand-features { list-style: none; display: flex; flex-direction: column; gap: 6px; flex: 1; }
-.brand-features li {
-  font-size: 0.78rem; color: var(--text2); display: flex; align-items: flex-start; gap: 8px; line-height: 1.5;
+.feature-list { list-style: none; display: flex; flex-direction: column; gap: 7px; flex: 1; }
+.feature-list li {
+  font-size: 0.77rem; color: var(--text2); display: flex; align-items: flex-start; gap: 9px; line-height: 1.5;
 }
-.brand-card-featured .brand-features li { color: rgba(255,255,255,0.45); }
-.brand-features li::before {
-  content: ''; width: 5px; height: 5px; border-radius: 50%;
-  background: var(--border2); margin-top: 6px; flex-shrink: 0;
+.feature-list li::before {
+  content: ''; width: 4px; height: 4px; border-radius: 50%;
+  background: var(--border2); margin-top: 7px; flex-shrink: 0;
 }
-.brand-card-featured .brand-features li::before { background: rgba(214,48,49,0.6); }
+.eco-card-hero .feature-list li::before { background: rgba(224,53,53,0.5); }
 
-.brand-footer {
-  margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border);
+.eco-footer {
+  margin-top: 20px; padding-top: 16px;
+  border-top: 1px solid var(--border);
   display: flex; align-items: center; justify-content: space-between;
 }
-.brand-card-featured .brand-footer { border-color: rgba(255,255,255,0.08); }
-.brand-link {
-  font-size: 0.78rem; font-weight: 600; color: var(--text3);
-  display: flex; align-items: center; gap: 5px; transition: all 0.2s;
+.eco-link {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.72rem; color: var(--text3);
+  display: flex; align-items: center; gap: 5px; transition: color 0.2s;
 }
-.brand-card:hover .brand-link { color: var(--text); }
-.brand-card-featured .brand-link { color: rgba(255,255,255,0.4); }
-.brand-card-featured:hover .brand-link { color: var(--red2); }
+.eco-card:hover .eco-link { color: var(--text2); }
+.eco-card-hero:hover .eco-link { color: var(--red2); }
 
-/* BizPrint CTA in featured card */
-.bizprint-cta {
+.eco-cta {
   display: inline-flex; align-items: center; gap: 8px;
-  background: var(--red); color: var(--white);
-  font-size: 0.85rem; font-weight: 700;
-  padding: 10px 20px; border-radius: var(--r);
+  background: var(--red); color: #fff;
+  font-size: 0.84rem; font-weight: 700;
+  padding: 11px 20px; border-radius: var(--r);
   text-decoration: none; transition: all 0.25s;
-  margin-top: 20px; width: fit-content;
+  margin-top: 24px; width: fit-content;
+  box-shadow: 0 4px 20px rgba(224,53,53,0.35);
 }
-.bizprint-cta:hover { background: #c0392b; transform: translateX(3px); }
+.eco-cta:hover { background: var(--red2); transform: translateX(3px); }
 
-/* ═══════════════════════════════
-   ROADMAP
-═══════════════════════════════ */
-.roadmap { background: var(--white); }
-.roadmap-grid {
-  display: grid; grid-template-columns: repeat(5, 1fr);
-  gap: 0; margin-top: 48px; position: relative;
-}
-.roadmap-grid::before {
+/* ─────────────────────────────
+   SPOTLIGHT
+───────────────────────────── */
+.spotlight { background: var(--bg2); position: relative; overflow: hidden; }
+.spotlight::before {
   content: ''; position: absolute;
-  top: 28px; left: 5%; right: 5%; height: 2px;
-  background: linear-gradient(90deg, var(--red), var(--blue), var(--green), var(--purple), var(--amber));
-  opacity: 0.2; z-index: 0;
+  top: -100px; left: 50%; transform: translateX(-50%);
+  width: 900px; height: 500px;
+  background: radial-gradient(ellipse, rgba(224,53,53,0.07) 0%, transparent 65%);
+}
+.spotlight-inner {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 80px; align-items: center; position: relative; z-index: 1;
+}
+.sp-label {
+  font-family: 'Fira Code', monospace; font-size: 0.6rem;
+  color: var(--red); letter-spacing: 3px; text-transform: uppercase;
+  display: flex; align-items: center; gap: 10px; margin-bottom: 18px;
+}
+.sp-label::before { content:''; width:20px; height:1px; background:var(--red); }
+.sp-title {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(1.8rem, 3vw, 2.8rem); font-weight: 800;
+  line-height: 1.1; color: var(--text); letter-spacing: -0.5px; margin-bottom: 22px;
+}
+.sp-desc { font-size: 0.92rem; color: var(--text2); line-height: 1.85; margin-bottom: 30px; }
+.sp-feats { display: flex; flex-direction: column; gap: 12px; margin-bottom: 36px; }
+.sp-feat {
+  display: flex; gap: 14px; align-items: flex-start;
+  padding: 14px; border-radius: var(--r2);
+  background: rgba(255,255,255,0.025);
+  border: 1px solid var(--border);
+  transition: all 0.2s;
+}
+.sp-feat:hover { background: rgba(255,255,255,0.04); border-color: var(--border2); }
+.sp-feat-ico {
+  width: 32px; height: 32px; border-radius: 8px;
+  background: rgba(224,53,53,0.12); border: 1px solid rgba(224,53,53,0.25);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.85rem; flex-shrink: 0; margin-top: 1px;
+}
+.sp-feat-text { font-size: 0.84rem; color: var(--text2); line-height: 1.6; }
+.sp-feat-text strong { color: var(--text); font-weight: 600; }
+
+.sp-stats { display: flex; flex-direction: column; gap: 10px; }
+.sp-stat {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--r2); padding: 22px 26px;
+  display: flex; align-items: center; gap: 18px;
+  transition: all 0.25s;
+}
+.sp-stat:hover { background: var(--card2); border-color: var(--border2); transform: translateX(4px); }
+.sp-stat-ico { font-size: 1.4rem; flex-shrink: 0; }
+.sp-stat-body {}
+.sp-stat-lbl { font-family:'Fira Code',monospace; font-size:0.55rem; color:var(--text3); text-transform:uppercase; letter-spacing:2px; margin-bottom:3px; }
+.sp-stat-val { font-family:'Inter',sans-serif; font-size:1.3rem; font-weight:800; color:var(--text); }
+.sp-stat-sub { font-family:'Fira Code',monospace; font-size:0.65rem; color:var(--text3); margin-top:2px; }
+
+/* ─────────────────────────────
+   ROADMAP
+───────────────────────────── */
+.roadmap { background: var(--bg); }
+.rm-grid {
+  display: grid; grid-template-columns: repeat(5,1fr);
+  gap: 0; margin-top: 56px; position: relative;
+}
+.rm-grid::before {
+  content: ''; position: absolute;
+  top: 34px; left: calc(10%) ; right: calc(10%);
+  height: 1px;
+  background: linear-gradient(90deg, var(--red), var(--blue) 35%, var(--green) 60%, #a29bfe 80%, var(--amber));
+  opacity: 0.15; z-index: 0;
 }
 .rm-step {
   display: flex; flex-direction: column; align-items: center;
-  text-align: center; padding: 0 10px; position: relative; z-index: 1;
+  text-align: center; padding: 0 12px; position: relative; z-index: 1;
 }
 .rm-dot {
-  width: 56px; height: 56px; border-radius: 50%;
+  width: 68px; height: 68px; border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
-  font-size: 1.2rem; margin-bottom: 16px;
-  border: 2px solid;
-  background: var(--white);
+  font-size: 1.3rem; margin-bottom: 20px;
+  background: var(--card); border: 1px solid var(--border);
+  transition: all 0.3s; position: relative;
+}
+.rm-step:hover .rm-dot {
+  transform: scale(1.08);
+  box-shadow: var(--sh2);
+}
+.rm-dot-ring {
+  position: absolute; inset: -5px; border-radius: 50%;
+  border: 1px solid transparent;
   transition: all 0.3s;
 }
-.rm-step:hover .rm-dot { transform: scale(1.1); }
-.rm1 .rm-dot { border-color: var(--red);    color: var(--red);    box-shadow: 0 0 0 6px rgba(214,48,49,0.08); }
-.rm2 .rm-dot { border-color: var(--blue);   color: var(--blue);   box-shadow: 0 0 0 6px rgba(9,132,227,0.08); }
-.rm3 .rm-dot { border-color: var(--green);  color: var(--green);  box-shadow: 0 0 0 6px rgba(0,184,148,0.08); }
-.rm4 .rm-dot { border-color: var(--purple); color: var(--purple); box-shadow: 0 0 0 6px rgba(108,92,231,0.08); }
-.rm5 .rm-dot { border-color: var(--amber);  color: var(--amber);  box-shadow: 0 0 0 6px rgba(225,112,85,0.08); }
+.rm1 .rm-dot { border-color: rgba(224,53,53,0.3); }
+.rm1 .rm-dot-ring { border-color: rgba(224,53,53,0.1); }
+.rm1:hover .rm-dot { border-color: var(--red); background: rgba(224,53,53,0.1); }
+.rm2 .rm-dot { border-color: rgba(26,136,248,0.3); }
+.rm2:hover .rm-dot { border-color: var(--blue); background: rgba(26,136,248,0.1); }
+.rm3 .rm-dot { border-color: rgba(0,200,150,0.3); }
+.rm3:hover .rm-dot { border-color: var(--green); background: rgba(0,200,150,0.1); }
+.rm4 .rm-dot { border-color: rgba(162,155,254,0.3); }
+.rm4:hover .rm-dot { border-color: #a29bfe; background: rgba(162,155,254,0.1); }
+.rm5 .rm-dot { border-color: rgba(232,130,74,0.3); }
+.rm5:hover .rm-dot { border-color: var(--amber); background: rgba(232,130,74,0.1); }
 
-.rm1 .rm-dot { background: rgba(214,48,49,0.08); }
-
-.rm-label {
-  font-family: 'JetBrains Mono', monospace; font-size: 0.58rem;
-  text-transform: uppercase; letter-spacing: 2px; margin-bottom: 6px;
+.rm-phase {
+  font-family: 'Fira Code', monospace; font-size: 0.52rem;
+  text-transform: uppercase; letter-spacing: 2.5px; margin-bottom: 7px;
 }
-.rm1 .rm-label { color: var(--red); }
-.rm2 .rm-label { color: var(--blue); }
-.rm3 .rm-label { color: var(--green); }
-.rm4 .rm-label { color: var(--purple); }
-.rm5 .rm-label { color: var(--amber); }
+.rm1 .rm-phase { color: var(--red); }
+.rm2 .rm-phase { color: var(--blue); }
+.rm3 .rm-phase { color: var(--green); }
+.rm4 .rm-phase { color: #a29bfe; }
+.rm5 .rm-phase { color: var(--amber); }
 
-.rm-name { font-size: 0.88rem; font-weight: 700; margin-bottom: 6px; }
-.rm-desc { font-size: 0.72rem; color: var(--text2); line-height: 1.5; }
-.rm-time {
-  font-family: 'JetBrains Mono', monospace; font-size: 0.6rem;
-  color: var(--text3); margin-top: 10px;
-  background: var(--surface); padding: 3px 10px; border-radius: 100px;
-  border: 1px solid var(--border);
+.rm-name { font-family:'Inter',sans-serif; font-size:0.9rem; font-weight:700; margin-bottom:7px; color:var(--text); }
+.rm-desc { font-size:0.72rem; color:var(--text2); line-height:1.55; }
+.rm-tag {
+  font-family:'Fira Code',monospace; font-size:0.52rem; color:var(--text3);
+  margin-top:12px; background:var(--bg2);
+  padding:4px 10px; border-radius:100px; border:1px solid var(--border);
+  display:inline-block;
 }
+.rm1 .rm-tag { color:var(--green); background:rgba(0,200,150,0.1); border-color:rgba(0,200,150,0.25); }
 
-/* ═══════════════════════════════
+/* ─────────────────────────────
    TEAM
-═══════════════════════════════ */
-.team { background: var(--surface); }
+───────────────────────────── */
+.team { background: var(--bg2); }
 .team-grid {
-  display: grid; grid-template-columns: repeat(3, 1fr);
-  gap: 20px; margin-top: 48px;
+  display: grid; grid-template-columns: repeat(4,1fr);
+  gap: 14px; margin-top: 52px;
 }
 .team-card {
-  background: var(--white); border: 1px solid var(--border);
-  border-radius: var(--r2); padding: 28px;
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--r3); padding: 30px 24px;
   text-align: center; transition: all 0.3s;
   position: relative; overflow: hidden;
 }
-.team-card:hover { transform: translateY(-3px); box-shadow: var(--shadow2); }
+.team-card:hover { border-color: var(--border2); transform: translateY(-4px); box-shadow: var(--sh2); }
 .team-card::after {
-  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
   background: linear-gradient(90deg, var(--red), var(--amber));
   transform: scaleX(0); transform-origin: left; transition: transform 0.3s;
 }
 .team-card:hover::after { transform: scaleX(1); }
-
 .team-avatar {
-  width: 72px; height: 72px; border-radius: 50%;
-  background: var(--ink); margin: 0 auto 16px;
+  width: 68px; height: 68px; border-radius: 50%;
+  margin: 0 auto 16px;
+  background: linear-gradient(135deg, var(--bg3), var(--card2));
+  border: 1px solid var(--border2);
   display: flex; align-items: center; justify-content: center;
-  font-size: 1.6rem; color: var(--white);
-  position: relative;
+  font-size: 1.5rem; position: relative;
 }
-.team-avatar-ring {
-  position: absolute; inset: -4px; border-radius: 50%;
-  border: 2px solid transparent;
-  background: linear-gradient(var(--white), var(--white)) padding-box,
+.team-ring {
+  position: absolute; inset: -5px; border-radius: 50%;
+  border: 1px solid transparent;
+  background: linear-gradient(var(--card), var(--card)) padding-box,
               linear-gradient(135deg, var(--red), var(--amber)) border-box;
 }
-.team-name { font-size: 1rem; font-weight: 800; margin-bottom: 4px; }
-.team-role {
-  font-family: 'JetBrains Mono', monospace; font-size: 0.62rem;
-  color: var(--text3); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 14px;
-}
-.team-desc { font-size: 0.8rem; color: var(--text2); line-height: 1.65; }
-.team-add {
-  border: 2px dashed var(--border2);
+.team-name { font-family:'Inter',sans-serif; font-size:0.95rem; font-weight:700; margin-bottom:4px; color:var(--text); }
+.team-role { font-family:'Fira Code',monospace; font-size:0.56rem; color:var(--text3); text-transform:uppercase; letter-spacing:2px; margin-bottom:14px; }
+.team-desc { font-size:0.78rem; color:var(--text2); line-height:1.65; }
+
+.team-join {
+  border: 1px dashed rgba(255,255,255,0.15);
   background: transparent;
 }
-.team-add:hover { border-color: var(--red); box-shadow: none; }
-.team-add:hover::after { display: none; }
-.team-add .team-avatar { background: var(--surface); border: none; }
-.team-add-text { font-size: 0.85rem; color: var(--text3); }
-.team-add-sub { font-size: 0.75rem; color: var(--muted); margin-top: 4px; }
+.team-join:hover { border-color: rgba(224,53,53,0.4); background: rgba(224,53,53,0.04); }
+.team-join:hover::after { display: none; }
+.team-join .team-avatar { background: rgba(255,255,255,0.04); font-size: 1.8rem; border: none; }
+.team-join .team-avatar .team-ring { display: none; }
+.team-join-title { font-family:'Inter',sans-serif; font-size:0.9rem; font-weight:700; color:var(--text); margin-bottom:6px; }
+.team-join-sub { font-size:0.75rem; color:var(--text3); line-height:1.6; }
+.team-join-cta {
+  display:inline-flex; align-items:center; gap:5px;
+  margin-top:14px; font-size:0.78rem; font-weight:700;
+  color:var(--red); text-decoration:none; transition:gap 0.2s;
+}
+.team-join-cta:hover { gap: 8px; }
 
-/* ═══════════════════════════════
-   BIZPRINT SPOTLIGHT
-═══════════════════════════════ */
-.spotlight {
-  background: var(--ink);
-  position: relative; overflow: hidden;
-}
-.spotlight::before {
-  content: '';
-  position: absolute; top: -150px; left: 50%; transform: translateX(-50%);
-  width: 800px; height: 400px;
-  background: radial-gradient(ellipse, rgba(214,48,49,0.1) 0%, transparent 65%);
-  pointer-events: none;
-}
-.spotlight-inner {
-  display: grid; grid-template-columns: 1fr 1fr;
-  gap: 80px; align-items: center;
-  position: relative; z-index: 1;
-}
-.sp-eyebrow {
-  font-family: 'JetBrains Mono', monospace; font-size: 0.62rem;
-  letter-spacing: 3px; text-transform: uppercase;
-  color: var(--red); display: flex; align-items: center; gap: 8px; margin-bottom: 16px;
-}
-.sp-eyebrow::before { content:''; width:20px; height:1px; background:var(--red); }
-.sp-title {
-  font-size: clamp(1.8rem, 3vw, 2.8rem); font-weight: 800;
-  line-height: 1.15; color: var(--white); letter-spacing: -0.5px; margin-bottom: 20px;
-}
-.sp-desc { font-size: 0.92rem; color: rgba(255,255,255,0.5); line-height: 1.8; margin-bottom: 28px; }
-.sp-features { display: flex; flex-direction: column; gap: 10px; margin-bottom: 32px; }
-.sp-feat {
-  display: flex; gap: 12px; align-items: flex-start;
-}
-.sp-feat-icon {
-  width: 28px; height: 28px; border-radius: 7px;
-  background: rgba(214,48,49,0.15); border: 1px solid rgba(214,48,49,0.3);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 0.8rem; flex-shrink: 0; margin-top: 1px;
-}
-.sp-feat-text { font-size: 0.85rem; color: rgba(255,255,255,0.6); line-height: 1.6; }
-.sp-feat-text strong { color: rgba(255,255,255,0.85); font-weight: 600; }
-
-.sp-right { display: flex; flex-direction: column; gap: 12px; }
-.sp-stat-card {
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: var(--r2); padding: 20px 24px;
-  transition: all 0.25s;
-}
-.sp-stat-card:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.14); }
-.sp-sc-top { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
-.sp-sc-icon { font-size: 1.1rem; }
-.sp-sc-label { font-family:'JetBrains Mono',monospace; font-size:0.62rem; color:rgba(255,255,255,0.3); text-transform:uppercase; letter-spacing:2px; }
-.sp-sc-val { font-size: 1.5rem; font-weight: 800; color: var(--white); }
-.sp-sc-desc { font-size: 0.75rem; color: rgba(255,255,255,0.3); margin-top: 3px; font-family:'JetBrains Mono',monospace; }
-
-/* ═══════════════════════════════
+/* ─────────────────────────────
    CONTACT
-═══════════════════════════════ */
-.contact { background: var(--white); }
+───────────────────────────── */
+.contact { background: var(--bg); }
 .contact-grid {
   display: grid; grid-template-columns: 1fr 1fr;
-  gap: 60px; align-items: start;
+  gap: 60px; align-items: start; margin-top: 52px;
 }
 .contact-form {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--r2); padding: 36px;
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--r3); padding: 40px; position: relative; overflow: hidden;
 }
-.cf-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 6px; }
-.cf-sub { font-size: 0.82rem; color: var(--text2); margin-bottom: 24px; }
-.form-group { margin-bottom: 16px; }
-.form-label {
-  font-family: 'JetBrains Mono', monospace; font-size: 0.6rem;
-  color: var(--text3); text-transform: uppercase; letter-spacing: 2px;
-  display: block; margin-bottom: 6px;
+.contact-form::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--red), var(--amber), transparent);
 }
+.cf-title { font-family:'Inter',sans-serif; font-size:1.1rem; font-weight:700; color:var(--text); margin-bottom:5px; }
+.cf-sub { font-size:0.8rem; color:var(--text3); margin-bottom:28px; }
+.form-group { margin-bottom:18px; }
+.form-label { font-family:'Fira Code',monospace; font-size:0.52rem; color:var(--text3); text-transform:uppercase; letter-spacing:2px; display:block; margin-bottom:7px; }
 .form-input {
-  width: 100%; padding: 11px 14px; border-radius: var(--r);
-  border: 1px solid var(--border); background: var(--white);
-  font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.88rem;
-  color: var(--text); outline: none; transition: border-color 0.2s;
+  width:100%; padding:12px 15px; border-radius:var(--r);
+  border:1px solid var(--border);
+  background:var(--bg2);
+  font-family:'Inter',sans-serif; font-size:0.86rem;
+  color:var(--text); outline:none; transition:all 0.2s;
 }
-.form-input:focus { border-color: var(--red); }
-.form-select { appearance: none; cursor: pointer; }
-.form-textarea { min-height: 100px; resize: vertical; }
-.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-
+.form-input::placeholder { color: var(--text3); }
+.form-input:focus { border-color:rgba(224,53,53,0.5); background:var(--bg3); box-shadow: 0 0 0 3px rgba(224,53,53,0.08); }
+select.form-input { cursor:pointer; }
+textarea.form-input { min-height:100px; resize:vertical; }
+.form-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
 .btn-submit {
-  width: 100%; padding: 14px; border-radius: var(--r);
-  background: var(--ink); color: var(--white); border: none;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 0.9rem; font-weight: 700; cursor: pointer;
-  transition: all 0.25s; margin-top: 6px;
+  width:100%; padding:14px;
+  background:linear-gradient(135deg, var(--red), #b01e1e);
+  color:#fff; border:none; border-radius:var(--r);
+  font-family:'Inter',sans-serif;
+  font-size:0.9rem; font-weight:700; cursor:pointer;
+  transition:all 0.25s; margin-top:8px;
+  box-shadow: 0 4px 20px rgba(224,53,53,0.35);
 }
-.btn-submit:hover { background: var(--red); transform: translateY(-1px); }
+.btn-submit:hover { opacity:0.9; transform:translateY(-1px); box-shadow:0 6px 28px rgba(224,53,53,0.5); }
 
-.contact-info { display: flex; flex-direction: column; gap: 24px; }
+.contact-side { display:flex; flex-direction:column; gap:20px; }
 .contact-info-item {
-  display: flex; gap: 16px; align-items: flex-start;
+  display:flex; gap:16px; align-items:flex-start;
+  padding:18px; background:var(--card); border:1px solid var(--border);
+  border-radius:var(--r2); transition:all 0.2s;
 }
-.cii-icon {
-  width: 44px; height: 44px; border-radius: 12px;
-  background: var(--surface); border: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1.1rem; flex-shrink: 0;
+.contact-info-item:hover { border-color:var(--border2); transform:translateX(3px); }
+.cii-ico {
+  width:42px; height:42px; border-radius:10px;
+  background:var(--bg2); border:1px solid var(--border);
+  display:flex; align-items:center; justify-content:center; font-size:1rem; flex-shrink:0;
 }
-.cii-body {}
-.cii-label { font-family:'JetBrains Mono',monospace; font-size:0.58rem; color:var(--text3); text-transform:uppercase; letter-spacing:2px; margin-bottom:4px; }
-.cii-val { font-size: 0.9rem; font-weight: 600; color: var(--text); }
-.cii-sub { font-size: 0.78rem; color: var(--text3); margin-top: 2px; }
+.cii-lbl { font-family:'Fira Code',monospace; font-size:0.52rem; color:var(--text3); text-transform:uppercase; letter-spacing:2px; margin-bottom:4px; }
+.cii-val { font-size:0.88rem; font-weight:600; color:var(--text); }
+.cii-sub { font-size:0.75rem; color:var(--text3); margin-top:2px; }
 
-.social-links { display: flex; gap: 10px; margin-top: 8px; }
-.social-btn {
-  width: 40px; height: 40px; border-radius: 10px;
-  background: var(--surface); border: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1rem; text-decoration: none; transition: all 0.2s;
+.partner-box {
+  background:linear-gradient(135deg, var(--card2), var(--bg3));
+  border:1px solid var(--border); border-radius:var(--r3); padding:26px;
+  position:relative; overflow:hidden;
 }
-.social-btn:hover { background: var(--ink); border-color: var(--ink); transform: translateY(-2px); }
+.partner-box::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:1px;
+  background:linear-gradient(90deg, var(--red), var(--blue), transparent);
+}
+.pb-title { font-family:'Inter',sans-serif; font-size:0.95rem; font-weight:700; color:var(--text); margin-bottom:8px; }
+.pb-desc { font-size:0.78rem; color:var(--text2); line-height:1.65; margin-bottom:16px; }
+.pb-chips { display:flex; flex-wrap:wrap; gap:8px; }
+.pb-chip {
+  font-family:'Fira Code',monospace; font-size:0.54rem; padding:5px 11px;
+  border-radius:5px; border:1px solid; text-transform:uppercase; letter-spacing:1px;
+}
+.pc1 { color:var(--red2); border-color:rgba(224,53,53,0.3); background:rgba(224,53,53,0.08); }
+.pc2 { color:var(--green); border-color:rgba(0,200,150,0.3); background:rgba(0,200,150,0.08); }
+.pc3 { color:#74b9ff; border-color:rgba(26,136,248,0.3); background:rgba(26,136,248,0.08); }
+.pc4 { color:#a29bfe; border-color:rgba(162,155,254,0.3); background:rgba(162,155,254,0.08); }
 
-.partner-note {
-  background: linear-gradient(135deg, var(--ink) 0%, #1a1d30 100%);
-  border-radius: var(--r2); padding: 24px;
-  border: 1px solid rgba(255,255,255,0.06); margin-top: 8px;
-}
-.pn-title { font-size: 0.9rem; font-weight: 700; color: var(--white); margin-bottom: 8px; }
-.pn-desc { font-size: 0.78rem; color: rgba(255,255,255,0.45); line-height: 1.65; margin-bottom: 14px; }
-.partner-types { display: flex; flex-wrap: wrap; gap: 7px; }
-.pt-chip {
-  font-family: 'JetBrains Mono', monospace; font-size: 0.58rem;
-  padding: 4px 10px; border-radius: 4px; border: 1px solid;
-  text-transform: uppercase; letter-spacing: 1px;
-}
-.pt1 { color: var(--red2);   border-color: rgba(214,48,49,0.35);  background: rgba(214,48,49,0.1); }
-.pt2 { color: var(--green);  border-color: rgba(0,184,148,0.35);  background: rgba(0,184,148,0.1); }
-.pt3 { color: #74b9ff;       border-color: rgba(9,132,227,0.35);  background: rgba(9,132,227,0.1); }
-.pt4 { color: #a29bfe;       border-color: rgba(108,92,231,0.35); background: rgba(108,92,231,0.1); }
-
-/* ═══════════════════════════════
+/* ─────────────────────────────
    FOOTER
-═══════════════════════════════ */
-footer {
-  background: var(--ink);
-  padding: 56px 0 32px;
-}
+───────────────────────────── */
+footer { background: var(--bg2); border-top:1px solid var(--border); padding:64px 0 36px; }
 .footer-top {
-  display: grid; grid-template-columns: 1.8fr 1fr 1fr 1fr;
-  gap: 40px; padding-bottom: 40px; border-bottom: 1px solid rgba(255,255,255,0.07);
-  margin-bottom: 32px;
+  display:grid; grid-template-columns:2fr 1fr 1fr 1fr;
+  gap:40px; padding-bottom:48px; border-bottom:1px solid var(--border); margin-bottom:32px;
 }
-.footer-brand-name {
-  font-size: 1.1rem; font-weight: 800; color: var(--white);
-  margin-bottom: 4px;
+.footer-logo { display:flex; align-items:center; gap:12px; margin-bottom:16px; }
+.footer-logo-mark {
+  width:34px; height:34px; border-radius:9px;
+  background:linear-gradient(135deg, var(--red), #901515);
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Inter',sans-serif; font-size:0.85rem; font-weight:800; color:#fff;
 }
-.footer-brand-sub {
-  font-family: 'JetBrains Mono', monospace; font-size: 0.58rem;
-  color: rgba(255,255,255,0.25); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 14px;
-}
-.footer-brand-desc { font-size: 0.8rem; color: rgba(255,255,255,0.35); line-height: 1.7; max-width: 260px; }
-.footer-col-title {
-  font-family: 'JetBrains Mono', monospace; font-size: 0.6rem;
-  color: rgba(255,255,255,0.3); text-transform: uppercase; letter-spacing: 3px;
-  margin-bottom: 14px;
-}
-.footer-links { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.footer-logo-name { font-family:'Inter',sans-serif; font-size:0.9rem; font-weight:700; color:var(--text); }
+.footer-logo-sub { font-family:'Fira Code',monospace; font-size:0.5rem; color:var(--text3); letter-spacing:2px; text-transform:uppercase; display:block; margin-top:1px; }
+.footer-desc { font-size:0.79rem; color:var(--text3); line-height:1.75; max-width:240px; }
+.footer-col-title { font-family:'Fira Code',monospace; font-size:0.55rem; color:var(--text3); text-transform:uppercase; letter-spacing:3px; margin-bottom:16px; }
+.footer-links { list-style:none; display:flex; flex-direction:column; gap:9px; }
 .footer-links a {
-  font-size: 0.82rem; color: rgba(255,255,255,0.45);
-  text-decoration: none; transition: color 0.2s;
-  display: flex; align-items: center; gap: 6px;
+  font-size:0.82rem; color:var(--text3); text-decoration:none;
+  transition:color 0.2s; display:flex; align-items:center; gap:6px;
 }
-.footer-links a:hover { color: rgba(255,255,255,0.8); }
-.fl-live { color: var(--green) !important; }
-.fl-live::before { content:'●'; font-size:0.5rem; }
+.footer-links a:hover { color:var(--text); }
+.fl-live { color:var(--green) !important; }
+.fl-live::before { content:'●'; font-size:0.45rem; }
+.footer-bottom { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; }
+.footer-copy { font-family:'Fira Code',monospace; font-size:0.56rem; color:rgba(238,236,234,0.2); }
+.footer-reg { font-family:'Fira Code',monospace; font-size:0.54rem; color:rgba(238,236,234,0.15); text-align:right; line-height:1.8; }
 
-.footer-bottom {
-  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
-}
-.footer-copy { font-family:'JetBrains Mono',monospace; font-size:0.6rem; color:rgba(255,255,255,0.2); }
-.footer-copy span { color: rgba(255,255,255,0.35); }
-.footer-reg { font-family:'JetBrains Mono',monospace; font-size:0.58rem; color:rgba(255,255,255,0.18); text-align:right; line-height:1.7; }
-
-/* ═══════════════════════════════
+/* ─────────────────────────────
    ANIMATIONS
-═══════════════════════════════ */
-@keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
-.animate { opacity: 0; }
-.animate.in-view { animation: fadeUp 0.65s ease forwards; }
-.d1{animation-delay:0.05s} .d2{animation-delay:0.12s} .d3{animation-delay:0.19s}
-.d4{animation-delay:0.26s} .d5{animation-delay:0.33s} .d6{animation-delay:0.4s}
+───────────────────────────── */
+@keyframes fadeUp { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
+@keyframes fadeIn { from{opacity:0} to{opacity:1} }
 
-/* ═══════════════════════════════
+.reveal { opacity:0; }
+.reveal.visible { animation:fadeUp 0.7s cubic-bezier(0.4,0,0.2,1) forwards; }
+.d1{animation-delay:0.05s} .d2{animation-delay:0.13s} .d3{animation-delay:0.21s}
+.d4{animation-delay:0.29s} .d5{animation-delay:0.37s} .d6{animation-delay:0.45s}
+
+/* ─────────────────────────────
    RESPONSIVE
-═══════════════════════════════ */
-@media (max-width: 900px) {
-  .hero-inner         { grid-template-columns: 1fr; gap: 48px; }
-  .hero-right         { order: -1; }
-  .about-grid         { grid-template-columns: 1fr; gap: 40px; }
-  .brands-grid        { grid-template-columns: 1fr 1fr; }
-  .brand-card-featured{ grid-column: span 2; }
-  .roadmap-grid       { grid-template-columns: 1fr 1fr; gap: 24px; }
-  .roadmap-grid::before { display: none; }
-  .team-grid          { grid-template-columns: 1fr 1fr; }
-  .spotlight-inner    { grid-template-columns: 1fr; gap: 40px; }
-  .contact-grid       { grid-template-columns: 1fr; gap: 40px; }
-  .footer-top         { grid-template-columns: 1fr 1fr; gap: 28px; }
-  .nav-links          { display: none; }
-  .nav-mobile-btn     { display: flex; }
+───────────────────────────── */
+@media (max-width:960px) {
+  .hero-inner     { grid-template-columns:1fr; gap:48px; }
+  .hero-right     { order:-1; }
+  .about-grid     { grid-template-columns:1fr; gap:40px; }
+  .eco-grid       { grid-template-columns:1fr 1fr; }
+  .eco-card-hero  { grid-row:auto; grid-column:span 2; }
+  .spotlight-inner{ grid-template-columns:1fr; gap:40px; }
+  .rm-grid        { grid-template-columns:1fr 1fr; gap:24px; }
+  .rm-grid::before{ display:none; }
+  .team-grid      { grid-template-columns:1fr 1fr; }
+  .contact-grid   { grid-template-columns:1fr; gap:40px; }
+  .footer-top     { grid-template-columns:1fr 1fr; gap:28px; }
+  .nav-links      { display:none; }
+  .nav-mobile-btn { display:flex; }
 }
-@media (max-width: 600px) {
-  .brands-grid        { grid-template-columns: 1fr; }
-  .brand-card-featured{ grid-column: span 1; }
-  .roadmap-grid       { grid-template-columns: 1fr; }
-  .team-grid          { grid-template-columns: 1fr; }
-  .hero-stats         { grid-template-columns: 1fr; }
-  .hstat + .hstat     { border-left: none; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 20px; }
-  .company-info       { grid-template-columns: 1fr; }
-  .form-row           { grid-template-columns: 1fr; }
-  .footer-top         { grid-template-columns: 1fr; }
-  .footer-bottom      { flex-direction: column; align-items: flex-start; }
-  .footer-reg         { text-align: left; }
+@media (max-width:600px) {
+  .eco-grid       { grid-template-columns:1fr; }
+  .eco-card-hero  { grid-column:auto; }
+  .rm-grid        { grid-template-columns:1fr; }
+  .team-grid      { grid-template-columns:1fr 1fr; }
+  .hero-stats     { flex-direction:column; gap:20px; }
+  .hstat + .hstat { border-left:none; border-top:1px solid var(--border); padding-left:0; padding-top:20px; }
+  .meta-grid      { grid-template-columns:1fr; }
+  .form-row       { grid-template-columns:1fr; }
+  .footer-top     { grid-template-columns:1fr; }
+  .footer-bottom  { flex-direction:column; align-items:flex-start; }
+  .footer-reg     { text-align:left; }
+  .container      { padding:0 20px; }
+  .section        { padding:72px 0; }
 }
 </style>
 </head>
@@ -830,10 +927,10 @@ footer {
   <div class="container">
     <div class="nav-inner">
       <a href="#" class="nav-logo">
-        <div class="nav-logo-icon">UV</div>
+        <div class="nav-logo-mark">UV</div>
         <div class="nav-logo-text">
-          <div class="nav-logo-name">UMB Verto</div>
-          <div class="nav-logo-sub">umbverto.biz</div>
+          <span class="name">Юү Эм Би Верто</span>
+          <span class="sub">umbverto.biz</span>
         </div>
       </a>
       <ul class="nav-links">
@@ -843,7 +940,7 @@ footer {
         <li><a href="#team">Баг</a></li>
         <li><a href="#contact" class="nav-cta">Холбоо барих</a></li>
       </ul>
-      <button class="nav-mobile-btn" onclick="toggleMobileNav()">
+      <button class="nav-mobile-btn" onclick="toggleNav()">
         <span></span><span></span><span></span>
       </button>
     </div>
@@ -852,155 +949,172 @@ footer {
 
 <!-- ══════════ HERO ══════════ -->
 <section class="hero" id="home">
-  <div class="hero-pattern"></div>
+  <div class="hero-orb orb1"></div>
+  <div class="hero-orb orb2"></div>
+  <div class="hero-orb orb3"></div>
   <div class="hero-grid"></div>
-  <div class="hero-glow"></div>
-  <div class="hero-glow2"></div>
+  <div class="hero-line hero-line-1"></div>
+  <div class="hero-line hero-line-2"></div>
+
   <div class="container">
     <div class="hero-inner">
       <div class="hero-left">
         <div class="hero-eyebrow">
-          <span class="hero-eyebrow-dot"></span>
-          Монголын Бизнесийн Экосистем
+          <span class="eyebrow-dot"></span>
+          Монголын Бизнесийн Экосистем · bizco.mn
         </div>
         <h1 class="hero-title">
           Бизнесийг<br>
-          <span class="line2">Хялбарчлах</span><br>
-          Платформ
+          <span class="line-accent">Хялбарчлах</span><br>
+          <span class="line-dim">Платформ</span>
         </h1>
         <p class="hero-desc">
-          UMB Verto ХХК нь Монголын бизнес эрхлэгчдэд зориулсан онлайн үйлчилгээний экосистем байгуулж байна. BizPrint-ээс эхлэн маркетинг, рент, медиа, ивент хүртэл нэг платформд нэгтгэнэ.
+          Юү Эм Би Верто ХХК нь Монголын бизнес эрхлэгчдэд зориулсан онлайн үйлчилгээний экосистем байгуулж байна. BizPrint-ээс эхлэн маркетинг, рент, медиа, ивент хүртэл нэг платформд нэгтгэнэ.
         </p>
         <div class="hero-actions">
-          <a href="https://bizprint.mn" class="btn-primary">
-            🖨️ BizPrint үзэх →
-          </a>
-          <a href="#ecosystem" class="btn-ghost">
-            Экосистем →
-          </a>
+          <a href="https://bizprint.mn" class="btn-primary">🖨️ BizPrint үзэх →</a>
+          <a href="https://www.bizco.mn" class="btn-outline">bizco.mn →</a>
         </div>
-        <div class="hero-stats" style="margin-top:48px;">
+        <div class="hero-stats">
           <div class="hstat">
-            <div class="hstat-val">5+</div>
-            <div class="hstat-label">Biz Брэнд</div>
+            <div class="hstat-val">5<span>+</span></div>
+            <div class="hstat-lbl">Biz Брэнд</div>
           </div>
           <div class="hstat">
             <div class="hstat-val">1</div>
-            <div class="hstat-label">Идэвхтэй платформ</div>
+            <div class="hstat-lbl">Идэвхтэй платформ</div>
           </div>
           <div class="hstat">
             <div class="hstat-val">∞</div>
-            <div class="hstat-label">Өсөлтийн боломж</div>
+            <div class="hstat-lbl">Өсөлтийн боломж</div>
           </div>
         </div>
       </div>
 
-      <div class="hero-right">
-        <a href="https://bizprint.mn" class="biz-card-mini bc-print">
-          <div class="bci-icon">🖨️</div>
-          <div class="bci-text">
-            <div class="bci-name">BizPrint <span class="bci-status status-live">● Идэвхтэй</span></div>
-            <div class="bci-desc">Монголын хэвлэлийн онлайн экосистем</div>
+      <div class="hero-cards">
+        <a href="https://bizprint.mn" class="bcard bcard-print">
+          <div class="bcard-icon">🖨️</div>
+          <div class="bcard-body">
+            <div class="bcard-name">BizPrint <span class="badge badge-live">● Идэвхтэй</span></div>
+            <div class="bcard-desc">Монголын хэвлэлийн онлайн экосистем</div>
           </div>
-          <span class="bci-arrow">→</span>
+          <span class="bcard-arrow">→</span>
         </a>
-        <div class="biz-card-mini bc-market">
-          <div class="bci-icon">📣</div>
-          <div class="bci-text">
-            <div class="bci-name">BizMarketing <span class="bci-status status-soon">Тун удахгүй</span></div>
-            <div class="bci-desc">Онлайн маркетингийн үйлчилгээ</div>
+        <a href="https://www.bizco.mn" class="bcard bcard-mktg">
+          <div class="bcard-icon">📣</div>
+          <div class="bcard-body">
+            <div class="bcard-name">BizMarketing <span class="badge badge-soon">Тун удахгүй</span></div>
+            <div class="bcard-desc">Онлайн маркетингийн үйлчилгээ</div>
           </div>
-          <span class="bci-arrow">→</span>
-        </div>
-        <div class="biz-card-mini bc-rent">
-          <div class="bci-icon">🏢</div>
-          <div class="bci-text">
-            <div class="bci-name">BizRent <span class="bci-status status-soon">Тун удахгүй</span></div>
-            <div class="bci-desc">Бизнесийн тоног төхөөрөмж түрээс</div>
+          <span class="bcard-arrow">→</span>
+        </a>
+        <a href="https://www.bizco.mn" class="bcard bcard-rent">
+          <div class="bcard-icon">🏢</div>
+          <div class="bcard-body">
+            <div class="bcard-name">BizRent <span class="badge badge-soon">Тун удахгүй</span></div>
+            <div class="bcard-desc">Бизнесийн тоног төхөөрөмж түрээс</div>
           </div>
-          <span class="bci-arrow">→</span>
-        </div>
-        <div class="biz-card-mini bc-press">
-          <div class="bci-icon">📰</div>
-          <div class="bci-text">
-            <div class="bci-name">BizPress <span class="bci-status status-soon">Тун удахгүй</span></div>
-            <div class="bci-desc">Мэдээ, медиа, контент платформ</div>
+          <span class="bcard-arrow">→</span>
+        </a>
+        <a href="https://www.bizco.mn" class="bcard bcard-press">
+          <div class="bcard-icon">📰</div>
+          <div class="bcard-body">
+            <div class="bcard-name">BizPress <span class="badge badge-soon">Тун удахгүй</span></div>
+            <div class="bcard-desc">Мэдээ, медиа, контент платформ</div>
           </div>
-          <span class="bci-arrow">→</span>
-        </div>
-        <div class="biz-card-mini bc-event">
-          <div class="bci-icon">🎪</div>
-          <div class="bci-text">
-            <div class="bci-name">BizEvent <span class="bci-status status-soon">Тун удахгүй</span></div>
-            <div class="bci-desc">Арга хэмжээ, ивент зохион байгуулалт</div>
+          <span class="bcard-arrow">→</span>
+        </a>
+        <a href="https://www.bizco.mn" class="bcard bcard-event">
+          <div class="bcard-icon">🎪</div>
+          <div class="bcard-body">
+            <div class="bcard-name">BizEvent <span class="badge badge-soon">Тун удахгүй</span></div>
+            <div class="bcard-desc">Арга хэмжээ, ивент зохион байгуулалт</div>
           </div>
-          <span class="bci-arrow">→</span>
-        </div>
+          <span class="bcard-arrow">→</span>
+        </a>
       </div>
     </div>
   </div>
 </section>
 
+<!-- ══════════ MARQUEE ══════════ -->
+<div class="marquee-strip">
+  <div class="marquee-inner">
+    <!-- Duplicated for seamless loop -->
+    <div class="marquee-item highlight"><span class="marquee-dot"></span> BizPrint — Одоо ажиллаж байна</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Монгол даяар хүргэлт</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> BizMarketing тун удахгүй</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> 5+ Biz брэнд</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Өөрөө санхүүжих стратеги</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> BizRent · BizPress · BizEvent</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> umbverto.biz</div>
+    <div class="marquee-item highlight"><span class="marquee-dot"></span> BizPrint — Одоо ажиллаж байна</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Монгол даяар хүргэлт</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> BizMarketing тун удахгүй</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> 5+ Biz брэнд</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Өөрөө санхүүжих стратеги</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> BizRent · BizPress · BizEvent</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> umbverto.biz</div>
+  </div>
+</div>
+
 <!-- ══════════ ABOUT ══════════ -->
 <section class="about section" id="about">
   <div class="container">
     <div class="about-grid">
-      <div class="about-left animate d1">
-        <div class="eyebrow">Бидний тухай</div>
-        <h2 class="section-title">UMB Verto <span class="accent">ХХК</span></h2>
+      <div class="reveal d1">
+        <div class="label">Бидний тухай</div>
+        <h2 class="section-title">Юү Эм Би Верто <span class="accent">ХХК</span></h2>
         <p class="section-desc">
           Монголын бизнес эрхлэгчдийн өдөр тутмын асуудлыг технологиор шийдэх зорилготой компани. Эхний алхам болох BizPrint-ийн амжилтаас санхүүжиж, дараагийн платформуудыг бий болгоно.
         </p>
-
-        <div class="about-mission">
-          <div class="am-label">Эрхэм Зорилго</div>
-          <div class="am-text">
-            "Монголын <span>бизнес эрхлэгч</span> бүрт ухаалаг, хялбар, хүртээмжтэй онлайн үйлчилгээг — <span>нэг экосистемд</span> нэгтгэн хүргэх."
+        <div class="mission-card">
+          <div class="mc-label">// Эрхэм Зорилго</div>
+          <div class="mc-text">
+            "Монголын <span class="hi">бизнес эрхлэгч</span> бүрт ухаалаг, хялбар, хүртээмжтэй онлайн үйлчилгээг — <span class="hi">нэг экосистемд</span> нэгтгэн хүргэх."
+          </div>
+        </div>
+        <div class="meta-grid" style="margin-top:32px;">
+          <div class="meta-item">
+            <div class="meta-lbl">Компани</div>
+            <div class="meta-val">Юү Эм Би Верто ХХК</div>
+          </div>
+          <div class="meta-item">
+            <div class="meta-lbl">Домэйн</div>
+            <div class="meta-val">umbverto.biz</div>
+          </div>
+          <div class="meta-item">
+            <div class="meta-lbl">Чиглэл</div>
+            <div class="meta-val">Онлайн үйлчилгээ</div>
+          </div>
+          <div class="meta-item">
+            <div class="meta-lbl">Эхний платформ</div>
+            <div class="meta-val" style="color:var(--green)">BizPrint ● Идэвхтэй</div>
           </div>
         </div>
       </div>
-
-      <div class="about-right animate d2">
-        <div class="about-values">
-          <div class="value-item">
-            <div class="vi-num">01</div>
-            <div class="vi-body">
-              <div class="vi-title">Өөрөө санхүүжих зарчим</div>
-              <div class="vi-desc">BizPrint-ийн орлогоос дараагийн платформуудыг хөгжүүлнэ. Гадаад санхүүжилтгүйгээр тогтвортой өсөх стратеги.</div>
+      <div class="reveal d2">
+        <div class="values-list">
+          <div class="value-row">
+            <div class="vr-num">01</div>
+            <div>
+              <div class="vr-title">Өөрөө санхүүжих зарчим</div>
+              <div class="vr-desc">BizPrint-ийн орлогоос дараагийн платформуудыг хөгжүүлнэ. Гадаад санхүүжилтгүйгээр тогтвортой өсөх стратеги.</div>
             </div>
           </div>
-          <div class="value-item">
-            <div class="vi-num">02</div>
-            <div class="vi-body">
-              <div class="vi-title">Монголын зах зээлд зориулсан</div>
-              <div class="vi-desc">Бүх платформ Монголын бизнесийн орчин, хэрэглэгчийн зан төлөвт нийцүүлэн боловсруулагдсан.</div>
+          <div class="value-row">
+            <div class="vr-num">02</div>
+            <div>
+              <div class="vr-title">Монголын зах зээлд зориулсан</div>
+              <div class="vr-desc">Бүх платформ Монголын бизнесийн орчин, хэрэглэгчийн зан төлөвт нийцүүлэн боловсруулагдсан.</div>
             </div>
           </div>
-          <div class="value-item">
-            <div class="vi-num">03</div>
-            <div class="vi-body">
-              <div class="vi-title">Экосистемийн хандлага</div>
-              <div class="vi-desc">Тусдаа бүтээгдэхүүн биш — бие биеэ дэмжсэн, нэг брэнд дор нэгдсэн "Biz*" экосистем байгуулна.</div>
+          <div class="value-row">
+            <div class="vr-num">03</div>
+            <div>
+              <div class="vr-title">Экосистемийн хандлага</div>
+              <div class="vr-desc">Тусдаа бүтээгдэхүүн биш — бие биеэ дэмжсэн, нэг брэнд дор нэгдсэн "Biz*" экосистем байгуулна.</div>
             </div>
-          </div>
-        </div>
-
-        <div class="company-info">
-          <div class="ci-item">
-            <div class="ci-label">Компанийн нэр</div>
-            <div class="ci-val">ЮЭМБИВерто ХХК</div>
-          </div>
-          <div class="ci-item">
-            <div class="ci-label">Домэйн</div>
-            <div class="ci-val">umbverto.biz</div>
-          </div>
-          <div class="ci-item">
-            <div class="ci-label">Үйл ажиллагааны чиглэл</div>
-            <div class="ci-val">Онлайн үйлчилгээ</div>
-          </div>
-          <div class="ci-item">
-            <div class="ci-label">Эхний платформ</div>
-            <div class="ci-val">BizPrint — Идэвхтэй</div>
           </div>
         </div>
       </div>
@@ -1011,178 +1125,169 @@ footer {
 <!-- ══════════ ECOSYSTEM ══════════ -->
 <section class="ecosystem section" id="ecosystem">
   <div class="container">
-    <div class="animate d1">
-      <div class="eyebrow">Biz* Экосистем</div>
+    <div class="reveal d1">
+      <div class="label">Biz* Экосистем</div>
       <h2 class="section-title">Таны бизнест хэрэгтэй<br><span class="accent">бүх үйлчилгээ</span> нэг дор</h2>
       <p class="section-desc">
-        UMB Verto ХХК нь "Biz*" брэндийн дор 5 чиглэлийн онлайн платформ байгуулахаар зорьж байна. Эхний ба гол платформ болох BizPrint одоо ажиллаж байна.
+        Юү Эм Би Верто ХХК нь "Biz*" брэндийн дор 5 чиглэлийн онлайн платформ байгуулахаар зорьж байна. Эхний ба гол платформ болох BizPrint одоо ажиллаж байна.
       </p>
     </div>
-
-    <div class="brands-grid">
-
+    <div class="eco-grid">
       <!-- BizPrint — Featured -->
-      <a href="https://bizprint.mn" class="brand-card brand-card-featured bc-r animate d2">
-        <div class="brand-top">
-          <div class="brand-icon bi-red-d">🖨️</div>
-          <span class="brand-badge badge-live-d">● Одоо ажиллаж байна</span>
+      <a href="https://bizprint.mn" class="eco-card eco-card-hero eco-r reveal d2">
+        <div class="eco-card-top">
+          <div class="eco-icon icon-r">🖨️</div>
+          <span class="badge badge-live">● Одоо ажиллаж байна</span>
         </div>
-        <div class="brand-name"><span class="biz-d">Biz</span><span class="part">Print</span></div>
-        <div class="brand-tagline">Монголын хэвлэлийн онлайн экосистем — захиалагч, үйлдвэр, дизайнер, борлуулагчийг нэгтгэсэн ухаалаг платформ</div>
-        <ul class="brand-features">
+        <div class="brand-name"><span class="biz-part">Biz</span><span class="color-r">Print</span></div>
+        <div class="brand-tag">Монголын хэвлэлийн онлайн экосистем — захиалагч, үйлдвэр, дизайнер, борлуулагчийг нэгтгэсэн ухаалаг платформ</div>
+        <ul class="feature-list">
           <li>Монголын хаанаас ч онлайн захиалга өгөх боломж</li>
           <li>Байршилд суурилсан ухаалаг үйлдвэр сонголт</li>
           <li>Нээлттэй үнэлгээний систем — чанарын баталгаа</li>
           <li>Яаралтай горим — хамгийн ойр үйлдвэрт чиглүүлнэ</li>
           <li>Дизайн + хэвлэл + хүргэлт нэг платформд</li>
         </ul>
-        <a href="https://bizprint.mn" class="bizprint-cta">
-          BizPrint үзэх → bizprint.mn
-        </a>
+        <a href="https://bizprint.mn" class="eco-cta">bizprint.mn үзэх →</a>
       </a>
 
       <!-- BizMarketing -->
-      <div class="brand-card bc-b animate d3">
-        <div class="brand-top">
-          <div class="brand-icon bi-blue">📣</div>
-          <span class="brand-badge badge-soon">Тун удахгүй</span>
+      <a href="https://www.bizco.mn" class="eco-card eco-b reveal d3">
+        <div class="eco-card-top">
+          <div class="eco-icon icon-b">📣</div>
+          <span class="badge badge-soon">Тун удахгүй</span>
         </div>
-        <div class="brand-name"><span class="biz">Biz</span><span class="part-b">Marketing</span></div>
-        <div class="brand-tagline">Онлайн маркетингийн бүрэн үйлчилгээний платформ</div>
-        <ul class="brand-features">
+        <div class="brand-name"><span class="biz-part">Biz</span><span class="color-b">Marketing</span></div>
+        <div class="brand-tag">Онлайн маркетингийн бүрэн үйлчилгээний платформ</div>
+        <ul class="feature-list">
           <li>Нийгмийн сүлжээний контент, зар</li>
           <li>SEO, Google Ads удирдлага</li>
           <li>Маркетингийн дүн шинжилгээ</li>
-          <li>Мэргэжлийн агентуудтай холбох</li>
         </ul>
-        <div class="brand-footer">
-          <span class="brand-link">bizmarketing.mn →</span>
+        <div class="eco-footer">
+          <span class="eco-link">bizco.mn →</span>
         </div>
-      </div>
+      </a>
 
       <!-- BizRent -->
-      <div class="brand-card bc-g animate d4">
-        <div class="brand-top">
-          <div class="brand-icon bi-green">🏢</div>
-          <span class="brand-badge badge-soon">Тун удахгүй</span>
+      <a href="https://www.bizco.mn" class="eco-card eco-g reveal d4">
+        <div class="eco-card-top">
+          <div class="eco-icon icon-g">🏢</div>
+          <span class="badge badge-soon">Тун удахгүй</span>
         </div>
-        <div class="brand-name"><span class="biz">Biz</span><span class="part-g">Rent</span></div>
-        <div class="brand-tagline">Бизнесийн тоног төхөөрөмж, орон зайн түрээсийн платформ</div>
-        <ul class="brand-features">
+        <div class="brand-name"><span class="biz-part">Biz</span><span class="color-g">Rent</span></div>
+        <div class="brand-tag">Бизнесийн тоног төхөөрөмж, орон зайн түрээсийн платформ</div>
+        <ul class="feature-list">
           <li>Оффис, уулзалтын өрөө түрээс</li>
           <li>Техник, тоног төхөөрөмж</li>
           <li>Онлайн захиалга, хуваарь</li>
-          <li>Баталгаажуулсан эзэмшигчид</li>
         </ul>
-        <div class="brand-footer">
-          <span class="brand-link">bizrent.mn →</span>
+        <div class="eco-footer">
+          <span class="eco-link">bizco.mn →</span>
         </div>
-      </div>
+      </a>
 
       <!-- BizPress -->
-      <div class="brand-card bc-p animate d5">
-        <div class="brand-top">
-          <div class="brand-icon bi-purple">📰</div>
-          <span class="brand-badge badge-soon">Тун удахгүй</span>
+      <a href="https://www.bizco.mn" class="eco-card eco-p reveal d5">
+        <div class="eco-card-top">
+          <div class="eco-icon icon-p">📰</div>
+          <span class="badge badge-soon">Тун удахгүй</span>
         </div>
-        <div class="brand-name"><span class="biz">Biz</span><span class="part-p">Press</span></div>
-        <div class="brand-tagline">Бизнесийн мэдээ, медиа контентийн платформ</div>
-        <ul class="brand-features">
+        <div class="brand-name"><span class="biz-part">Biz</span><span class="color-p">Press</span></div>
+        <div class="brand-tag">Бизнесийн мэдээ, медиа контентийн платформ</div>
+        <ul class="feature-list">
           <li>Монголын бизнесийн мэдээ</li>
           <li>Пресс-релиз тараах үйлчилгээ</li>
-          <li>Компанийн хэвлэл мэдээллийн менежмент</li>
           <li>Контент маркетингийн хэрэгсэл</li>
         </ul>
-        <div class="brand-footer">
-          <span class="brand-link">bizpress.mn →</span>
+        <div class="eco-footer">
+          <span class="eco-link">bizco.mn →</span>
         </div>
-      </div>
+      </a>
 
       <!-- BizEvent -->
-      <div class="brand-card bc-a animate d6">
-        <div class="brand-top">
-          <div class="brand-icon bi-amber">🎪</div>
-          <span class="brand-badge badge-soon">Тун удахгүй</span>
+      <a href="https://www.bizco.mn" class="eco-card eco-a reveal d6">
+        <div class="eco-card-top">
+          <div class="eco-icon icon-a">🎪</div>
+          <span class="badge badge-soon">Тун удахгүй</span>
         </div>
-        <div class="brand-name"><span class="biz">Biz</span><span class="part-a">Event</span></div>
-        <div class="brand-tagline">Бизнесийн арга хэмжээ, ивент зохион байгуулалтын платформ</div>
-        <ul class="brand-features">
+        <div class="brand-name"><span class="biz-part">Biz</span><span class="color-a">Event</span></div>
+        <div class="brand-tag">Бизнесийн арга хэмжээ, ивент зохион байгуулалтын платформ</div>
+        <ul class="feature-list">
           <li>Хурал, семинар, үзэсгэлэн</li>
           <li>Venue болон үйлчилгээ захиалах</li>
           <li>Тасалбар, бүртгэл удирдлага</li>
-          <li>Ивент маркетинг, сурталчилгаа</li>
         </ul>
-        <div class="brand-footer">
-          <span class="brand-link">bizevent.mn →</span>
+        <div class="eco-footer">
+          <span class="eco-link">bizco.mn →</span>
         </div>
-      </div>
-
+      </a>
     </div>
   </div>
 </section>
 
-<!-- ══════════ BIZPRINT SPOTLIGHT ══════════ -->
+<!-- ══════════ SPOTLIGHT ══════════ -->
 <section class="spotlight section">
   <div class="container">
     <div class="spotlight-inner">
-      <div>
-        <div class="sp-eyebrow">Одоогийн Гол Платформ</div>
-        <h2 class="sp-title">BizPrint — Хэвлэлийн Ухаалаг Экосистем</h2>
+      <div class="reveal d1">
+        <div class="sp-label">Одоогийн Гол Платформ</div>
+        <h2 class="sp-title">BizPrint —<br>Хэвлэлийн Ухаалаг Экосистем</h2>
         <p class="sp-desc">
           Монголын хэвлэлийн зах зээлийн анхны онлайн экосистем. Захиалагч, гэрээт үйлдвэр, дизайнер, борлуулагч — бүгдийг нэг ухаалаг платформд нэгтгэнэ.
         </p>
-        <div class="sp-features">
+        <div class="sp-feats">
           <div class="sp-feat">
-            <div class="sp-feat-icon">📍</div>
+            <div class="sp-feat-ico">📍</div>
             <div class="sp-feat-text"><strong>Байршилд суурилсан</strong> — Монгол даяар хаанаас ч захиалж, ойрхон үйлдвэрт хүргүүлэх</div>
           </div>
           <div class="sp-feat">
-            <div class="sp-feat-icon">⭐</div>
-            <div class="sp-feat-text"><strong>Үнэлгээний систем</strong> — Бүх оролцогч нээлттэй үнэлгээтэй, чанарын шахалт байнга ажилна</div>
+            <div class="sp-feat-ico">⭐</div>
+            <div class="sp-feat-text"><strong>Үнэлгээний систем</strong> — Бүх оролцогч нээлттэй үнэлгээтэй, чанарын баталгаа</div>
           </div>
           <div class="sp-feat">
-            <div class="sp-feat-icon">🚨</div>
-            <div class="sp-feat-text"><strong>Яаралтай горим</strong> — Хязгаарлалт арилж, хамгийн хурдан үйлдвэрт чиглүүлнэ</div>
+            <div class="sp-feat-ico">🚨</div>
+            <div class="sp-feat-text"><strong>Яаралтай горим</strong> — Хамгийн хурдан үйлдвэрт автоматаар чиглүүлнэ</div>
           </div>
           <div class="sp-feat">
-            <div class="sp-feat-icon">🎨</div>
-            <div class="sp-feat-text"><strong>Нэгдсэн экосистем</strong> — Дизайн, хэвлэл, хүргэлт нэг платформд бүрэн шийдэгдэнэ</div>
+            <div class="sp-feat-ico">🎨</div>
+            <div class="sp-feat-text"><strong>Нэгдсэн экосистем</strong> — Дизайн, хэвлэл, хүргэлт нэг платформд</div>
           </div>
         </div>
         <a href="https://bizprint.mn" class="btn-primary">bizprint.mn үзэх →</a>
       </div>
-      <div class="sp-right animate d2">
-        <div class="sp-stat-card">
-          <div class="sp-sc-top">
-            <span class="sp-sc-icon">🌏</span>
-            <span class="sp-sc-label">Хамрах хүрээ</span>
+      <div class="sp-stats reveal d2">
+        <div class="sp-stat">
+          <span class="sp-stat-ico">🌏</span>
+          <div class="sp-stat-body">
+            <div class="sp-stat-lbl">Хамрах хүрээ</div>
+            <div class="sp-stat-val">Монгол Улс</div>
+            <div class="sp-stat-sub">21 аймаг + Улаанбаатар хот</div>
           </div>
-          <div class="sp-sc-val">Монгол Улс</div>
-          <div class="sp-sc-desc">21 аймаг + Улаанбаатар хот</div>
         </div>
-        <div class="sp-stat-card">
-          <div class="sp-sc-top">
-            <span class="sp-sc-icon">👥</span>
-            <span class="sp-sc-label">Оролцогчид</span>
+        <div class="sp-stat">
+          <span class="sp-stat-ico">👥</span>
+          <div class="sp-stat-body">
+            <div class="sp-stat-lbl">Оролцогчид</div>
+            <div class="sp-stat-val">4 анги</div>
+            <div class="sp-stat-sub">Захиалагч · Үйлдвэр · Дизайнер · Борлуулагч</div>
           </div>
-          <div class="sp-sc-val">4 анги</div>
-          <div class="sp-sc-desc">Захиалагч · Үйлдвэр · Дизайнер · Борлуулагч</div>
         </div>
-        <div class="sp-stat-card">
-          <div class="sp-sc-top">
-            <span class="sp-sc-icon">⚡</span>
-            <span class="sp-sc-label">Захиалгын дараалал</span>
+        <div class="sp-stat">
+          <span class="sp-stat-ico">⚡</span>
+          <div class="sp-stat-body">
+            <div class="sp-stat-lbl">Захиалгын дараалал</div>
+            <div class="sp-stat-val">6 алхам</div>
+            <div class="sp-stat-sub">Захиалгаас хүргэлт хүртэл автоматжуулсан</div>
           </div>
-          <div class="sp-sc-val">6 алхам</div>
-          <div class="sp-sc-desc">Захиалгаас хүргэлт хүртэл автоматжуулсан</div>
         </div>
-        <div class="sp-stat-card">
-          <div class="sp-sc-top">
-            <span class="sp-sc-icon">📈</span>
-            <span class="sp-sc-label">Зорилт</span>
+        <div class="sp-stat">
+          <span class="sp-stat-ico">📈</span>
+          <div class="sp-stat-body">
+            <div class="sp-stat-lbl">Зорилт</div>
+            <div class="sp-stat-val">Эко­систем #1</div>
+            <div class="sp-stat-sub">Монголын хэвлэлийн онлайн зах зээл</div>
           </div>
-          <div class="sp-sc-val">Экосистем</div>
-          <div class="sp-sc-desc">Монголын хэвлэлийн зах зээлийн #1 онлайн платформ</div>
         </div>
       </div>
     </div>
@@ -1192,46 +1297,46 @@ footer {
 <!-- ══════════ ROADMAP ══════════ -->
 <section class="roadmap section" id="roadmap">
   <div class="container">
-    <div class="animate d1">
-      <div class="eyebrow">Хөгжлийн Зам</div>
+    <div class="reveal d1">
+      <div class="label">Хөгжлийн Зам</div>
       <h2 class="section-title">Өнөөдрөөс <span class="accent">ирээдүй хүртэл</span></h2>
       <p class="section-desc">Өөрөө санхүүжих зарчмаар — BizPrint-ийн орлогоос Biz* экосистемийг нэг нэгээр байгуулна.</p>
     </div>
-    <div class="roadmap-grid">
-      <div class="rm-step rm1 animate d1">
-        <div class="rm-dot">🖨️</div>
-        <div class="rm-label">Шат 1 · Одоо</div>
+    <div class="rm-grid" style="margin-top:56px;">
+      <div class="rm-step rm1 reveal d1">
+        <div class="rm-dot"><div class="rm-dot-ring"></div>🖨️</div>
+        <div class="rm-phase">Шат 1 · Одоо</div>
         <div class="rm-name">BizPrint</div>
         <div class="rm-desc">Хэвлэлийн онлайн экосистем байгуулж, зах зээлд байр сууриа эзэлнэ.</div>
-        <div class="rm-time">● Идэвхтэй</div>
+        <div class="rm-tag">● Идэвхтэй</div>
       </div>
-      <div class="rm-step rm2 animate d2">
-        <div class="rm-dot">📣</div>
-        <div class="rm-label">Шат 2</div>
+      <div class="rm-step rm2 reveal d2">
+        <div class="rm-dot"><div class="rm-dot-ring"></div>📣</div>
+        <div class="rm-phase">Шат 2</div>
         <div class="rm-name">BizMarketing</div>
         <div class="rm-desc">BizPrint-ийн орлогоос санхүүжиж маркетингийн платформ нэмэнэ.</div>
-        <div class="rm-time">Тун удахгүй</div>
+        <div class="rm-tag">Тун удахгүй</div>
       </div>
-      <div class="rm-step rm3 animate d3">
-        <div class="rm-dot">🏢</div>
-        <div class="rm-label">Шат 3</div>
+      <div class="rm-step rm3 reveal d3">
+        <div class="rm-dot"><div class="rm-dot-ring"></div>🏢</div>
+        <div class="rm-phase">Шат 3</div>
         <div class="rm-name">BizRent</div>
         <div class="rm-desc">Бизнесийн тоног төхөөрөмж, орон зайн түрээсийн платформ.</div>
-        <div class="rm-time">Хожим</div>
+        <div class="rm-tag">Хожим</div>
       </div>
-      <div class="rm-step rm4 animate d4">
-        <div class="rm-dot">📰</div>
-        <div class="rm-label">Шат 4</div>
+      <div class="rm-step rm4 reveal d4">
+        <div class="rm-dot"><div class="rm-dot-ring"></div>📰</div>
+        <div class="rm-phase">Шат 4</div>
         <div class="rm-name">BizPress</div>
         <div class="rm-desc">Монголын бизнесийн мэдээ, медиа контентийн платформ.</div>
-        <div class="rm-time">Хожим</div>
+        <div class="rm-tag">Хожим</div>
       </div>
-      <div class="rm-step rm5 animate d5">
-        <div class="rm-dot">🎪</div>
-        <div class="rm-label">Шат 5</div>
+      <div class="rm-step rm5 reveal d5">
+        <div class="rm-dot"><div class="rm-dot-ring"></div>🎪</div>
+        <div class="rm-phase">Шат 5</div>
         <div class="rm-name">BizEvent</div>
         <div class="rm-desc">Арга хэмжээ, ивент зохион байгуулалтын нэгдсэн платформ.</div>
-        <div class="rm-time">Ирээдүй</div>
+        <div class="rm-tag">Ирээдүй</div>
       </div>
     </div>
   </div>
@@ -1240,46 +1345,35 @@ footer {
 <!-- ══════════ TEAM ══════════ -->
 <section class="team section" id="team">
   <div class="container">
-    <div class="animate d1">
-      <div class="eyebrow">Манай Баг</div>
+    <div class="reveal d1">
+      <div class="label">Манай Баг</div>
       <h2 class="section-title">Экосистемийг <span class="accent">байгуулагчид</span></h2>
-      <p class="section-desc">UMB Verto ХХК-ийн баг BizPrint болон цаашдын Biz* экосистемийг хамтдаа байгуулж байна.</p>
+      <p class="section-desc">Юү Эм Би Верто ХХК-ийн баг BizPrint болон цаашдын Biz* экосистемийг хамтдаа байгуулж байна.</p>
     </div>
-    <div class="team-grid">
-      <div class="team-card animate d2">
-        <div class="team-avatar">
-          👤
-          <div class="team-avatar-ring"></div>
-        </div>
+    <div class="team-grid" style="margin-top:52px;">
+      <div class="team-card reveal d2">
+        <div class="team-avatar">👤<div class="team-ring"></div></div>
         <div class="team-name">Удирдлагын баг</div>
         <div class="team-role">Founder & Leadership</div>
-        <div class="team-desc">UMB Verto ХХК-ийн үүсгэн байгуулагч болон стратегийн удирдлагын баг. BizPrint-ийн эхлэлийг хамтдаа бүтээсэн.</div>
+        <div class="team-desc">Юү Эм Би Верто ХХК-ийн үүсгэн байгуулагч болон стратегийн удирдлагын баг.</div>
       </div>
-      <div class="team-card animate d3">
-        <div class="team-avatar">
-          💻
-          <div class="team-avatar-ring"></div>
-        </div>
+      <div class="team-card reveal d3">
+        <div class="team-avatar">💻<div class="team-ring"></div></div>
         <div class="team-name">Технологийн баг</div>
         <div class="team-role">Tech & Development</div>
-        <div class="team-desc">BizPrint платформын хөгжүүлэлт, систем архитектур, мобайл аппликэйшн болон ухаалаг хуваарилалтын системийг хариуцна.</div>
+        <div class="team-desc">BizPrint платформын хөгжүүлэлт, систем архитектур болон ухаалаг хуваарилалтын системийг хариуцна.</div>
       </div>
-      <div class="team-card animate d4">
-        <div class="team-avatar">
-          📈
-          <div class="team-avatar-ring"></div>
-        </div>
+      <div class="team-card reveal d4">
+        <div class="team-avatar">📈<div class="team-ring"></div></div>
         <div class="team-name">Бизнесийн баг</div>
         <div class="team-role">Business & Operations</div>
         <div class="team-desc">Үйлдвэртэй гэрээ байгуулах, захиалагч татах, борлуулалтын сувгийг бий болгох болон ажиллагааг хариуцна.</div>
       </div>
-      <div class="team-card team-add animate d5">
-        <div class="team-avatar" style="background:var(--surface);border:2px dashed var(--border2);">
-          ＋
-        </div>
-        <div class="team-add-text" style="font-weight:700;">Манай багт нэгдэх үү?</div>
-        <div class="team-add-sub" style="color:var(--text3);font-size:0.78rem;margin-top:6px;">BizPrint болон Biz* экосистемийг хамтдаа байгуулах хүсэлтэй хөгжүүлэгч, дизайнер, маркетер хайж байна.</div>
-        <a href="#contact" style="display:inline-flex;align-items:center;gap:5px;margin-top:14px;font-size:0.8rem;font-weight:700;color:var(--red);text-decoration:none;">Холбоо барих →</a>
+      <div class="team-card team-join reveal d5">
+        <div class="team-avatar" style="background:rgba(255,255,255,0.04);border:1px dashed rgba(255,255,255,0.15);">＋</div>
+        <div class="team-join-title">Манай багт нэгдэх үү?</div>
+        <div class="team-join-sub">Хөгжүүлэгч, дизайнер, маркетер хайж байна.</div>
+        <a href="#contact" class="team-join-cta">Холбоо барих →</a>
       </div>
     </div>
   </div>
@@ -1288,13 +1382,13 @@ footer {
 <!-- ══════════ CONTACT ══════════ -->
 <section class="contact section" id="contact">
   <div class="container">
-    <div class="animate d1">
-      <div class="eyebrow">Холбоо барих</div>
+    <div class="reveal d1">
+      <div class="label">Холбоо барих</div>
       <h2 class="section-title">Хамтдаа <span class="accent">байгуулцгаая</span></h2>
       <p class="section-desc">Үйлдвэртэй гэрээ байгуулах, борлуулагч болох, хөрөнгө оруулах, эсвэл зүгээр танилцах — бид таны хүсэлтийг хүлээн авч байна.</p>
     </div>
-    <div class="contact-grid" style="margin-top:48px;">
-      <div class="animate d2">
+    <div class="contact-grid">
+      <div class="reveal d2">
         <div class="contact-form">
           <div class="cf-title">Мессеж илгээх</div>
           <div class="cf-sub">Бид 1–2 ажлын өдрийн дотор хариулна.</div>
@@ -1314,7 +1408,7 @@ footer {
           </div>
           <div class="form-group">
             <label class="form-label">Зорилго</label>
-            <select class="form-input form-select">
+            <select class="form-input">
               <option>BizPrint — Захиалагч болох</option>
               <option>BizPrint — Үйлдвэр болох (гэрээ)</option>
               <option>BizPrint — Борлуулагч болох</option>
@@ -1325,50 +1419,52 @@ footer {
           </div>
           <div class="form-group">
             <label class="form-label">Мессеж</label>
-            <textarea class="form-input form-textarea" placeholder="Дэлгэрэнгүй мэдээлэл..."></textarea>
+            <textarea class="form-input" placeholder="Дэлгэрэнгүй мэдээлэл..."></textarea>
           </div>
           <button class="btn-submit">Илгээх →</button>
         </div>
       </div>
-
-      <div class="contact-info animate d3">
+      <div class="contact-side reveal d3">
         <div class="contact-info-item">
-          <div class="cii-icon">🌐</div>
-          <div class="cii-body">
-            <div class="cii-label">Вебсайт</div>
-            <div class="cii-val">umbverto.biz</div>
-            <div class="cii-sub">bizprint.mn — Эхний платформ</div>
+          <div class="cii-ico">📞</div>
+          <div>
+            <div class="cii-lbl">Утас</div>
+            <div class="cii-val">+976 7200-0444</div>
+            <div class="cii-sub">Ажлын цагаар: Даваа–Баасан 09:00–18:00</div>
           </div>
         </div>
         <div class="contact-info-item">
-          <div class="cii-icon">📍</div>
-          <div class="cii-body">
-            <div class="cii-label">Байршил</div>
+          <div class="cii-ico">📧</div>
+          <div>
+            <div class="cii-lbl">Имэйл</div>
+            <div class="cii-val">bizprint@umbverto.biz</div>
+            <div class="cii-sub">bizprintpro@gmail.com</div>
+          </div>
+        </div>
+        <div class="contact-info-item">
+          <div class="cii-ico">🌐</div>
+          <div>
+            <div class="cii-lbl">Вебсайтууд</div>
+            <div class="cii-val">umbverto.biz · bizprint.mn</div>
+            <div class="cii-sub"><a href="https://www.bizco.mn" style="color:var(--red2);text-decoration:none;">bizco.mn</a> — Нэгдсэн экосистем</div>
+          </div>
+        </div>
+        <div class="contact-info-item">
+          <div class="cii-ico">📍</div>
+          <div>
+            <div class="cii-lbl">Байршил</div>
             <div class="cii-val">Улаанбаатар, Монгол</div>
             <div class="cii-sub">Алслагдсан ажлын байр боломжтой</div>
           </div>
         </div>
-        <div class="contact-info-item">
-          <div class="cii-icon">📱</div>
-          <div class="cii-body">
-            <div class="cii-label">Нийгмийн сүлжээ</div>
-            <div class="cii-val">@umbverto | @bizprint.mn</div>
-            <div class="social-links">
-              <a href="#" class="social-btn" title="Facebook">f</a>
-              <a href="#" class="social-btn" title="Instagram">ig</a>
-              <a href="#" class="social-btn" title="LinkedIn">in</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="partner-note">
-          <div class="pn-title">🤝 Хамтран ажиллах</div>
-          <div class="pn-desc">BizPrint экосистемд нэгдэж, Монголын хэвлэлийн зах зээлийн өсөлтөд оролцоорой. Бид дараах хамтрагчдыг хайж байна:</div>
-          <div class="partner-types">
-            <span class="pt-chip pt1">🏭 Хэвлэлийн үйлдвэр</span>
-            <span class="pt-chip pt2">🚚 Хүргэлтийн компани</span>
-            <span class="pt-chip pt3">🎨 Дизайн студи</span>
-            <span class="pt-chip pt4">📊 Хөрөнгө оруулагч</span>
+        <div class="partner-box">
+          <div class="pb-title">🤝 Хамтран ажиллах</div>
+          <div class="pb-desc">BizPrint экосистемд нэгдэж, Монголын хэвлэлийн зах зээлийн өсөлтөд оролцоорой. Дараах хамтрагчдыг хайж байна:</div>
+          <div class="pb-chips">
+            <span class="pb-chip pc1">🏭 Хэвлэлийн үйлдвэр</span>
+            <span class="pb-chip pc2">🚚 Хүргэлт</span>
+            <span class="pb-chip pc3">🎨 Дизайн студи</span>
+            <span class="pb-chip pc4">📊 Хөрөнгө оруулагч</span>
           </div>
         </div>
       </div>
@@ -1381,20 +1477,29 @@ footer {
   <div class="container">
     <div class="footer-top">
       <div>
-        <div class="footer-brand-name">UMB Verto ХХК</div>
-        <div class="footer-brand-sub">umbverto.biz</div>
-        <div class="footer-brand-desc">
-          Монголын бизнес эрхлэгчдэд зориулсан Biz* экосистемийг байгуулж буй технологийн компани. Эхний платформ BizPrint хэвлэлийн онлайн зах зээлийг хувьсгаж байна.
+        <div class="footer-logo">
+          <div class="footer-logo-mark">UV</div>
+          <div>
+            <div class="footer-logo-name">Юү Эм Би Верто ХХК</div>
+            <span class="footer-logo-sub">umbverto.biz</span>
+          </div>
+        </div>
+        <div class="footer-desc">
+          Монголын бизнес эрхлэгчдэд зориулсан Biz* экосистемийг байгуулж буй технологийн компани. Нэгдсэн платформ <a href="https://www.bizco.mn" style="color:var(--red2);text-decoration:none;">bizco.mn</a> дээр нэгтгэгдэнэ.
+        </div>
+        <div style="margin-top:16px;display:flex;flex-direction:column;gap:5px;">
+          <div style="font-family:'Fira Code',monospace;font-size:0.6rem;color:rgba(238,236,234,0.3);">📞 +976 7200-0444</div>
+          <div style="font-family:'Fira Code',monospace;font-size:0.6rem;color:rgba(238,236,234,0.3);">✉ bizprint@umbverto.biz</div>
         </div>
       </div>
       <div>
         <div class="footer-col-title">Biz Экосистем</div>
         <ul class="footer-links">
           <li><a href="https://bizprint.mn" class="fl-live">BizPrint</a></li>
-          <li><a href="#">BizMarketing</a></li>
-          <li><a href="#">BizRent</a></li>
-          <li><a href="#">BizPress</a></li>
-          <li><a href="#">BizEvent</a></li>
+          <li><a href="https://www.bizco.mn">BizMarketing</a></li>
+          <li><a href="https://www.bizco.mn">BizRent</a></li>
+          <li><a href="https://www.bizco.mn">BizPress</a></li>
+          <li><a href="https://www.bizco.mn">BizEvent</a></li>
         </ul>
       </div>
       <div>
@@ -1409,56 +1514,78 @@ footer {
       <div>
         <div class="footer-col-title">Холбоо барих</div>
         <ul class="footer-links">
-          <li><a href="#">umbverto.biz</a></li>
-          <li><a href="#">bizprint.mn</a></li>
-          <li><a href="#">Facebook</a></li>
-          <li><a href="#">Instagram</a></li>
+          <li><a href="https://umbverto.biz">umbverto.biz</a></li>
+          <li><a href="https://bizprint.mn">bizprint.mn</a></li>
+          <li><a href="https://www.bizco.mn">bizco.mn</a></li>
+          <li><a href="mailto:bizprint@umbverto.biz">bizprint@umbverto.biz</a></li>
+          <li><a href="tel:+97672000444">+976 7200-0444</a></li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
-      <div class="footer-copy">
-        © 2024–2025 <span>UMB Verto ХХК (ЮЭМБИВерто ХХК)</span>. Бүх эрх хуулиар хамгаалагдсан.
-      </div>
-      <div class="footer-reg">
-        umbverto.biz · bizprint.mn<br>
-        Улаанбаатар, Монгол Улс
-      </div>
+      <div class="footer-copy">© 2024–2025 <span style="color:rgba(238,236,234,0.3)">Юү Эм Би Верто ХХК</span>. Бүх эрх хуулиар хамгаалагдсан.</div>
+      <div class="footer-reg">umbverto.biz · bizprint.mn · bizco.mn<br>Улаанбаатар, Монгол Улс</div>
     </div>
   </div>
 </footer>
 
 <script>
-// Navbar scroll effect
+// Navbar scroll
 window.addEventListener('scroll', () => {
-  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40);
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
 });
 
-// Scroll animations
+// Scroll reveal
 const observer = new IntersectionObserver((entries) => {
-  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('in-view'); });
-}, { threshold: 0.12 });
-document.querySelectorAll('.animate').forEach(el => observer.observe(el));
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
 // Mobile nav
-function toggleMobileNav() {
+function toggleNav() {
   const links = document.querySelector('.nav-links');
-  if(!links) return;
-  const open = links.style.display === 'flex';
-  links.style.cssText = open ? '' : `
-    display:flex; flex-direction:column; position:fixed;
-    top:68px; left:0; right:0; background:rgba(253,252,249,0.97);
-    backdrop-filter:blur(16px); border-bottom:1px solid #e4e1d8;
-    padding:16px 28px 24px; gap:4px; z-index:99;
+  const isOpen = links.style.display === 'flex';
+  links.style.cssText = isOpen ? '' : `
+    display:flex; flex-direction:column;
+    position:fixed; top:72px; left:0; right:0;
+    background:rgba(8,9,15,0.97); backdrop-filter:blur(20px);
+    border-bottom:1px solid rgba(255,255,255,0.07);
+    padding:16px 32px 24px; gap:4px; z-index:199;
   `;
 }
-// Close mobile nav on link click
 document.querySelectorAll('.nav-links a').forEach(a => {
   a.addEventListener('click', () => {
-    const links = document.querySelector('.nav-links');
-    if(window.innerWidth < 900) links.style.cssText = '';
+    if (window.innerWidth < 960) document.querySelector('.nav-links').style.cssText = '';
   });
 });
+
+// Counter animation for hero stats
+function animateCount(el, target, suffix = '') {
+  const start = Date.now();
+  const dur = 1800;
+  const isInfinity = suffix === '∞';
+  if (isInfinity) return;
+  const tick = () => {
+    const elapsed = Date.now() - start;
+    const progress = Math.min(elapsed / dur, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    el.textContent = Math.round(eased * target) + (progress < 1 ? '' : suffix);
+    if (progress < 1) requestAnimationFrame(tick);
+  };
+  requestAnimationFrame(tick);
+}
+const statsObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const vals = e.target.querySelectorAll('.hstat-val');
+      vals[0] && animateCount(vals[0], 5, '+');
+      vals[1] && animateCount(vals[1], 1);
+      statsObserver.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.5 });
+const heroStats = document.querySelector('.hero-stats');
+if (heroStats) statsObserver.observe(heroStats);
 </script>
 </body>
 </html>
